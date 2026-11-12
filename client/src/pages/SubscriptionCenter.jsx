@@ -1,0 +1,245 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNotifications } from '../context/NotificationContext';
+import { Bell, Check, Smartphone, Mail, Globe, Shield, Trash2 } from 'lucide-react';
+
+const AVAILABLE_CATEGORIES = [
+  'Government Jobs',
+  'Private & IT Jobs',
+  'Recruitment Alerts',
+  'Village & Mandal News',
+  'District Announcements',
+  'Agriculture',
+  'Education',
+  'Government Schemes'
+];
+
+export const SubscriptionCenter = () => {
+  const { language } = useNotifications();
+  const [subscriptions, setSubscriptions] = useState([]);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [selectedCats, setSelectedCats] = useState(['Government Jobs', 'Agriculture']);
+  const [inApp, setInApp] = useState(true);
+  const [webPush, setWebPush] = useState(true);
+  const [sms, setSms] = useState(false);
+  const [savedSuccess, setSavedSuccess] = useState(false);
+
+  const fetchSubscriptions = async () => {
+    try {
+      const res = await axios.get('/api/subscriptions');
+      if (res.data.success) {
+        setSubscriptions(res.data.subscriptions);
+      }
+    } catch (err) {
+      console.warn('Could not load subscriptions:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchSubscriptions();
+  }, []);
+
+  const toggleCategory = (cat) => {
+    if (selectedCats.includes(cat)) {
+      setSelectedCats(selectedCats.filter((c) => c !== cat));
+    } else {
+      setSelectedCats([...selectedCats, cat]);
+    }
+  };
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    try {
+      const payload = {
+        subscriberName: name || 'Village Resident',
+        subscriberEmail: email,
+        subscriberPhone: phone,
+        categories: selectedCats.length > 0 ? selectedCats : ['All'],
+        channels: { inApp, webPush, sms }
+      };
+
+      const res = await axios.post('/api/subscriptions', payload);
+      if (res.data.success) {
+        setSavedSuccess(true);
+        fetchSubscriptions();
+        setName('');
+        setEmail('');
+        setPhone('');
+        setTimeout(() => setSavedSuccess(false), 4000);
+      }
+    } catch (err) {
+      alert('Failed to register subscription: ' + err.message);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/api/subscriptions/${id}`);
+      fetchSubscriptions();
+    } catch (err) {
+      alert('Failed to delete subscription');
+    }
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto space-y-8 pb-16">
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-2">
+        <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Category Alert Preferences</span>
+        <h1 className="text-3xl font-extrabold text-slate-900">
+          {language === 'te' ? 'వ్యక్తిగతీకరించిన నోటిఫికేషన్ సెట్టింగ్‌లు' : 'Subscribe to Targeted Rural Alerts'}
+        </h1>
+        <p className="text-slate-600 text-xs sm:text-sm">
+          Select specific employment, agricultural or governance categories to receive instant notifications the moment they are approved by administrators.
+        </p>
+      </div>
+
+      {savedSuccess && (
+        <div className="bg-emerald-50 border border-emerald-300 text-emerald-900 p-4 rounded-2xl flex items-center space-x-2 text-sm font-semibold">
+          <Check className="w-5 h-5 text-emerald-600" />
+          <span>Subscription saved successfully! You will receive verified alerts for your chosen categories.</span>
+        </div>
+      )}
+
+      {/* Subscription Form */}
+      <form onSubmit={handleSubscribe} className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Your Name</label>
+            <input
+              type="text"
+              placeholder="e.g. Ramesh Kumar"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Mobile Phone (for SMS/WhatsApp)</label>
+            <input
+              type="text"
+              placeholder="e.g. 9876543210"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Email Address (Optional)</label>
+            <input
+              type="email"
+              placeholder="e.g. resident@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white"
+            />
+          </div>
+        </div>
+
+        {/* Categories selector */}
+        <div className="space-y-3 pt-2 border-t border-slate-100">
+          <label className="block text-xs font-bold text-slate-800">
+            Select Topics & Categories to Follow:
+          </label>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            {AVAILABLE_CATEGORIES.map((cat) => {
+              const isChecked = selectedCats.includes(cat);
+              return (
+                <button
+                  type="button"
+                  key={cat}
+                  onClick={() => toggleCategory(cat)}
+                  className={`p-3 rounded-xl border text-xs font-semibold text-left transition flex items-center justify-between ${
+                    isChecked
+                      ? 'bg-emerald-50 border-emerald-500 text-emerald-950 shadow-sm'
+                      : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
+                  }`}
+                >
+                  <span>{cat}</span>
+                  {isChecked && <Check className="w-4 h-4 text-emerald-600 shrink-0 ml-1" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Channels */}
+        <div className="space-y-2 pt-2 border-t border-slate-100">
+          <label className="block text-xs font-bold text-slate-800">Preferred Delivery Channels:</label>
+          <div className="flex flex-wrap gap-4 text-xs font-medium text-slate-700">
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={inApp}
+                onChange={(e) => setInApp(e.target.checked)}
+                className="rounded text-emerald-600 focus:ring-emerald-500"
+              />
+              <span>In-App Notification Center</span>
+            </label>
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={webPush}
+                onChange={(e) => setWebPush(e.target.checked)}
+                className="rounded text-emerald-600 focus:ring-emerald-500"
+              />
+              <span>Browser Web Push</span>
+            </label>
+            <label className="flex items-center space-x-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sms}
+                onChange={(e) => setSms(e.target.checked)}
+                className="rounded text-emerald-600 focus:ring-emerald-500"
+              />
+              <span>SMS Alert / WhatsApp Message</span>
+            </label>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full sm:w-auto px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition shadow-md"
+        >
+          Save Notification Preferences
+        </button>
+      </form>
+
+      {/* Current Subscriptions */}
+      <div className="space-y-4">
+        <h3 className="text-base font-bold text-slate-900">Active Subscriptions on this Node</h3>
+        {subscriptions.length === 0 ? (
+          <div className="p-8 text-center bg-white rounded-2xl border border-slate-200 text-xs text-slate-400">
+            No active subscriptions yet. Fill out the form above to register.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {subscriptions.map((sub) => (
+              <div key={sub._id} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex justify-between items-start">
+                <div className="space-y-1.5">
+                  <div className="font-bold text-slate-900 text-sm">{sub.subscriberName}</div>
+                  <div className="text-xs text-slate-500">{sub.subscriberPhone || sub.subscriberEmail || 'Web device subscriber'}</div>
+                  <div className="flex flex-wrap gap-1 pt-1">
+                    {sub.categories?.map((c, i) => (
+                      <span key={i} className="text-[10px] bg-emerald-50 text-emerald-800 font-semibold px-2 py-0.5 rounded">
+                        {c}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleDelete(sub._id)}
+                  className="text-slate-400 hover:text-rose-600 p-1"
+                  title="Remove Subscription"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};

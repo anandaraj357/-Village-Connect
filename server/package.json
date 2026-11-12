@@ -1,0 +1,30 @@
+{
+  "name": "our-village-crawler-server",
+  "version": "1.0.0",
+  "description": "Our Village - Automated Web Crawling and AI-Powered Information Aggregation System",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "seed": "node seed/seedSources.js",
+    "test:crawler": "node test/testCrawler.js"
+  },
+  "dependencies": {
+    "@google/genai": "^3.2.0",
+    "axios": "^1.7.9",
+    "bcryptjs": "^2.4.3",
+    "bullmq": "^5.41.6",
+    "cheerio": "^1.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "ioredis": "^5.4.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
+    "pdf-parse": "^1.1.1",
+    "playwright": "^1.50.1",
+    "rss-parser": "^3.13.0",
+    "sanitize-html": "^2.14.0"
+  }
+}
