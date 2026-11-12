@@ -180,3 +180,5 @@ cd ../server
 npm start
 ```
 The application will be live at: **http://localhost:5000** (or **http://localhost:5173** in Vite development mode).
+# -Village-Connect
+Village information and recruitment portal
