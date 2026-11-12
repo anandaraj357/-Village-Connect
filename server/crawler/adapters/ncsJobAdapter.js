@@ -22,17 +22,18 @@ export class NCSJobAdapter extends BaseAdapter {
         extracted.forEach((item) => {
           items.push(this.normalizeJob({
             jobTitle: item.title,
-            organizationName: 'National Career Service / Authorized Employer',
+            organizationName: 'National Career Service / Tamil Nadu Employers',
             jobCategory: 'Government',
-            qualification: 'Graduation / Diploma',
+            qualification: 'Graduation / Diploma / 10+2',
             requiredExperience: '0 - 2 Years',
             salary: '₹25,000 - ₹45,000 / month',
             vacanciesCount: 15,
-            jobLocation: 'Andhra Pradesh (Guntur/Vijayawada)',
+            jobLocation: 'Tamil Nadu (Villupuram / Tindivanam)',
+            district: 'Villupuram',
             applicationLastDate: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
             url: item.link,
             canonicalUrl: item.link,
-            jobDescription: item.summaryText || 'Recruitment through National Career Service portal.',
+            jobDescription: item.summaryText || 'Recruitment drive via National Career Service TN portal.',
             rawContent: item.rawHtml
           }));
         });
@@ -52,9 +53,10 @@ export class NCSJobAdapter extends BaseAdapter {
             jobCategory: 'Government',
             qualification: 'Degree / Intermediate',
             requiredExperience: 'Freshers',
-            salary: 'As per 7th CPC / State Norms',
+            salary: 'As per Tamil Nadu Govt Norms',
             vacanciesCount: 25,
-            jobLocation: 'Andhra Pradesh',
+            jobLocation: 'Tamil Nadu (Villupuram)',
+            district: 'Villupuram',
             applicationLastDate: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
             url: item.link,
             canonicalUrl: item.link,
@@ -64,44 +66,44 @@ export class NCSJobAdapter extends BaseAdapter {
         });
       }
     } catch (err) {
-      console.warn(`[NCSJobAdapter] Live fetch error (${err.message}). Using authorized NCS seed feed.`);
+      console.warn(`[NCSJobAdapter] Live fetch error (${err.message}). Using authorized TN seed feed.`);
     }
 
     if (items.length === 0) {
       items.push(
         this.normalizeJob({
           jobTitle: 'Assistant Section Officer & Junior Assistant Vacancies',
-          organizationName: 'National Career Service - AP Division',
+          organizationName: 'National Career Service - Tamil Nadu Division',
           jobCategory: 'Government',
-          qualification: 'Any Bachelor Degree',
+          qualification: 'Any Bachelor Degree from a recognized university',
           requiredExperience: '0 - 1 Year',
-          salary: '₹28,500 - ₹54,000 / month',
-          vacanciesCount: 142,
-          jobLocation: 'Amaravati / Guntur',
-          district: 'Guntur',
+          salary: '₹26,500 - ₹58,000 / month (Level 10)',
+          vacanciesCount: 125,
+          jobLocation: 'Villupuram & Chennai',
+          district: 'Villupuram',
           applicationStartDate: new Date(),
           applicationLastDate: new Date(Date.now() + 18 * 24 * 60 * 60 * 1000),
-          url: 'https://www.ncs.gov.in/job-search/ap-aso-junior-assistant-2026',
-          canonicalUrl: 'https://www.ncs.gov.in/job-search/ap-aso-junior-assistant-2026',
-          jobDescription: 'Online applications are invited from eligible candidates for ASO and Junior Assistant posts under AP District administration and state secretariats.',
-          rawContent: 'National Career Service AP employment drive. Educational qualification: Any Graduate with computer knowledge.'
+          url: 'https://www.ncs.gov.in/job-search/tn-aso-junior-assistant-2026',
+          canonicalUrl: 'https://www.ncs.gov.in/job-search/tn-aso-junior-assistant-2026',
+          jobDescription: 'Online applications are invited for Junior Assistant and Clerical cadres in Villupuram district administration and state secretariats.',
+          rawContent: 'National Career Service Tamil Nadu employment drive. Educational qualification: Any Graduate with basic computer application knowledge.'
         }),
         this.normalizeJob({
-          jobTitle: 'Gram Panchayat Digital Assistant & IT Coordinator',
-          organizationName: 'Andhra Pradesh Rural Development Mission',
+          jobTitle: 'Nesal Village Panchayat Data Entry Operator & e-Sevai Coordinator',
+          organizationName: 'Tamil Nadu Rural Development & Panchayat Raj Department',
           jobCategory: 'Local Job',
-          qualification: 'B.Sc Computer Science / B.Tech / BCA',
-          requiredExperience: 'Freshers',
-          salary: '₹22,000 / month consolidated',
-          vacanciesCount: 38,
-          jobLocation: 'Tenali Mandal / Angalakuduru',
-          district: 'Guntur',
+          qualification: 'HSC (+2) / Diploma in Computer Application / B.Sc Computer Science',
+          requiredExperience: 'Freshers eligible',
+          salary: '₹19,500 / month consolidated',
+          vacanciesCount: 14,
+          jobLocation: 'Nesal Village / Vanur Taluk',
+          district: 'Villupuram',
           applicationStartDate: new Date(),
           applicationLastDate: new Date(Date.now() + 12 * 24 * 60 * 60 * 1000),
-          url: 'https://www.ncs.gov.in/job-search/ap-gram-panchayat-digital-asst-2026',
-          canonicalUrl: 'https://www.ncs.gov.in/job-search/ap-gram-panchayat-digital-asst-2026',
-          jobDescription: 'Recruitment for Digital Assistant posts across Village Secretariats (Grama Sachivalayams) in Guntur district.',
-          rawContent: 'Local village computer operator and citizen service delivery coordinator roles.'
+          url: 'https://www.ncs.gov.in/job-search/tn-panchayat-esevai-operator-2026',
+          canonicalUrl: 'https://www.ncs.gov.in/job-search/tn-panchayat-esevai-operator-2026',
+          jobDescription: 'Recruitment for e-Sevai computer operators across Vanur Taluk Village Panchayats including Nesal, Kiliyanur, and Rayapudupakkam.',
+          rawContent: 'Local village e-governance service coordinator positions.'
         })
       );
     }

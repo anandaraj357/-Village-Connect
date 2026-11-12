@@ -50,38 +50,38 @@ export class DistrictNewsAdapter extends BaseAdapter {
     if (items.length === 0) {
       items.push(
         this.normalizeNews({
-          headline: 'Guntur District Collector Announces Spandana Grievance Redressal Schedule for Tenali Sub-Division',
-          shortDescription: 'District Collector chaired a high-level review meeting instructing all Mandal Tahsildars and MPDOs to ensure 100% time-bound resolution of public petitions submitted during weekly Spandana programs.',
+          headline: 'விழுப்புரம் மாவட்ட ஆட்சியர் அறிவிப்பு: வானூர் வட்டத்தில் மக்கள் குறைதீர்க்கும் முகாம் அட்டவணை வெளியீடு',
+          shortDescription: 'விழுப்புரம் மாவட்ட ஆட்சியர் தலைமையில் வானூர் வட்டாட்சியர் அலுவலகத்தில் மக்கள் குறைதீர்க்கும் சிறப்பு முகாம் நடைபெறும் என அறிவிக்கப்பட்டுள்ளது.',
           category: 'District News',
-          url: 'https://guntur.ap.gov.in/press-release/spandana-redressal-tenali-2026',
-          canonicalUrl: 'https://guntur.ap.gov.in/press-release/spandana-redressal-tenali-2026',
+          url: 'https://villupuram.nic.in/press-release/vanur-grievance-redressal-2026',
+          canonicalUrl: 'https://villupuram.nic.in/press-release/vanur-grievance-redressal-2026',
           thumbnailUrl: 'https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=600&q=80',
           publishedDate: new Date(),
           geographicRelevance: {
             scope: 'District',
-            state: 'Andhra Pradesh',
-            district: 'Guntur',
-            mandal: 'Tenali',
-            village: 'Angalakuduru'
+            state: 'Tamil Nadu',
+            district: 'Villupuram',
+            mandal: 'Vanur',
+            village: 'Nesal'
           },
-          rawContent: 'Guntur District Administration press communique regarding civil services, revenue mutations, and rural development grievance redressal.'
+          rawContent: 'Villupuram District Administration press communique regarding revenue, patta transfer, and rural development grievance redressal in Vanur Taluk.'
         }),
         this.normalizeNews({
-          headline: 'District Health Administration Launches Free Seasonal Health and Dengue Prevention Camps in Rural Mandals',
-          shortDescription: 'Medical and Health Department teams deployed mobile clinics across Tenali, Duggirala and surrounding rural mandals offering free diagnostic tests and essential medications.',
+          headline: 'வானூர் மற்றும் சுற்றுவட்டார கிராமப்புறங்களில் சிறப்பு இலவச மருத்துவ முகாம்கள்',
+          shortDescription: 'விழுப்புரம் மாவட்ட பொது சுகாதாரத்துறை சார்பில் நேசல் மற்றும் வானூர் சுற்றுவட்டார கிராமங்களில் இலவச டெங்கு தடுப்பு மற்றும் பருவக்கால சிறப்பு மருத்துவ முகாம்கள் நடைபெறுகின்றன.',
           category: 'Important Announcements',
-          url: 'https://guntur.ap.gov.in/announcements/rural-health-camps-2026',
-          canonicalUrl: 'https://guntur.ap.gov.in/announcements/rural-health-camps-2026',
+          url: 'https://villupuram.nic.in/announcements/rural-health-camps-2026',
+          canonicalUrl: 'https://villupuram.nic.in/announcements/rural-health-camps-2026',
           thumbnailUrl: 'https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=600&q=80',
           publishedDate: new Date(),
           geographicRelevance: {
             scope: 'Mandal',
-            state: 'Andhra Pradesh',
-            district: 'Guntur',
-            mandal: 'Tenali',
-            village: 'Angalakuduru'
+            state: 'Tamil Nadu',
+            district: 'Villupuram',
+            mandal: 'Vanur',
+            village: 'Nesal'
           },
-          rawContent: 'Preventive health drives and mosquito eradication initiatives organized by the district medical officer.'
+          rawContent: 'Preventive healthcare drives and medical screenings organized by Villupuram district medical officers for Vanur taluk rural villages.'
         })
       );
     }

@@ -7,10 +7,10 @@ const UserSchema = new mongoose.Schema(
     email: { type: String, required: true, unique: true, trim: true, lowercase: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['admin', 'editor', 'villager'], default: 'villager' },
-    village: { type: String, default: 'Angalakuduru' },
-    mandal: { type: String, default: 'Tenali' },
-    district: { type: String, default: 'Guntur' },
-    preferredLanguage: { type: String, enum: ['te', 'en'], default: 'te' }
+    village: { type: String, default: 'Nesal' },
+    mandal: { type: String, default: 'Vanur' },
+    district: { type: String, default: 'Villupuram' },
+    preferredLanguage: { type: String, enum: ['ta', 'te', 'en'], default: 'ta' }
   },
   { timestamps: true }
 );

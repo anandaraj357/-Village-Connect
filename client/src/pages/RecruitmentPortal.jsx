@@ -42,10 +42,10 @@ export const RecruitmentPortal = () => {
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Official Gazettes & Commissions</span>
           <h1 className="text-3xl font-extrabold text-slate-900 mt-1">
-            {language === 'te' ? 'ప్రభుత్వ నియామక నోటిఫికేషన్లు' : 'Government Recruitment Notifications'}
+            {language === 'ta' ? 'அரசுப் பணியாளர் தேர்வு & வேலைவாய்ப்பு அறிவிப்புகள்' : 'Government Recruitment Notifications'}
           </h1>
           <p className="text-slate-600 text-xs sm:text-sm mt-1">
-            Official recruitment drives from APPSC, SSC, UPSC, IBPS, and Andhra Pradesh government departments with structured PDF extractions.
+            Official recruitment drives from TNPSC, SSC, UPSC, IBPS, and Tamil Nadu government departments with structured PDF extractions.
           </p>
         </div>
 
@@ -55,7 +55,7 @@ export const RecruitmentPortal = () => {
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
             <input
               type="text"
-              placeholder="Search by recruitment name, organization, or notification number (e.g. APPSC/NOTIF/02/2026)..."
+              placeholder="Search by recruitment name, organization, or notification number (e.g. TNPSC/NOTIF/04/2026)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition"

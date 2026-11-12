@@ -27,8 +27,8 @@ export class BaseAdapter {
       requiredExperience: data.requiredExperience || 'Freshers / Experienced',
       salary: data.salary || 'As per government norms',
       vacanciesCount: data.vacanciesCount || 1,
-      jobLocation: data.jobLocation || 'Andhra Pradesh',
-      district: data.district || this.source.district || 'Guntur',
+      jobLocation: data.jobLocation || 'Tamil Nadu (Villupuram)',
+      district: data.district || this.source.district || 'Villupuram',
       applicationStartDate: data.applicationStartDate || new Date(),
       applicationLastDate: data.applicationLastDate || null,
       officialNotificationUrl: data.officialNotificationUrl || data.url || this.source.url,
@@ -91,10 +91,10 @@ export class BaseAdapter {
       thumbnailUrl: data.thumbnailUrl || null,
       geographicRelevance: data.geographicRelevance || {
         scope: this.source.geographicScope || 'District',
-        state: 'Andhra Pradesh',
-        district: this.source.district || 'Guntur',
-        mandal: this.source.mandal || 'Tenali',
-        village: this.source.village || 'Angalakuduru'
+        state: 'Tamil Nadu',
+        district: this.source.district || 'Villupuram',
+        mandal: this.source.mandal || 'Vanur',
+        village: this.source.village || 'Nesal'
       },
       publishedDate: data.publishedDate || new Date(),
       rawContent: data.rawContent || data.shortDescription || ''

@@ -9,7 +9,7 @@ const NEWS_CATEGORIES = [
   'Village News',
   'Mandal News',
   'District News',
-  'Andhra Pradesh News',
+  'Tamil Nadu News',
   'National News',
   'Education',
   'Technology',
@@ -53,10 +53,12 @@ export const NewsPortal = () => {
           <div>
             <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Rural Press & Schemes</span>
             <h1 className="text-3xl font-extrabold text-slate-900 mt-1">
-              {language === 'te' ? 'గ్రామ & జిల్లా వార్తా ముఖ్యాంశాలు' : 'Daily News & Community Highlights'}
+              {language === 'ta' ? 'நேசல் & விழுப்புரம் மாவட்ட செய்திகள்' : 'Daily News & District Highlights'}
             </h1>
             <p className="text-slate-600 text-xs sm:text-sm mt-1">
-              AI-summarized news preserving original sources. Switch seamlessly between English and Telugu translations.
+              {language === 'ta'
+                ? 'நேசல் கிராமம், வானூர் வட்டம் மற்றும் விழுப்புரம் மாவட்டத்திற்கான அதிகாரப்பூர்வ தமிழ் செய்திகள்.'
+                : 'AI-summarized news preserving original sources. Switch seamlessly between English and Tamil translations.'}
             </p>
           </div>
 
@@ -65,7 +67,7 @@ export const NewsPortal = () => {
             className="self-start sm:self-auto flex items-center space-x-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold px-4 py-2 rounded-xl text-xs transition"
           >
             <Globe className="w-4 h-4 text-emerald-600" />
-            <span>Currently showing: {language === 'te' ? 'తెలుగు (Telugu)' : 'English'}</span>
+            <span>{language === 'ta' ? 'Language: தமிழ் (Click to English)' : 'மொழி: English (தமிழுக்கு மாறவும்)'}</span>
           </button>
         </div>
 
@@ -95,7 +97,9 @@ export const NewsPortal = () => {
       ) : news.length === 0 ? (
         <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
           <Newspaper className="w-10 h-10 text-slate-300 mx-auto" />
-          <h3 className="text-base font-bold text-slate-800">No news articles found</h3>
+          <h3 className="text-base font-bold text-slate-800">
+            {language === 'ta' ? 'செய்திகள் எதுவும் காணப்படவில்லை' : 'No news articles found'}
+          </h3>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -123,10 +127,10 @@ export const NewsPortal = () => {
                   <h2 className="font-extrabold text-slate-900 text-lg leading-snug">{item.headline}</h2>
 
                   {/* Summary based on language */}
-                  {language === 'te' && item.summaryTelugu ? (
-                    <div className="telugu-text bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-100 text-xs sm:text-sm text-emerald-950 leading-relaxed">
-                      <span className="font-bold block text-emerald-800 mb-1">తెలుగు సారాంశం (AI అనువాదం):</span>
-                      {item.summaryTelugu}
+                  {language === 'ta' && item.summaryTamil ? (
+                    <div className="tamil-text bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-100 text-xs sm:text-sm text-emerald-950 leading-relaxed">
+                      <span className="font-bold block text-emerald-800 mb-1">தமிழ் சுருக்கம்:</span>
+                      {item.summaryTamil}
                     </div>
                   ) : (
                     <div className="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -137,7 +141,7 @@ export const NewsPortal = () => {
                   <div className="flex items-center space-x-2 text-xs text-slate-400 pt-1">
                     <MapPin className="w-3.5 h-3.5 text-emerald-600" />
                     <span>
-                      {item.geographicRelevance?.scope}: {item.geographicRelevance?.mandal || 'Tenali'}, {item.geographicRelevance?.district || 'Guntur'}
+                      {item.geographicRelevance?.scope}: {item.geographicRelevance?.mandal || 'Vanur'}, {item.geographicRelevance?.district || 'Villupuram'}
                     </span>
                   </div>
                 </div>
@@ -154,8 +158,8 @@ export const NewsPortal = () => {
                     rel="noopener noreferrer"
                     className="font-bold text-emerald-700 hover:text-emerald-800 hover:underline flex items-center space-x-1"
                   >
-                    <span>Read on {item.sourceWebsite}</span>
-                    <ExternalLink className="w-3.5 h-3.5 ml-1" />
+                    <span>{language === 'ta' ? 'முழு செய்தி' : `Read on ${item.sourceWebsite}`}</span>
+                    <ExternalLink className="w-3 h-3 ml-1" />
                   </a>
                 </div>
               </div>

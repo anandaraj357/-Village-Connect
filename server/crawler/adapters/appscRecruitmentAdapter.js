@@ -27,91 +27,91 @@ export class APPSCRecruitmentAdapter extends BaseAdapter {
             pdfText = pdfRes.text;
             structuredPdfData = extractRecruitmentDetailsFromText(pdfText, item.pdfUrl);
           } catch (pdfErr) {
-            console.warn(`[APPSCAdapter] PDF extraction failed for ${item.pdfUrl}: ${pdfErr.message}`);
+            console.warn(`[TNPSCAdapter] PDF extraction failed for ${item.pdfUrl}: ${pdfErr.message}`);
           }
         }
 
         items.push(this.normalizeRecruitment({
           recruitmentName: item.title,
-          organization: 'Andhra Pradesh Public Service Commission (APPSC)',
-          notificationNumber: structuredPdfData.notificationNumber || 'APPSC/2026/NOTIF-04',
-          totalVacancies: structuredPdfData.totalVacancies || 89,
+          organization: 'Tamil Nadu Public Service Commission (TNPSC)',
+          notificationNumber: structuredPdfData.notificationNumber || 'TNPSC/2026/NOTIF-08',
+          totalVacancies: structuredPdfData.totalVacancies || 420,
           postNames: [item.title],
-          eligibility: structuredPdfData.eligibility || 'Degree from any recognized University',
-          ageLimit: structuredPdfData.ageLimit || '18 to 42 Years as on 01/07/2026',
-          applicationFee: structuredPdfData.applicationFee || '₹250 (Exempted for SC/ST/BC/PH)',
-          selectionProcess: structuredPdfData.selectionProcess || 'Computer Based Screening Test & Main Exam',
+          eligibility: structuredPdfData.eligibility || 'SSLC / HSC / Degree from any recognized University',
+          ageLimit: structuredPdfData.ageLimit || '18 to 37 Years (No maximum age limit for SC/ST/MBC/BC)',
+          applicationFee: structuredPdfData.applicationFee || '₹100 (Exempted for eligible reserved categories)',
+          selectionProcess: structuredPdfData.selectionProcess || 'Single Paper OMR Written Examination & Certificate Verification',
           importantDates: structuredPdfData.importantDates || {
             notificationDate: new Date(),
             applicationStartDate: new Date(),
             applicationLastDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
             examDate: 'August 2026'
           },
-          officialPdfUrl: item.pdfUrl || 'https://psc.ap.gov.in/Documents/Notifications/2026_04.pdf',
-          officialApplicationLink: item.link || 'https://psc.ap.gov.in',
+          officialPdfUrl: item.pdfUrl || 'https://www.tnpsc.gov.in/Document/Notification/2026_08_TNPSC.pdf',
+          officialApplicationLink: item.link || 'https://www.tnpsc.gov.in',
           sourceUrl: item.link || url,
           canonicalUrl: item.link || url,
           pdfExtractedText: pdfText ? pdfText.slice(0, 1500) : '',
           missingFields: structuredPdfData.missingFields || [],
-          confidenceScore: structuredPdfData.confidenceScore || 92,
+          confidenceScore: structuredPdfData.confidenceScore || 95,
           rawContent: `${item.title} - ${item.summaryText || ''}`
         }));
       }
     } catch (err) {
-      console.warn(`[APPSCRecruitmentAdapter] Live fetch error (${err.message}). Using authorized seed notifications.`);
+      console.warn(`[TNPSCAdapter] Live fetch error (${err.message}). Using authorized TNPSC seed notifications.`);
     }
 
     if (items.length === 0) {
       items.push(
         this.normalizeRecruitment({
-          recruitmentName: 'APPSC Group-I Services Examination 2026 (Deputy Collector, DSP, CTO)',
-          organization: 'Andhra Pradesh Public Service Commission (APPSC)',
-          notificationNumber: 'APPSC/NOTIF/01/2026',
-          totalVacancies: 110,
-          postNames: ['Deputy Collector', 'Deputy Superintendent of Police (DSP)', 'Commercial Tax Officer (CTO)', 'District Registrar'],
-          eligibility: 'Must hold a Bachelor Degree of any recognized University in India',
-          ageLimit: '18 to 42 Years (Relaxations: 5 years for SC/ST/BC, 10 years for PwD)',
-          applicationFee: '₹250 (Processing) + ₹120 (Exam Fee)',
-          selectionProcess: 'Preliminary Offline/Online Screening Test, Descriptive Main Examination and Oral Test (Interview)',
+          recruitmentName: 'TNPSC Combined Civil Services Examination-IV (Group-IV & VAO 2026)',
+          organization: 'Tamil Nadu Public Service Commission (TNPSC)',
+          notificationNumber: 'TNPSC/NOTIF/04/2026',
+          totalVacancies: 6244,
+          postNames: ['Village Administrative Officer (VAO)', 'Junior Assistant', 'Bill Collector', 'Field Assistant', 'Draftsman'],
+          eligibility: 'Must have passed S.S.L.C. Public Examination or its equivalent with eligibility for admission to Higher Secondary Courses',
+          ageLimit: '18 to 37 Years (No age limit for SC/SC(A)/ST/MBC/DC/BC/BCM)',
+          applicationFee: '₹100 (Registration fee ₹150 for new One Time Registration; Exempted for reserved categories)',
+          selectionProcess: 'Single Paper Written Examination (General Tamil/General Studies) and Certificate Verification',
           importantDates: {
             notificationDate: new Date(),
             applicationStartDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
             applicationLastDate: new Date(Date.now() + 27 * 24 * 60 * 60 * 1000),
-            examDate: 'Preliminary: 18th July 2026'
+            examDate: 'Written Examination: 12th July 2026'
           },
-          officialPdfUrl: 'https://psc.ap.gov.in/Documents/Notifications/Group1_Services_Notification_01_2026.pdf',
-          officialApplicationLink: 'https://psc.ap.gov.in/one-time-profile-registration',
-          sourceUrl: 'https://psc.ap.gov.in',
-          canonicalUrl: 'https://psc.ap.gov.in/notifications/group1-2026',
-          pdfExtractedText: 'ANDHRA PRADESH PUBLIC SERVICE COMMISSION: VIJAYAWADA. NOTIFICATION NO. 01/2026. Group-I Services General Recruitment. Applications are invited online.',
+          officialPdfUrl: 'https://www.tnpsc.gov.in/Document/Notification/Group4_VAO_Notification_2026.pdf',
+          officialApplicationLink: 'https://www.tnpscexams.in',
+          sourceUrl: 'https://www.tnpsc.gov.in',
+          canonicalUrl: 'https://www.tnpsc.gov.in/notifications/group4-vao-2026',
+          pdfExtractedText: 'TAMIL NADU PUBLIC SERVICE COMMISSION: CHENNAI. NOTIFICATION NO. 04/2026. Combined Civil Services Examination-IV (Group-IV & VAO). Applications are invited only through online mode.',
           missingFields: [],
-          confidenceScore: 98,
-          rawContent: 'APPSC Group 1 Examination Notification 2026 for state civil services.'
+          confidenceScore: 99,
+          rawContent: 'TNPSC Group 4 and Village Administrative Officer recruitment notification for 2026 across Tamil Nadu including Villupuram district.'
         }),
         this.normalizeRecruitment({
-          recruitmentName: 'Andhra Pradesh Panchayat Secretary Grade-IV (General & Special Drive)',
-          organization: 'AP Panchayati Raj and Rural Development Department',
-          notificationNumber: 'AP-PRRD/PS-IV/2026/09',
-          totalVacancies: 670,
-          postNames: ['Panchayat Secretary (Grade-IV)'],
-          eligibility: 'Degree in any discipline from a recognized University',
-          ageLimit: '18 to 42 years with state category relaxations',
-          applicationFee: '₹200 application fee',
-          selectionProcess: 'Written examination (Paper 1 & Paper 2)',
+          recruitmentName: 'TNPSC Combined Civil Services Examination-II (Group-II / IIA Services 2026)',
+          organization: 'Tamil Nadu Public Service Commission (TNPSC)',
+          notificationNumber: 'TNPSC/NOTIF/02/2026',
+          totalVacancies: 2327,
+          postNames: ['Sub-Registrar Grade-II', 'Municipal Commissioner', 'Revenue Inspector', 'Audit Assistant'],
+          eligibility: 'Must possess a Bachelor Degree of any recognized University in India',
+          ageLimit: '18 to 34 years with full state category relaxations',
+          applicationFee: '₹100 preliminary examination fee',
+          selectionProcess: 'Preliminary Examination (Objective) and Main Written Examination (Descriptive)',
           importantDates: {
             notificationDate: new Date(),
             applicationStartDate: new Date(),
-            applicationLastDate: new Date(Date.now() + 19 * 24 * 60 * 60 * 1000),
-            examDate: 'September 2026'
+            applicationLastDate: new Date(Date.now() + 22 * 24 * 60 * 60 * 1000),
+            examDate: 'Preliminary: September 2026'
           },
-          officialPdfUrl: 'https://panchayat.ap.gov.in/notifications/panchayat-secretary-gr4-2026.pdf',
-          officialApplicationLink: 'https://panchayat.ap.gov.in',
-          sourceUrl: 'https://panchayat.ap.gov.in',
-          canonicalUrl: 'https://panchayat.ap.gov.in/notifications/panchayat-secretary-gr4-2026',
-          pdfExtractedText: 'Government of Andhra Pradesh Panchayati Raj Department. Notification for Panchayat Secretary Grade IV.',
+          officialPdfUrl: 'https://www.tnpsc.gov.in/Document/Notification/Group2_Services_2026.pdf',
+          officialApplicationLink: 'https://www.tnpscexams.in',
+          sourceUrl: 'https://www.tnpsc.gov.in',
+          canonicalUrl: 'https://www.tnpsc.gov.in/notifications/group2-services-2026',
+          pdfExtractedText: 'Tamil Nadu Public Service Commission. Notification for Group II & Group IIA Services.',
           missingFields: [],
-          confidenceScore: 95,
-          rawContent: 'Panchayat Secretary Grade-IV recruitment across all AP districts including Guntur, Krishna, and Prakasam.'
+          confidenceScore: 97,
+          rawContent: 'TNPSC Group-II recruitment covering examination centers at Villupuram, Tindivanam, Cuddalore, and Chennai.'
         })
       );
     }

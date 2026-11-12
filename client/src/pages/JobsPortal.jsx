@@ -48,10 +48,12 @@ export const JobsPortal = () => {
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Verified Opportunities</span>
           <h1 className="text-3xl font-extrabold text-slate-900 mt-1">
-            {language === 'te' ? 'ఉద్యోగ ఖాళీలు మరియు నోటిఫికేషన్లు' : 'Job Vacancies & Career Portal'}
+            {language === 'ta' ? 'வேலைவாய்ப்புகள் மற்றும் தொழில் வழிகாட்டி' : 'Job Vacancies & Career Portal'}
           </h1>
           <p className="text-slate-600 text-xs sm:text-sm mt-1">
-            Automatically collected from National Career Service (NCS), Employment News, and authorized recruitment agencies.
+            {language === 'ta'
+              ? 'தமிழ்நாடு வேலைவாய்ப்பு துறை, தேசிய வேலைவாய்ப்பு சேவை (NCS) மற்றும் விழுப்புரம் மாவட்ட சரிபார்க்கப்பட்ட வேலைகள்.'
+              : 'Automatically collected from National Career Service (NCS - TN), Employment News, and authorized recruitment agencies for Villupuram & Tamil Nadu.'}
           </p>
         </div>
 
@@ -61,7 +63,7 @@ export const JobsPortal = () => {
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
             <input
               type="text"
-              placeholder="Search by job title, organization, or qualification..."
+              placeholder={language === 'ta' ? 'பணி பெயர், நிறுவனம் அல்லது தகுதி கொண்டு தேடுக...' : 'Search by job title, organization, or qualification...'}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition"
@@ -72,7 +74,7 @@ export const JobsPortal = () => {
             <MapPin className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
             <input
               type="text"
-              placeholder="Location (e.g. Guntur, Tenali, Amaravati)"
+              placeholder={language === 'ta' ? 'இடம் (எ.கா. விழுப்புரம், வானூர், சென்னை)' : 'Location (e.g. Villupuram, Vanur, Chennai)'}
               value={locationQuery}
               onChange={(e) => setLocationQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition"
@@ -84,7 +86,7 @@ export const JobsPortal = () => {
               type="submit"
               className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition shadow-sm"
             >
-              Search
+              {language === 'ta' ? 'தேடுக' : 'Search'}
             </button>
           </div>
         </form>
@@ -110,13 +112,17 @@ export const JobsPortal = () => {
       {/* Results List */}
       {loading ? (
         <div className="py-20 text-center text-slate-400 text-sm">
-          Loading verified vacancies...
+          {language === 'ta' ? 'வேலைவாய்ப்புகள் ஏற்றப்படுகின்றன...' : 'Loading verified vacancies...'}
         </div>
       ) : jobs.length === 0 ? (
         <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
           <Briefcase className="w-10 h-10 text-slate-300 mx-auto" />
-          <h3 className="text-base font-bold text-slate-800">No jobs found matching your criteria</h3>
-          <p className="text-xs text-slate-500">Try adjusting your category filter or search keywords.</p>
+          <h3 className="text-base font-bold text-slate-800">
+            {language === 'ta' ? 'பொருத்தமான வேலைகள் எதுவும் கிடைக்கவில்லை' : 'No jobs found matching your criteria'}
+          </h3>
+          <p className="text-xs text-slate-500">
+            {language === 'ta' ? 'வடிகட்டியை மாற்றி மீண்டும் முயற்சிக்கவும்.' : 'Try adjusting your category filter or search keywords.'}
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -159,18 +165,15 @@ export const JobsPortal = () => {
                     <span className="truncate">{job.requiredExperience}</span>
                   </div>
                   <div className="flex items-center">
-                    <span className="font-bold text-slate-800">👥 {job.vacanciesCount} Posts</span>
+                    <span className="font-bold text-slate-800">👥 {job.vacanciesCount} {language === 'ta' ? 'பணியிடங்கள்' : 'Posts'}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <div className="text-[11px] text-slate-500 flex items-center">
-                  <Calendar className="w-3.5 h-3.5 mr-1 text-slate-400" />
-                  <span>
-                    Deadline: {job.applicationLastDate ? new Date(job.applicationLastDate).toLocaleDateString() : 'See Official Link'}
-                  </span>
-                </div>
+              <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-[11px] text-slate-500">
+                  {language === 'ta' ? 'கடைசி தேதி: ' : 'Deadline: '} {job.applicationLastDate ? new Date(job.applicationLastDate).toLocaleDateString() : 'See Official Link'}
+                </span>
 
                 <div className="flex space-x-2">
                   {job.originalPdfUrl && (
@@ -190,7 +193,7 @@ export const JobsPortal = () => {
                     rel="noopener noreferrer"
                     className="inline-flex items-center space-x-1 text-xs font-bold text-white bg-slate-900 hover:bg-emerald-600 px-4 py-2 rounded-xl transition shadow-sm"
                   >
-                    <span>Apply On Official Site</span>
+                    <span>{language === 'ta' ? 'விண்ணப்பிக்க' : 'Apply Now'}</span>
                     <ExternalLink className="w-3.5 h-3.5 ml-1" />
                   </a>
                 </div>

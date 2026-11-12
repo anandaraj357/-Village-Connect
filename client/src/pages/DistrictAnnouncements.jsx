@@ -32,10 +32,12 @@ export const DistrictAnnouncements = () => {
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-2">
         <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Official Communiques</span>
         <h1 className="text-3xl font-extrabold text-slate-900">
-          {language === 'te' ? 'జిల్లా & మండల అధికారిక ప్రకటనలు' : 'District & Mandal Announcements'}
+          {language === 'ta' ? 'விழுப்புரம் மாவட்ட & வானூர் வட்டார அறிவிப்புகள்' : 'District & Taluk Announcements'}
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm">
-          Press releases, public grievances schedules (Spandana), welfare notices, and civic circulars from Guntur District Administration.
+          {language === 'ta'
+            ? 'விழுப்புரம் மாவட்ட ஆட்சியரகம், வானூர் வட்டாட்சியர் அலுவலகம் மற்றும் நேசல் கிராம பஞ்சாயத்து அதிகாரப்பூர்வ சுற்றறிக்கைகள்.'
+            : 'Press releases, public grievances schedules, welfare notices, and civic circulars from Villupuram District Administration and Vanur Taluk.'}
         </p>
       </div>
 
@@ -46,7 +48,9 @@ export const DistrictAnnouncements = () => {
       ) : announcements.length === 0 ? (
         <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
           <Megaphone className="w-10 h-10 text-slate-300 mx-auto" />
-          <h3 className="text-base font-bold text-slate-800">No active announcements</h3>
+          <h3 className="text-base font-bold text-slate-800">
+            {language === 'ta' ? 'அறிவிப்புகள் எதுவும் இல்லை' : 'No active announcements'}
+          </h3>
         </div>
       ) : (
         <div className="space-y-4">
@@ -66,9 +70,9 @@ export const DistrictAnnouncements = () => {
 
                 <h3 className="text-lg font-bold text-slate-900">{ann.headline}</h3>
 
-                {language === 'te' && ann.summaryTelugu ? (
-                  <p className="telugu-text text-xs sm:text-sm text-emerald-950 bg-emerald-50/60 p-3 rounded-xl border border-emerald-100">
-                    {ann.summaryTelugu}
+                {language === 'ta' && ann.summaryTamil ? (
+                  <p className="tamil-text text-xs sm:text-sm text-emerald-950 bg-emerald-50/60 p-3 rounded-xl border border-emerald-100">
+                    {ann.summaryTamil}
                   </p>
                 ) : (
                   <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
@@ -79,7 +83,7 @@ export const DistrictAnnouncements = () => {
                 <div className="flex items-center space-x-4 text-xs text-slate-500 pt-2">
                   <span className="flex items-center">
                     <MapPin className="w-3.5 h-3.5 mr-1 text-slate-400" />
-                    {ann.geographicRelevance?.district || 'Guntur'} District ({ann.geographicRelevance?.mandal || 'Tenali'})
+                    {ann.geographicRelevance?.district || 'Villupuram'} District ({ann.geographicRelevance?.mandal || 'Vanur'})
                   </span>
                   <span className="flex items-center">
                     <Calendar className="w-3.5 h-3.5 mr-1 text-slate-400" />
@@ -95,7 +99,7 @@ export const DistrictAnnouncements = () => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center space-x-1.5 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition shadow-sm"
                 >
-                  <span>Official Release</span>
+                  <span>{language === 'ta' ? 'அதிகாரப்பூர்வ சுற்றறிக்கை' : 'Official Release'}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>

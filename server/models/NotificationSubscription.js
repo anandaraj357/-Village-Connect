@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const NotificationSubscriptionSchema = new mongoose.Schema(
   {
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    subscriberName: { type: String, default: 'Village Resident' },
+    subscriberName: { type: String, default: 'Nesal Resident' },
     subscriberEmail: { type: String, trim: true },
     subscriberPhone: { type: String, trim: true },
     deviceToken: { type: String },
@@ -15,6 +15,7 @@ const NotificationSubscriptionSchema = new mongoose.Schema(
           'Government Jobs',
           'Private & IT Jobs',
           'Recruitment Alerts',
+          'Village & Taluk News',
           'Village & Mandal News',
           'District Announcements',
           'Agriculture',
@@ -24,10 +25,10 @@ const NotificationSubscriptionSchema = new mongoose.Schema(
       }
     ],
     geographicFilter: {
-      state: { type: String, default: 'Andhra Pradesh' },
-      district: { type: String, default: 'Guntur' },
-      mandal: { type: String, default: 'Tenali' },
-      village: { type: String, default: 'Angalakuduru' }
+      state: { type: String, default: 'Tamil Nadu' },
+      district: { type: String, default: 'Villupuram' },
+      mandal: { type: String, default: 'Vanur' },
+      village: { type: String, default: 'Nesal' }
     },
     channels: {
       inApp: { type: Boolean, default: true },

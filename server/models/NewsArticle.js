@@ -5,6 +5,7 @@ const NewsArticleSchema = new mongoose.Schema(
     headline: { type: String, required: true, trim: true },
     shortDescription: { type: String, trim: true },
     summaryEnglish: { type: String, required: true },
+    summaryTamil: { type: String },
     summaryTelugu: { type: String },
     category: {
       type: String,
@@ -13,6 +14,7 @@ const NewsArticleSchema = new mongoose.Schema(
         'Village News',
         'Mandal News',
         'District News',
+        'Tamil Nadu News',
         'Andhra Pradesh News',
         'National News',
         'Education',
@@ -31,13 +33,13 @@ const NewsArticleSchema = new mongoose.Schema(
     geographicRelevance: {
       scope: {
         type: String,
-        enum: ['Village', 'Mandal', 'District', 'Andhra Pradesh', 'National'],
+        enum: ['Village', 'Mandal', 'District', 'Tamil Nadu', 'Andhra Pradesh', 'National'],
         default: 'District'
       },
-      state: { type: String, default: 'Andhra Pradesh' },
-      district: { type: String, default: 'Guntur' },
-      mandal: { type: String, default: 'Tenali' },
-      village: { type: String, default: 'Angalakuduru' }
+      state: { type: String, default: 'Tamil Nadu' },
+      district: { type: String, default: 'Villupuram' },
+      mandal: { type: String, default: 'Vanur' },
+      village: { type: String, default: 'Nesal' }
     },
     publishedDate: { type: Date, default: Date.now },
     crawledDate: { type: Date, default: Date.now },

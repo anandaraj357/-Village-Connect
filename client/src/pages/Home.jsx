@@ -47,19 +47,19 @@ export const Home = ({ setCurrentView }) => {
           <div className="inline-flex items-center space-x-2 bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/30">
             <span>✨ AI-Verified Information Network</span>
             <span>•</span>
-            <span>ఆంధ్రప్రదేశ్ గ్రామీణ సమాచార వేదిక</span>
+            <span className="tamil-text">நேசல் • வானூர் • விழுப்புரம் • தமிழ்நாடு</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-            {language === 'te'
-              ? 'మన గ్రామం - తాజా ఉద్యోగాలు, నియామకాలు మరియు అధికారిక సమాచారం'
-              : 'Empowering Our Village With Automated Verified Opportunities & Governance'}
+            {language === 'ta'
+              ? 'நமது கிராமம் - நேசல்: வேலைவாய்ப்புகள், அரசுத் தேர்வுகள் & மாவட்ட செய்திகள்'
+              : 'Our Village - Nesal: Verified Jobs, Government Recruitments & District Updates'}
           </h1>
 
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-            {language === 'te'
-              ? 'ఆంధ్రప్రదేశ్ పబ్లిక్ సర్వీస్ కమిషన్, నేషనల్ కెరీర్ సర్వీస్, ఎంప్లాయ్‌మెంట్ న్యూస్ మరియు జిల్లా కలెక్టరేట్ నుండి ప్రతిరోజూ ఆటోమేటిక్‌గా సేకరించిన ధృవీకరించబడిన సమాచారం.'
-              : 'Direct from authorized portals: APPSC, National Career Service, Employment News, SSC, and Guntur District Collectorate — crawled, cleaned, and verified for rural citizens.'}
+            {language === 'ta'
+              ? 'தமிழ்நாடு அரசுப் பணியாளர் தேர்வாணையம் (TNPSC), தேசிய வேலைவாய்ப்பு சேவை (NCS), எம்ப்ளாய்மென்ட் நியூஸ் மற்றும் விழுப்புரம் மாவட்ட ஆட்சியரகம் மூலம் அதிகாரப்பூர்வமாக சரிபார்க்கப்பட்ட தகவல்கள்.'
+              : 'Direct from authorized portals: TNPSC, National Career Service, Employment News, and Villupuram District Collectorate — crawled, cleaned, and verified for Nesal & Vanur citizens.'}
           </p>
 
           <div className="pt-2 flex flex-wrap gap-3">
@@ -68,14 +68,14 @@ export const Home = ({ setCurrentView }) => {
               className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-5 py-2.5 rounded-xl transition shadow-lg flex items-center space-x-2 text-sm"
             >
               <Briefcase className="w-4 h-4" />
-              <span>Browse Job Openings</span>
+              <span>{language === 'ta' ? 'வேலைவாய்ப்புகளைக் காண்க' : 'Browse Job Openings'}</span>
             </button>
             <button
               onClick={() => setCurrentView('recruitments')}
               className="bg-slate-800/80 hover:bg-slate-700/80 text-white border border-slate-700 font-semibold px-5 py-2.5 rounded-xl transition text-sm flex items-center space-x-2"
             >
               <FileText className="w-4 h-4" />
-              <span>Recruitment Notifications</span>
+              <span>{language === 'ta' ? 'அரசு தேர்வு அறிவிப்புகள்' : 'Recruitment Notifications'}</span>
             </button>
           </div>
         </div>
@@ -84,19 +84,19 @@ export const Home = ({ setCurrentView }) => {
         <div className="mt-8 pt-8 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
             <div className="text-2xl font-black text-emerald-400">100%</div>
-            <div className="text-xs text-slate-400 font-medium">Verified Sources</div>
+            <div className="text-xs text-slate-400 font-medium">{language === 'ta' ? 'உறுதிப்படுத்தப்பட்ட மூலங்கள்' : 'Verified Sources'}</div>
           </div>
           <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
             <div className="text-2xl font-black text-emerald-400">2 Hours</div>
-            <div className="text-xs text-slate-400 font-medium">Crawl Frequency</div>
+            <div className="text-xs text-slate-400 font-medium">{language === 'ta' ? 'தானியங்கி கிராலர்' : 'Crawl Frequency'}</div>
           </div>
           <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
-            <div className="text-2xl font-black text-emerald-400">EN & TE</div>
-            <div className="text-xs text-slate-400 font-medium">Bilingual Summaries</div>
+            <div className="text-2xl font-black text-emerald-400">தமிழ் / EN</div>
+            <div className="text-xs text-slate-400 font-medium">{language === 'ta' ? 'இருமொழி சுருக்கம்' : 'Bilingual Summaries'}</div>
           </div>
           <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
-            <div className="text-2xl font-black text-emerald-400">No Fake Data</div>
-            <div className="text-xs text-slate-400 font-medium">Anti-Hallucination</div>
+            <div className="text-2xl font-black text-emerald-400">Zero Hallucination</div>
+            <div className="text-xs text-slate-400 font-medium">{language === 'ta' ? 'உண்மை சரிபார்ப்பு' : 'Anti-Hallucination'}</div>
           </div>
         </div>
       </section>
@@ -105,17 +105,17 @@ export const Home = ({ setCurrentView }) => {
       <section className="space-y-4">
         <div className="flex justify-between items-end">
           <div>
-            <div className="text-xs font-bold uppercase tracking-wider text-emerald-700">Official Gazettes & Boards</div>
+            <div className="text-xs font-bold uppercase tracking-wider text-emerald-700">Official Gazettes & Commissions</div>
             <h2 className="text-2xl font-extrabold text-slate-900 flex items-center space-x-2">
               <FileText className="w-6 h-6 text-emerald-600" />
-              <span>{language === 'te' ? 'తాజా ప్రభుత్వ నియామక ప్రకటనలు' : 'Government Recruitment Notifications'}</span>
+              <span>{language === 'ta' ? 'அரசு தேர்வு மற்றும் பணி நியமன அறிவிப்புகள் (TNPSC / SSC)' : 'Government Recruitment Notifications'}</span>
             </h2>
           </div>
           <button
             onClick={() => setCurrentView('recruitments')}
             className="text-sm font-semibold text-emerald-700 hover:text-emerald-800 flex items-center space-x-1"
           >
-            <span>View all</span>
+            <span>{language === 'ta' ? 'அனைத்தும்' : 'View all'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -141,17 +141,17 @@ export const Home = ({ setCurrentView }) => {
 
                 <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-slate-100">
                   <div>
-                    <span className="text-slate-500 block">Total Posts:</span>
+                    <span className="text-slate-500 block">{language === 'ta' ? 'பணியிடங்கள்:' : 'Total Posts:'}</span>
                     <span className="font-bold text-slate-900">{rec.totalVacancies > 0 ? rec.totalVacancies : 'Refer Gazetted PDF'}</span>
                   </div>
                   <div>
-                    <span className="text-slate-500 block">Age Limit:</span>
+                    <span className="text-slate-500 block">{language === 'ta' ? 'வயது வரம்பு:' : 'Age Limit:'}</span>
                     <span className="font-semibold text-slate-800 truncate block">{rec.ageLimit}</span>
                   </div>
                 </div>
 
                 <div className="text-xs text-slate-600 line-clamp-2">
-                  <span className="font-medium text-slate-700">Eligibility: </span>
+                  <span className="font-medium text-slate-700">{language === 'ta' ? 'கல்வித்தகுதி: ' : 'Eligibility: '}</span>
                   {rec.eligibility}
                 </div>
               </div>
@@ -160,7 +160,8 @@ export const Home = ({ setCurrentView }) => {
                 <div className="text-[11px] text-slate-500 flex items-center">
                   <Calendar className="w-3.5 h-3.5 mr-1 text-slate-400" />
                   <span>
-                    Last Date: {rec.importantDates?.applicationLastDate ? new Date(rec.importantDates.applicationLastDate).toLocaleDateString() : 'See Notice'}
+                    {language === 'ta' ? 'கடைசி தேதி: ' : 'Last Date: '}
+                    {rec.importantDates?.applicationLastDate ? new Date(rec.importantDates.applicationLastDate).toLocaleDateString() : 'See Notice'}
                   </span>
                 </div>
 
@@ -182,7 +183,7 @@ export const Home = ({ setCurrentView }) => {
                     rel="noopener noreferrer"
                     className="inline-flex items-center space-x-1 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 px-3 py-1.5 rounded-lg transition"
                   >
-                    <span>Apply</span>
+                    <span>{language === 'ta' ? 'விண்ணப்பிக்க' : 'Apply'}</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
@@ -199,14 +200,14 @@ export const Home = ({ setCurrentView }) => {
             <div className="text-xs font-bold uppercase tracking-wider text-emerald-700">Employment Board</div>
             <h2 className="text-2xl font-extrabold text-slate-900 flex items-center space-x-2">
               <Briefcase className="w-6 h-6 text-emerald-600" />
-              <span>{language === 'te' ? 'తాజా ఉపాధి మరియు ఉద్యోగ అవకాశాలు' : 'Verified Job Openings'}</span>
+              <span>{language === 'ta' ? 'சரிபார்க்கப்பட்ட வேலைவாய்ப்புகள்' : 'Verified Job Openings'}</span>
             </h2>
           </div>
           <button
             onClick={() => setCurrentView('jobs')}
             className="text-sm font-semibold text-emerald-700 hover:text-emerald-800 flex items-center space-x-1"
           >
-            <span>View all jobs</span>
+            <span>{language === 'ta' ? 'அனைத்து வேலைகள்' : 'View all jobs'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -235,13 +236,13 @@ export const Home = ({ setCurrentView }) => {
                 <div className="flex flex-wrap gap-2 text-xs pt-2 text-slate-500">
                   <span className="bg-slate-100 px-2 py-0.5 rounded">🎓 {job.qualification}</span>
                   <span className="bg-slate-100 px-2 py-0.5 rounded">📍 {job.jobLocation}</span>
-                  <span className="bg-slate-100 px-2 py-0.5 rounded">👥 {job.vacanciesCount} Vacancies</span>
+                  <span className="bg-slate-100 px-2 py-0.5 rounded">👥 {job.vacanciesCount} {language === 'ta' ? 'இடங்கள்' : 'Vacancies'}</span>
                 </div>
               </div>
 
               <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
                 <span className="text-[11px] text-slate-500">
-                  Source: {job.sourceWebsite}
+                  {language === 'ta' ? 'மூலம்: ' : 'Source: '} {job.sourceWebsite}
                 </span>
 
                 <a
@@ -250,7 +251,7 @@ export const Home = ({ setCurrentView }) => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center space-x-1 text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 px-3.5 py-1.5 rounded-lg transition"
                 >
-                  <span>Apply Now</span>
+                  <span>{language === 'ta' ? 'விண்ணப்பிக்க' : 'Apply Now'}</span>
                   <ExternalLink className="w-3.5 h-3.5 ml-1" />
                 </a>
               </div>
@@ -266,14 +267,14 @@ export const Home = ({ setCurrentView }) => {
             <div className="text-xs font-bold uppercase tracking-wider text-emerald-700">Rural News & Governance</div>
             <h2 className="text-2xl font-extrabold text-slate-900 flex items-center space-x-2">
               <Newspaper className="w-6 h-6 text-emerald-600" />
-              <span>{language === 'te' ? 'గ్రామ & జిల్లా వార్తలు మరియు సంక్షేమం' : 'Daily News & District Highlights'}</span>
+              <span>{language === 'ta' ? 'நேசல் கிராம & விழுப்புரம் மாவட்ட செய்திகள்' : 'Daily News & District Highlights'}</span>
             </h2>
           </div>
           <button
             onClick={() => setCurrentView('news')}
             className="text-sm font-semibold text-emerald-700 hover:text-emerald-800 flex items-center space-x-1"
           >
-            <span>Read all news</span>
+            <span>{language === 'ta' ? 'அனைத்து செய்திகள்' : 'Read all news'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -302,10 +303,10 @@ export const Home = ({ setCurrentView }) => {
                   {!item.thumbnailUrl && <CategoryBadge category={item.category} />}
                   <h3 className="font-bold text-slate-900 text-base leading-snug">{item.headline}</h3>
 
-                  {language === 'te' && item.summaryTelugu ? (
-                    <div className="telugu-text bg-emerald-50/60 p-3 rounded-xl border border-emerald-100 text-xs text-emerald-950 leading-relaxed">
-                      <span className="font-bold block text-emerald-800 mb-1">తెలుగు సారాంశం:</span>
-                      {item.summaryTelugu}
+                  {language === 'ta' && item.summaryTamil ? (
+                    <div className="tamil-text bg-emerald-50/60 p-3 rounded-xl border border-emerald-100 text-xs text-emerald-950 leading-relaxed">
+                      <span className="font-bold block text-emerald-800 mb-1">தமிழ் சுருக்கம்:</span>
+                      {item.summaryTamil}
                     </div>
                   ) : (
                     <p className="text-xs text-slate-600 leading-relaxed">{item.summaryEnglish || item.shortDescription}</p>
@@ -313,14 +314,14 @@ export const Home = ({ setCurrentView }) => {
                 </div>
 
                 <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                  <span>Source: {item.sourceWebsite}</span>
+                  <span>{language === 'ta' ? 'மூலம்: ' : 'Source: '} {item.sourceWebsite}</span>
                   <a
                     href={item.originalArticleUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-semibold text-emerald-700 hover:underline flex items-center space-x-1"
                   >
-                    <span>Original Source</span>
+                    <span>{language === 'ta' ? 'மூல இணைப்பு' : 'Original Source'}</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
                 </div>
@@ -334,17 +335,21 @@ export const Home = ({ setCurrentView }) => {
       <section className="bg-emerald-50 border border-emerald-200 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="space-y-2">
           <h3 className="text-xl font-bold text-emerald-950">
-            {language === 'te' ? 'మీ మొబైల్‌కు నేరుగా నోటిఫికేషన్లు పొందండి' : 'Never Miss a Village Alert or Government Job Opening'}
+            {language === 'ta'
+              ? 'நேசல் கிராம அறிவிப்புகள் மற்றும் அரசு வேலைவாய்ப்புகளை உடனடியாகப் பெறுங்கள்'
+              : 'Never Miss a Village Alert or Government Job Opening in Vanur & Villupuram'}
           </h3>
           <p className="text-xs sm:text-sm text-emerald-800">
-            Subscribe to real-time SMS, Web Push, and in-app alerts tailored for Tenali Mandal and Guntur district.
+            {language === 'ta'
+              ? 'விழுப்புரம் மாவட்டம் மற்றும் வானூர் வட்டாரத்திற்கு ஏற்றவாறு நிகழ்நேர எஸ்எம்எஸ் மற்றும் புஷ் அறிவிப்புகளைப் பெறுங்கள்.'
+              : 'Subscribe to real-time SMS, Web Push, and in-app alerts tailored for Nesal, Vanur Taluk and Villupuram District.'}
           </p>
         </div>
         <button
           onClick={() => setCurrentView('subscriptions')}
           className="whitespace-nowrap bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-6 py-3 rounded-xl transition shadow text-sm"
         >
-          Subscribe to Category Alerts
+          {language === 'ta' ? 'விழிப்பூட்டலுக்கு பதிவு செய்க' : 'Subscribe to Category Alerts'}
         </button>
       </section>
     </div>

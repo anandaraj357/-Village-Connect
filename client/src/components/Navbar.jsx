@@ -7,12 +7,12 @@ export const Navbar = ({ currentView, setCurrentView }) => {
   const [showNotifDropdown, setShowNotifDropdown] = useState(false);
 
   const navLinks = [
-    { id: 'home', label: language === 'te' ? 'ముఖ్యాంశాలు' : 'Home', icon: null },
-    { id: 'jobs', label: language === 'te' ? 'ఉద్యోగాలు' : 'Job Vacancies', icon: Briefcase },
-    { id: 'recruitments', label: language === 'te' ? 'నియామక ప్రకటనలు' : 'Recruitment Alerts', icon: FileText },
-    { id: 'news', label: language === 'te' ? 'గ్రామ వార్తలు' : 'Daily News', icon: Newspaper },
-    { id: 'announcements', label: language === 'te' ? 'జిల్లా ప్రకటనలు' : 'Announcements', icon: Megaphone },
-    { id: 'subscriptions', label: language === 'te' ? 'సబ్‌స్క్రిప్షన్లు' : 'Alert Preferences', icon: null }
+    { id: 'home', label: language === 'ta' ? 'முகப்பு' : 'Home', icon: null },
+    { id: 'jobs', label: language === 'ta' ? 'வேலைவாய்ப்புகள்' : 'Job Vacancies', icon: Briefcase },
+    { id: 'recruitments', label: language === 'ta' ? 'அரசு அறிவிப்புகள்' : 'Recruitment Alerts', icon: FileText },
+    { id: 'news', label: language === 'ta' ? 'கிராம செய்திகள்' : 'Daily News', icon: Newspaper },
+    { id: 'announcements', label: language === 'ta' ? 'மாவட்ட அறிவிப்புகள்' : 'Announcements', icon: Megaphone },
+    { id: 'subscriptions', label: language === 'ta' ? 'விழிப்பூட்டல்கள்' : 'Alert Preferences', icon: null }
   ];
 
   return (
@@ -25,7 +25,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
           <span className="text-slate-500">|</span>
           <span className="flex items-center text-slate-300">
             <MapPin className="w-3.5 h-3.5 mr-1 text-emerald-400" />
-            Angalakuduru • Tenali Mandal • Guntur District, Andhra Pradesh
+            நேசல் (Nesal) • வானூர் (Vanur Taluk) • விழுப்புரம் (Villupuram District), தமிழ்நாடு
           </span>
         </div>
 
@@ -36,7 +36,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
             title="Switch Language"
           >
             <Globe className="w-3.5 h-3.5 text-emerald-400" />
-            <span>{language === 'en' ? 'తెలుగు (Telugu)' : 'English'}</span>
+            <span>{language === 'ta' ? 'English' : 'தமிழ் (Tamil)'}</span>
           </button>
 
           <button
@@ -71,7 +71,9 @@ export const Navbar = ({ currentView, setCurrentView }) => {
                   AI Aggregator
                 </span>
               </div>
-              <div className="text-xs text-slate-500 font-medium">మన గ్రామం డిజిటల్ పోర్టల్</div>
+              <div className="text-xs text-slate-500 font-medium">
+                {language === 'ta' ? 'நேசல் கிராம டிஜிட்டல் தளம் (வானூர் வட்டம்)' : 'Nesal Village Digital Portal (Vanur Taluk)'}
+              </div>
             </div>
           </div>
 
@@ -119,7 +121,9 @@ export const Navbar = ({ currentView, setCurrentView }) => {
             {showNotifDropdown && (
               <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50">
                 <div className="flex justify-between items-center px-4 py-2 border-b border-slate-100">
-                  <h4 className="font-bold text-slate-800 text-sm">Notifications & Alerts</h4>
+                  <h4 className="font-bold text-slate-800 text-sm">
+                    {language === 'ta' ? 'விழிப்பூட்டல்கள் & அறிவிப்புகள்' : 'Notifications & Alerts'}
+                  </h4>
                   <button
                     onClick={() => setShowNotifDropdown(false)}
                     className="text-slate-400 hover:text-slate-600"
@@ -131,7 +135,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
                 <div className="max-h-80 overflow-y-auto divide-y divide-slate-100">
                   {notifications.length === 0 ? (
                     <div className="p-6 text-center text-slate-400 text-xs">
-                      No notifications at the moment.
+                      {language === 'ta' ? 'தற்போது புதிய அறிவிப்புகள் இல்லை.' : 'No notifications at the moment.'}
                     </div>
                   ) : (
                     notifications.map((notif) => (
@@ -159,7 +163,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
                     }}
                     className="text-xs font-medium text-emerald-700 hover:underline"
                   >
-                    Manage category alert subscriptions →
+                    {language === 'ta' ? 'வகை விழிப்பூட்டல்களை நிர்வகிக்கவும் →' : 'Manage category alert subscriptions →'}
                   </button>
                 </div>
               </div>

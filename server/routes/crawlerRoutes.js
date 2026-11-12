@@ -43,9 +43,9 @@ router.post('/sources', async (req, res) => {
       adapterKey,
       rssFeedUrl,
       scheduleIntervalMinutes: scheduleIntervalMinutes || (category === 'news' ? 45 : 120),
-      district: district || 'Guntur',
-      mandal: mandal || 'Tenali',
-      village: village || 'Angalakuduru'
+      district: district || 'Villupuram',
+      mandal: mandal || 'Vanur',
+      village: village || 'Nesal'
     });
 
     await source.save();

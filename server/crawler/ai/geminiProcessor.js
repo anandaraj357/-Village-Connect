@@ -15,7 +15,7 @@ function getGenAIClient() {
 /**
  * AI-powered pipeline step:
  * Cleans content, identifies type, extracts structured details,
- * generates concise English & Telugu summaries, validates authenticity, and scores confidence.
+ * generates concise English & Tamil summaries, validates authenticity, and scores confidence.
  */
 export async function processContentWithAI(item, context = {}) {
   const rawText = item.rawContent || item.summaryText || item.description || item.title || '';
@@ -29,7 +29,7 @@ export async function processContentWithAI(item, context = {}) {
   if (client) {
     try {
       const prompt = `
-You are an expert AI Information Extraction and Verification Assistant for the "OUR VILLAGE" community governance and employment platform.
+You are an expert AI Information Extraction and Verification Assistant for the "OUR VILLAGE (நமது கிராமம்)" platform serving Nesal Village, Vanur Taluk, Villupuram District, Tamil Nadu.
 
 Analyze this crawled raw item:
 TITLE: "${title}"
@@ -44,18 +44,18 @@ CRITICAL INSTRUCTIONS:
 1. You are strictly an extraction and summarization assistant.
 2. NEVER hallucinate or invent salary details, eligibility criteria, application dates, recruitment notification numbers, or official URLs. If an item is missing in the source text, write "Unavailable".
 3. Generate a concise 2-3 sentence factual summary in English.
-4. Generate an accurate, high-quality Telugu translation of that summary.
+4. Generate an accurate, natural Tamil (தமிழ்) translation of that summary suitable for rural citizens in Villupuram district.
 5. Classify the item into one of the allowed categories:
    - For jobs: Government, Private, IT, Non-IT, Internship, Work From Home, Local Job
-   - For news: Village News, Mandal News, District News, Andhra Pradesh News, National News, Education, Technology, Agriculture, Employment, Sports, Government Schemes, Important Announcements
-   - For recruitment: Andhra Pradesh Recruitment, Central Govt Recruitment, Banking & SSC, Defense, Technical
+   - For news: Village News, Mandal News, District News, Tamil Nadu News, National News, Education, Technology, Agriculture, Employment, Sports, Government Schemes, Important Announcements
+   - For recruitment: Tamil Nadu Recruitment (TNPSC), Central Govt Recruitment (SSC/UPSC/RRB), Banking & Insurance, Defense, Technical
 6. Assess confidence score between 0 and 100 based on source clarity, presence of official links/dates, and completeness.
 7. List any missing critical fields.
 
 Respond ONLY with valid JSON in this exact structure:
 {
   "summaryEnglish": "...",
-  "summaryTelugu": "...",
+  "summaryTamil": "...",
   "categoryIdentified": "...",
   "confidenceScore": 85,
   "authenticityScore": 95,
@@ -85,7 +85,8 @@ Respond ONLY with valid JSON in this exact structure:
           aiModel: 'gemini-3.8-flash',
           cleanedContent: cleanText,
           summaryEnglish: parsed.summaryEnglish || cleanText.slice(0, 250),
-          summaryTelugu: parsed.summaryTelugu || generateTeluguFallback(title, parsed.categoryIdentified),
+          summaryTamil: parsed.summaryTamil || generateTamilFallback(title, parsed.categoryIdentified),
+          summaryTelugu: parsed.summaryTamil || '',
           categoryIdentified: parsed.categoryIdentified || determineCategory(title, cleanText, recordType),
           confidenceScore: Math.min(100, Math.max(0, parsed.confidenceScore || 85)),
           authenticityScore: parsed.authenticityScore || 90,
@@ -109,7 +110,7 @@ Respond ONLY with valid JSON in this exact structure:
 function fallbackHeuristicProcessor(title, cleanText, recordType, sourceName) {
   const category = determineCategory(title, cleanText, recordType);
   const englishSummary = generateEnglishSummary(title, cleanText);
-  const teluguSummary = generateTeluguFallback(title, category);
+  const tamilSummary = generateTamilFallback(title, category);
   const missingFields = checkMissingFields(cleanText, recordType);
   const confidenceScore = Math.max(70, 100 - missingFields.length * 10);
 
@@ -118,7 +119,8 @@ function fallbackHeuristicProcessor(title, cleanText, recordType, sourceName) {
     aiModel: 'heuristic-nlp-engine',
     cleanedContent: cleanText,
     summaryEnglish: englishSummary,
-    summaryTelugu: teluguSummary,
+    summaryTamil: tamilSummary,
+    summaryTelugu: tamilSummary,
     categoryIdentified: category,
     confidenceScore,
     authenticityScore: 92,
@@ -132,20 +134,20 @@ function determineCategory(title, text, recordType) {
   const combined = `${title} ${text}`.toLowerCase();
   if (recordType === 'job') {
     if (combined.includes('developer') || combined.includes('software') || combined.includes('engineer') || combined.includes('it analyst')) return 'IT';
-    if (combined.includes('collectorate') || combined.includes('panchayat') || combined.includes('sachivalayam') || combined.includes('village')) return 'Local Job';
+    if (combined.includes('collectorate') || combined.includes('panchayat') || combined.includes('vao') || combined.includes('village') || combined.includes('taluk')) return 'Local Job';
     if (combined.includes('work from home') || combined.includes('remote')) return 'Work From Home';
     if (combined.includes('intern') || combined.includes('trainee')) return 'Internship';
-    if (combined.includes('bank') || combined.includes('upsc') || combined.includes('ssc') || combined.includes('appsc') || combined.includes('govt') || combined.includes('government')) return 'Government';
+    if (combined.includes('bank') || combined.includes('upsc') || combined.includes('ssc') || combined.includes('tnpsc') || combined.includes('govt') || combined.includes('government')) return 'Government';
     return 'Private';
   }
 
   if (recordType === 'news' || recordType === 'announcement') {
-    if (combined.includes('raithu') || combined.includes('crop') || combined.includes('farmer') || combined.includes('paddy') || combined.includes('agriculture')) return 'Agriculture';
-    if (combined.includes('school') || combined.includes('student') || combined.includes('university') || combined.includes('exam') || combined.includes('education')) return 'Education';
-    if (combined.includes('scheme') || combined.includes('yojana') || combined.includes('subsidy') || combined.includes('pension')) return 'Government Schemes';
-    if (combined.includes('guntur') || combined.includes('tenali') || combined.includes('district') || combined.includes('collector')) return 'District News';
-    if (combined.includes('village') || combined.includes('angalakuduru') || combined.includes('panchayat') || combined.includes('sarpanch')) return 'Village News';
-    if (combined.includes('andhra') || combined.includes('amaravati') || combined.includes('ap ')) return 'Andhra Pradesh News';
+    if (combined.includes('uzhavar') || combined.includes('crop') || combined.includes('farmer') || combined.includes('paddy') || combined.includes('agriculture') || combined.includes('tnau')) return 'Agriculture';
+    if (combined.includes('school') || combined.includes('student') || combined.includes('college') || combined.includes('exam') || combined.includes('education')) return 'Education';
+    if (combined.includes('scheme') || combined.includes('thittam') || combined.includes('subsidy') || combined.includes('magalir') || combined.includes('pension')) return 'Government Schemes';
+    if (combined.includes('villupuram') || combined.includes('vanur') || combined.includes('district') || combined.includes('collector')) return 'District News';
+    if (combined.includes('village') || combined.includes('nesal') || combined.includes('panchayat')) return 'Village News';
+    if (combined.includes('tamil nadu') || combined.includes('chennai') || combined.includes('tn ')) return 'Tamil Nadu News';
     return 'Important Announcements';
   }
 
@@ -157,25 +159,25 @@ function generateEnglishSummary(title, text) {
     const sentences = text.split(/(?<=[.?!])\s+/);
     return sentences.slice(0, 2).join(' ').slice(0, 280);
   }
-  return `Official notification regarding ${title}. Released for rural citizens and applicants in Andhra Pradesh.`;
+  return `Official notification regarding ${title}. Released for rural citizens and applicants in Nesal, Vanur, and Villupuram District, Tamil Nadu.`;
 }
 
-function generateTeluguFallback(title, category) {
-  const categoryTeluguMap = {
-    'Agriculture': 'వ్యవసాయం మరియు రైతు సంక్షేమం',
-    'Education': 'విద్య మరియు శిక్షణ',
-    'Government Schemes': 'ప్రభుత్వ సంక్షేమ పథకాలు',
-    'District News': 'గుంటూరు జిల్లా ముఖ్య వార్తలు',
-    'Village News': 'గ్రామ మరియు మండల సమాచారం',
-    'Andhra Pradesh News': 'ఆంధ్రప్రదేశ్ రాష్ట్ర ముఖ్యాంశాలు',
-    'Important Announcements': 'ముఖ్యమైన అధికారిక ప్రకటన',
-    'Government': 'ప్రభుత్వ ఉద్యోగ ప్రకటన',
-    'IT': 'సాఫ్ట్‌వేర్ మరియు ఐటీ ఉద్యోగాలు',
-    'Local Job': 'స్థానిక గ్రామ సచివాలయ ఉపాధి'
+function generateTamilFallback(title, category) {
+  const categoryTamilMap = {
+    'Agriculture': 'வேளாண்மை மற்றும் உழவர் நலத்துறை தகவல்',
+    'Education': 'கல்வி மற்றும் தொழிற்பயிற்சி அறிவிப்பு',
+    'Government Schemes': 'தமிழ்நாடு அரசு நலத்திட்டம்',
+    'District News': 'விழுப்புரம் மாவட்ட முக்கிய செய்தி',
+    'Village News': 'நேசல் கிராம & வானூர் வட்டார தகவல்',
+    'Tamil Nadu News': 'தமிழ்நாடு மாநில முக்கியச் செய்திகள்',
+    'Important Announcements': 'முக்கிய அதிகாரப்பூர்வ அறிவிப்பு',
+    'Government': 'அரசு வேலைவாய்ப்பு மற்றும் பணி நியமனம்',
+    'IT': 'மென்பொருள் மற்றும் தகவல் தொழில்நுட்ப வேலைவாய்ப்பு',
+    'Local Job': 'உள்ளூர் கிராம பஞ்சாயத்து மற்றும் வட்டாரப் பணி'
   };
 
-  const catTelugu = categoryTeluguMap[category] || 'అధికారిక సమాచారం';
-  return `${catTelugu}: ${title}. అర్హులైన పౌరులు మరియు అభ్యర్థులు అధికారిక వెబ్‌సైట్ ద్వారా పూర్తి వివరాలు తెలుసుకోవచ్చు.`;
+  const catTamil = categoryTamilMap[category] || 'அதிகாரப்பூர்வ தகவல்';
+  return `${catTamil}: ${title}. தகுதியுடைய நேசல் மற்றும் வானூர் பகுதி பொதுமக்கள் அதிகாரப்பூர்வ இணையதளம் மூலம் முழு விவரங்களை அறியலாம்.`;
 }
 
 function checkMissingFields(text, recordType) {

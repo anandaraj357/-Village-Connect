@@ -37,12 +37,12 @@ const CrawlerSourceSchema = new mongoose.Schema(
     requestTimeoutMs: { type: Number, default: 15000 },
     geographicScope: {
       type: String,
-      enum: ['Village', 'Mandal', 'District', 'Andhra Pradesh', 'National'],
-      default: 'Andhra Pradesh'
+      enum: ['Village', 'Mandal', 'District', 'Tamil Nadu', 'Andhra Pradesh', 'National'],
+      default: 'Tamil Nadu'
     },
-    district: { type: String, default: 'Guntur' },
-    mandal: { type: String, default: 'Tenali' },
-    village: { type: String, default: 'Angalakuduru' },
+    district: { type: String, default: 'Villupuram' },
+    mandal: { type: String, default: 'Vanur' },
+    village: { type: String, default: 'Nesal' },
     lastCrawledAt: { type: Date },
     lastStatus: {
       type: String,

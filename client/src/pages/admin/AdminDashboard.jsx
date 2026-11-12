@@ -107,7 +107,7 @@ export const AdminDashboard = ({ setAdminTab }) => {
             <Newspaper className="w-4 h-4 text-teal-600" />
           </div>
           <div className="text-2xl font-black text-slate-900">{stats.totalNewsArticles}</div>
-          <div className="text-[11px] text-slate-400 font-medium">Telugu & English verified</div>
+          <div className="text-[11px] text-slate-400 font-medium">Tamil & English verified</div>
         </div>
 
         <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-1">

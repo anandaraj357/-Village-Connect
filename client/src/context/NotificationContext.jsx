@@ -7,7 +7,7 @@ export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [activeCategory, setActiveCategory] = useState('All');
-  const [language, setLanguage] = useState('en'); // 'en' or 'te'
+  const [language, setLanguage] = useState('ta'); // 'ta' for Tamil, 'en' for English
 
   const fetchNotifications = async () => {
     try {
@@ -23,14 +23,14 @@ export const NotificationProvider = ({ children }) => {
 
   useEffect(() => {
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 20000); // 20s poll
+    const interval = setInterval(fetchNotifications, 20000);
     return () => clearInterval(interval);
   }, [activeCategory]);
 
   const markAllRead = () => setUnreadCount(0);
 
   const toggleLanguage = () => {
-    setLanguage((prev) => (prev === 'en' ? 'te' : 'en'));
+    setLanguage((prev) => (prev === 'ta' ? 'en' : 'ta'));
   };
 
   return (

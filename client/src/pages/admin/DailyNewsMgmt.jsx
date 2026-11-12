@@ -31,7 +31,7 @@ export const DailyNewsMgmt = () => {
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Screen 3</span>
           <h2 className="text-2xl font-black text-slate-900 mt-0.5">Daily News Aggregation Manager</h2>
-          <p className="text-xs text-slate-500">Live published news articles, summaries and bilingual translations.</p>
+          <p className="text-xs text-slate-500">Live published news articles, summaries and bilingual Tamil/English translations.</p>
         </div>
         <div className="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-xl">
           Total Published: {news.length} Articles
@@ -49,8 +49,8 @@ export const DailyNewsMgmt = () => {
                   <th className="py-3.5 px-4">Headline</th>
                   <th className="py-3.5 px-4">Category</th>
                   <th className="py-3.5 px-4">Geographic Scope</th>
+                  <th className="py-3.5 px-4">Tamil Translation (தமிழ்)</th>
                   <th className="py-3.5 px-4">English Summary</th>
-                  <th className="py-3.5 px-4">Telugu Translation</th>
                   <th className="py-3.5 px-4">Source</th>
                   <th className="py-3.5 px-4">Published Date</th>
                 </tr>
@@ -63,10 +63,12 @@ export const DailyNewsMgmt = () => {
                       <CategoryBadge category={item.category} />
                     </td>
                     <td className="py-3 px-4 text-slate-600 whitespace-nowrap">
-                      {item.geographicRelevance?.scope || 'District'} ({item.geographicRelevance?.district})
+                      {item.geographicRelevance?.scope || 'District'} ({item.geographicRelevance?.district || 'Villupuram'})
+                    </td>
+                    <td className="py-3 px-4 tamil-text text-emerald-950 max-w-xs line-clamp-2">
+                      {item.summaryTamil || item.summaryEnglish}
                     </td>
                     <td className="py-3 px-4 text-slate-600 max-w-xs line-clamp-2">{item.summaryEnglish}</td>
-                    <td className="py-3 px-4 telugu-text text-emerald-950 max-w-xs line-clamp-2">{item.summaryTelugu}</td>
                     <td className="py-3 px-4 text-slate-600 whitespace-nowrap">{item.sourceWebsite}</td>
                     <td className="py-3 px-4 text-slate-500 whitespace-nowrap">
                       {new Date(item.publishedDate).toLocaleDateString()}

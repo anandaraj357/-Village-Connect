@@ -24,10 +24,10 @@ router.post('/', async (req, res) => {
       subscriberPhone,
       categories: categories || ['All'],
       geographicFilter: geographicFilter || {
-        state: 'Andhra Pradesh',
-        district: 'Guntur',
-        mandal: 'Tenali',
-        village: 'Angalakuduru'
+        state: 'Tamil Nadu',
+        district: 'Villupuram',
+        mandal: 'Vanur',
+        village: 'Nesal'
       },
       channels: channels || { inApp: true, webPush: true }
     });

@@ -38,8 +38,8 @@ export async function publishRecord(approvalId, adminId = null, overrideData = n
       requiredExperience: mergedData.requiredExperience || 'Freshers / Experienced',
       salary: mergedData.salary || 'As per norms',
       vacanciesCount: mergedData.vacanciesCount || 1,
-      jobLocation: mergedData.jobLocation || 'Andhra Pradesh',
-      district: mergedData.district || 'Guntur',
+      jobLocation: mergedData.jobLocation || 'Tamil Nadu (Villupuram)',
+      district: mergedData.district || 'Villupuram',
       applicationStartDate: mergedData.applicationStartDate || new Date(),
       applicationLastDate: mergedData.applicationLastDate || null,
       officialNotificationUrl: mergedData.officialNotificationUrl || approval.sourceUrl,
@@ -95,17 +95,18 @@ export async function publishRecord(approvalId, adminId = null, overrideData = n
       headline: mergedData.headline || approval.title,
       shortDescription: approval.summary || mergedData.shortDescription,
       summaryEnglish: approval.summary || '',
-      summaryTelugu: approval.summaryTelugu || '',
+      summaryTamil: approval.summaryTamil || approval.summary || '',
+      summaryTelugu: approval.summaryTelugu || approval.summaryTamil || '',
       category: approval.category || 'District News',
       sourceWebsite: approval.sourceName,
       originalArticleUrl: approval.sourceUrl,
       thumbnailUrl: mergedData.thumbnailUrl,
       geographicRelevance: mergedData.geographicRelevance || {
         scope: 'District',
-        state: 'Andhra Pradesh',
-        district: 'Guntur',
-        mandal: 'Tenali',
-        village: 'Angalakuduru'
+        state: 'Tamil Nadu',
+        district: 'Villupuram',
+        mandal: 'Vanur',
+        village: 'Nesal'
       },
       publishedDate: approval.publicationDate,
       crawledDate: crawled.crawledAt,
@@ -132,7 +133,7 @@ export async function publishRecord(approvalId, adminId = null, overrideData = n
   // Create In-App Notification
   const inAppNotif = new InAppNotification({
     title: `New ${notificationCategory}: ${notificationTitle}`,
-    body: approval.summary ? approval.summary.slice(0, 180) + '...' : notificationTitle,
+    body: approval.summaryTamil ? approval.summaryTamil.slice(0, 180) + '...' : (approval.summary ? approval.summary.slice(0, 180) + '...' : notificationTitle),
     category: notificationCategory,
     type: approval.recordType,
     referenceId: publishedDoc._id,
@@ -141,13 +142,11 @@ export async function publishRecord(approvalId, adminId = null, overrideData = n
   });
   await inAppNotif.save();
 
-  // Find interested subscribers
   const matchingSubscribersCount = await NotificationSubscription.countDocuments({
     active: true,
     $or: [{ categories: 'All' }, { categories: notificationCategory }]
   });
 
-  // Log activity
   await CrawlingLog.create({
     sourceId: crawled.sourceId,
     sourceName: approval.sourceName,

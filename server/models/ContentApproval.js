@@ -14,6 +14,7 @@ const ContentApprovalSchema = new mongoose.Schema(
     sourceUrl: { type: String, required: true },
     publicationDate: { type: Date, default: Date.now },
     summary: { type: String },
+    summaryTamil: { type: String },
     summaryTelugu: { type: String },
     confidenceScore: { type: Number, default: 0 },
     verificationStatus: {

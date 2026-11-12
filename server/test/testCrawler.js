@@ -33,12 +33,12 @@ function assert(condition, message) {
 
 async function runTests() {
   console.log('=================================================================');
-  console.log('🧪 RUNNING COMPREHENSIVE OUR VILLAGE CRAWLER TEST SUITE');
+  console.log('🧪 RUNNING COMPREHENSIVE OUR VILLAGE CRAWLER TEST SUITE (TAMIL NADU / NESAL)');
   console.log('=================================================================\n');
 
   try {
     await connectDB();
-    await seedDatabase();
+    await seedDatabase(false);
 
     try {
       await initializeScheduler();
@@ -64,70 +64,76 @@ async function runTests() {
     }
     assert(blockedMetadata, 'SSRF correctly blocked cloud metadata IP (169.254.169.254)');
 
-    const validUrl = await validateTargetUrl('https://psc.ap.gov.in/notifications');
-    assert(validUrl.startsWith('https://psc.ap.gov.in'), 'Permitted public HTTPS URL passed validation');
+    const validUrl = await validateTargetUrl('https://www.tnpsc.gov.in/notifications');
+    assert(validUrl.startsWith('https://www.tnpsc.gov.in'), 'Permitted public HTTPS URL passed validation');
 
     const cleanHtml = stripToPlainText('<h1>Official Notice</h1><p>Important <script>alert(1)</script>update</p>');
     assert(cleanHtml === 'Official Notice Important update', `HTML sanitizer completely removed scripts. Output: "${cleanHtml}"`);
 
     // TEST 2: Duplicate Detection & Hashing
     console.log('\n--- TEST 2: Duplicate Detection & Content Hashing ---');
-    const hash1 = generateContentHash('Junior Assistant Recruitment 2026', 'Guntur Collectorate', 'NOTIF-01');
-    const hash2 = generateContentHash('junior assistant recruitment 2026', 'guntur collectorate', 'notif-01');
+    const hash1 = generateContentHash('VAO & Junior Assistant Recruitment 2026', 'Villupuram Collectorate', 'NOTIF-01');
+    const hash2 = generateContentHash('vao & junior assistant recruitment 2026', 'villupuram collectorate', 'notif-01');
     assert(hash1 === hash2, 'Normalized content hashing produces identical hash regardless of casing/spacing');
 
     const dupCheck = await detectDuplicateOrRevision(
-      { title: 'Brand New Unique Job Post ' + Date.now(), organization: 'AP State Board', sourceUrl: 'https://unique.ap.gov.in/job/' + Date.now() },
+      { title: 'Brand New Unique Job Post ' + Date.now(), organization: 'Tamil Nadu Board', sourceUrl: 'https://unique.tn.gov.in/job/' + Date.now() },
       'job',
       new mongoose.Types.ObjectId(),
-      'AP Board'
+      'TN Board'
     );
     assert(dupCheck.isDuplicate === false, 'Brand new record marked as non-duplicate');
 
     // TEST 3: PDF Regex Structured Extraction
     console.log('\n--- TEST 3: PDF Structured Extraction ---');
     const samplePdfText = `
-      ANDHRA PRADESH PUBLIC SERVICE COMMISSION: VIJAYAWADA
-      NOTIFICATION NO. 05/2026.
-      Total Number of Vacancies: 245
-      Educational Qualification: Must hold a Bachelor Degree of any recognized University.
-      Age Limit: 18 to 42 Years as on 01/07/2026.
-      Application Fee: Rs. 250 processing fee.
-      Selection Process: Computer Based Screening Test and Main Written Exam.
-      Last Date for submission: 30/08/2026.
+      TAMIL NADU PUBLIC SERVICE COMMISSION: CHENNAI
+      NOTIFICATION NO. 04/2026.
+      Total Number of Vacancies: 6244
+      Educational Qualification: Must have passed S.S.L.C. Public Examination or equivalent.
+      Age Limit: 18 to 37 Years as on 01/07/2026.
+      Application Fee: Rs. 100 registration fee.
+      Selection Process: Single Paper Written Examination and Certificate Verification.
+      Last Date for submission: 28/07/2026.
     `;
     const parsedPdf = extractRecruitmentDetailsFromText(samplePdfText);
-    assert(parsedPdf.notificationNumber === '05/2026', `Extracted notification number: ${parsedPdf.notificationNumber}`);
-    assert(parsedPdf.totalVacancies === 245, `Extracted total vacancies: ${parsedPdf.totalVacancies}`);
+    assert(parsedPdf.notificationNumber === '04/2026', `Extracted notification number: ${parsedPdf.notificationNumber}`);
+    assert(parsedPdf.totalVacancies === 6244, `Extracted total vacancies: ${parsedPdf.totalVacancies}`);
     assert(parsedPdf.confidenceScore >= 80, `High confidence score: ${parsedPdf.confidenceScore}%`);
     assert(parsedPdf.missingFields.length === 0, `No critical fields missing. Missing: ${parsedPdf.missingFields.join(', ')}`);
 
-    // TEST 4: AI Summarization & Content Processing
-    console.log('\n--- TEST 4: AI Summarization & Content Processing ---');
+    // TEST 4: AI Summarization & Content Processing (Tamil & English)
+    console.log('\n--- TEST 4: AI Summarization & Content Processing (Tamil Translation) ---');
     const aiItem = {
-      title: 'Subsidized Solar Water Pumping Scheme for Small and Marginal Farmers',
-      rawContent: 'Andhra Pradesh Renewable Energy Development Corporation invites applications for 5HP solar pump sets with 70% state subsidy for farmers in Guntur and Prakasam districts.',
+      title: 'Solar Water Pump Subsidy Scheme for Nesal and Vanur Farmers',
+      rawContent: 'Tamil Nadu Energy Development Agency (TEDA) invites online applications from farmers in Villupuram district for 5HP to 10HP solar agricultural pump sets with 70% state subsidy.',
       recordType: 'news'
     };
-    const processedAI = await processContentWithAI(aiItem, { sourceName: 'AP Agriculture Board', recordType: 'news' });
+    const processedAI = await processContentWithAI(aiItem, { sourceName: 'TNAU & Villupuram Agriculture Department', recordType: 'news' });
     assert(processedAI.summaryEnglish && processedAI.summaryEnglish.length > 20, 'Generated concise English summary');
-    assert(processedAI.summaryTelugu && processedAI.summaryTelugu.length > 20, 'Generated Telugu translated summary');
+    assert(processedAI.summaryTamil && processedAI.summaryTamil.length > 20, 'Generated natural Tamil translated summary');
     assert(processedAI.categoryIdentified === 'Agriculture' || processedAI.categoryIdentified === 'Government Schemes', `Accurate category classified: ${processedAI.categoryIdentified}`);
     assert(processedAI.confidenceScore > 75, `Confidence score calculated: ${processedAI.confidenceScore}%`);
 
-    // TEST 5: Actual Crawler Engine Execution on Configured Source
-    console.log('\n--- TEST 5: Real Crawler Engine Execution on Configured Source ---');
-    const appscSource = await CrawlerSource.findOne({ adapterKey: 'appsc_recruitment' });
-    assert(!!appscSource, `Found APPSC Crawler Source (${appscSource?.name})`);
+    // TEST 5: Real Crawler Engine Execution on Configured Source
+    console.log('\n--- TEST 5: Real Crawler Engine Execution on Configured Sources ---');
+    const distSource = await CrawlerSource.findOne({ adapterKey: 'district_news' });
+    assert(!!distSource, `Found District Crawler Source (${distSource?.name})`);
 
-    const crawlResult = await executeCrawl(appscSource._id, 'manual');
+    const crawlResult = await executeCrawl(distSource._id, 'manual');
     assert(crawlResult.success === true, 'Crawl execution completed successfully');
     assert(crawlResult.recordsFound > 0, `Extracted ${crawlResult.recordsFound} records`);
-    assert(crawlResult.recordsNew >= 0, `Processed ${crawlResult.recordsNew} new records`);
+    assert(crawlResult.recordsNew >= 0 || crawlResult.recordsUpdated >= 0, 'Processed candidate records');
 
     // TEST 6: Admin Approval & Publishing Workflow
     console.log('\n--- TEST 6: Admin Approval and Publishing to Public Experience ---');
-    const pendingApproval = await ContentApproval.findOne({ status: 'pending' }).populate('recordId');
+    let pendingApproval = await ContentApproval.findOne({ status: 'pending' }).populate('recordId');
+    if (!pendingApproval) {
+      // Trigger NCS job crawl to queue fresh items
+      const ncsSource = await CrawlerSource.findOne({ adapterKey: 'ncs_jobs' });
+      if (ncsSource) await executeCrawl(ncsSource._id, 'manual');
+      pendingApproval = await ContentApproval.findOne({ status: 'pending' }).populate('recordId');
+    }
     assert(!!pendingApproval, `Found pending approval item: "${pendingApproval?.title}"`);
 
     const publishResult = await publishRecord(pendingApproval._id);

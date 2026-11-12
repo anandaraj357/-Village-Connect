@@ -96,7 +96,7 @@ export const PendingApprovals = () => {
         title: editItem.title,
         category: editItem.category,
         summary: editItem.summary,
-        summaryTelugu: editItem.summaryTelugu,
+        summaryTamil: editItem.summaryTamil,
         isImportant: editItem.isImportant
       });
       if (res.data.success) {
@@ -123,7 +123,7 @@ export const PendingApprovals = () => {
               Crawled Data – Pending Approval
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              Strict governance: Extracted records only appear publicly after administrator approval and verification.
+              Strict governance: Extracted records only appear publicly after administrator approval and verification for Nesal, Vanur & Villupuram.
             </p>
           </div>
 
@@ -170,7 +170,7 @@ export const PendingApprovals = () => {
           <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto" />
           <h3 className="text-base font-bold text-slate-800">Approval Queue is Clear</h3>
           <p className="text-xs text-slate-500">
-            All crawled records have been reviewed or no items match your current filter. Trigger a manual crawl from Crawler Sources to fetch new records.
+            All crawled records have been reviewed. Trigger a manual crawl from Crawler Sources to ingest new records.
           </p>
         </div>
       ) : (
@@ -206,7 +206,9 @@ export const PendingApprovals = () => {
 
                     <td className="py-3 px-4 max-w-xs sm:max-w-md">
                       <div className="font-extrabold text-slate-900 leading-snug">{app.title}</div>
-                      <div className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">{app.summary}</div>
+                      <div className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">
+                        {app.summaryTamil || app.summary}
+                      </div>
                     </td>
 
                     <td className="py-3 px-4">
@@ -240,7 +242,6 @@ export const PendingApprovals = () => {
 
                     <td className="py-3 px-4 text-right whitespace-nowrap">
                       <div className="flex items-center justify-end space-x-1.5">
-                        {/* Preview */}
                         <button
                           onClick={() => setPreviewItem(app)}
                           className="p-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition"
@@ -249,7 +250,6 @@ export const PendingApprovals = () => {
                           <Eye className="w-3.5 h-3.5" />
                         </button>
 
-                        {/* Edit */}
                         <button
                           onClick={() => setEditItem(app)}
                           className="p-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition"
@@ -258,7 +258,6 @@ export const PendingApprovals = () => {
                           <Edit3 className="w-3.5 h-3.5" />
                         </button>
 
-                        {/* Publish / Approve */}
                         <button
                           onClick={() => handlePublish(app._id)}
                           className="px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg transition flex items-center space-x-1 shadow-sm"
@@ -268,7 +267,6 @@ export const PendingApprovals = () => {
                           <span>Publish</span>
                         </button>
 
-                        {/* Reject */}
                         <button
                           onClick={() => handleReject(app._id)}
                           className="p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition"
@@ -277,7 +275,6 @@ export const PendingApprovals = () => {
                           <X className="w-3.5 h-3.5" />
                         </button>
 
-                        {/* Delete */}
                         <button
                           onClick={() => handleDelete(app._id)}
                           className="p-1.5 text-slate-400 hover:text-rose-700 rounded-lg transition"
@@ -320,17 +317,19 @@ export const PendingApprovals = () => {
                 <StatusBadge status={previewItem.status} />
               </div>
 
+              {previewItem.summaryTamil && (
+                <div className="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-100 space-y-2">
+                  <span className="font-bold text-emerald-900 block">Tamil Regional Translation (தமிழ்):</span>
+                  <p className="tamil-text text-emerald-950 leading-relaxed">
+                    {previewItem.summaryTamil}
+                  </p>
+                </div>
+              )}
+
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-2">
                 <span className="font-bold text-slate-800 block">English AI Summary:</span>
                 <p className="text-slate-700 leading-relaxed">{previewItem.summary}</p>
               </div>
-
-              {previewItem.summaryTelugu && (
-                <div className="bg-emerald-50/70 p-4 rounded-2xl border border-emerald-100 space-y-2">
-                  <span className="font-bold text-emerald-900 block">Telugu Translation:</span>
-                  <p className="telugu-text text-emerald-950 leading-relaxed">{previewItem.summaryTelugu}</p>
-                </div>
-              )}
 
               {previewItem.recordId?.extractedData && (
                 <div className="space-y-2">
@@ -412,22 +411,22 @@ export const PendingApprovals = () => {
             </div>
 
             <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Summary (Tamil - தமிழ்)</label>
+              <textarea
+                rows="3"
+                value={editItem.summaryTamil || ''}
+                onChange={(e) => setEditItem({ ...editItem, summaryTamil: e.target.value })}
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none tamil-text"
+              />
+            </div>
+
+            <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">Summary (English)</label>
               <textarea
                 rows="3"
                 value={editItem.summary}
                 onChange={(e) => setEditItem({ ...editItem, summary: e.target.value })}
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1">Summary (Telugu)</label>
-              <textarea
-                rows="3"
-                value={editItem.summaryTelugu || ''}
-                onChange={(e) => setEditItem({ ...editItem, summaryTelugu: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none telugu-text"
               />
             </div>
 

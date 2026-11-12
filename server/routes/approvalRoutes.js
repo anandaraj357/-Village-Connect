@@ -57,12 +57,13 @@ router.post('/publish/:id', async (req, res) => {
 // Edit pending record fields
 router.put('/edit/:id', async (req, res) => {
   try {
-    const { title, summary, summaryTelugu, category, isImportant, editedFields } = req.body;
+    const { title, summary, summaryTamil, summaryTelugu, category, isImportant, editedFields } = req.body;
     const approval = await ContentApproval.findById(req.params.id);
     if (!approval) return res.status(404).json({ success: false, message: 'Item not found' });
 
     if (title) approval.title = title;
     if (summary) approval.summary = summary;
+    if (summaryTamil) approval.summaryTamil = summaryTamil;
     if (summaryTelugu) approval.summaryTelugu = summaryTelugu;
     if (category) approval.category = category;
     if (isImportant !== undefined) approval.isImportant = isImportant;

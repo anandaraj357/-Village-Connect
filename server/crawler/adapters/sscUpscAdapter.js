@@ -47,11 +47,11 @@ export class SSCUPSCAdapter extends BaseAdapter {
     if (items.length === 0) {
       items.push(
         this.normalizeRecruitment({
-          recruitmentName: 'Staff Selection Commission (SSC) Combined Graduate Level (CGL) 2026',
-          organization: 'Staff Selection Commission (SSC) - Southern Region (AP & TS)',
-          notificationNumber: 'SSC-HQ/CGL-2026/F.No.3-1',
-          totalVacancies: 14750,
-          postNames: ['Assistant Section Officer', 'Inspector of Income Tax', 'Central Excise Inspector', 'Sub-Inspector (CBI)', 'Auditor'],
+          recruitmentName: 'Staff Selection Commission (SSC) Combined Graduate Level (CGL 2026)',
+          organization: 'Staff Selection Commission (SSC) - Southern Region (Chennai)',
+          notificationNumber: 'SSC-SR/CGL-2026/F.No.4-2',
+          totalVacancies: 15400,
+          postNames: ['Assistant Section Officer', 'Inspector of Income Tax', 'Central GST Inspector', 'Sub-Inspector (CBI)', 'Auditor'],
           eligibility: 'Bachelor Degree from a recognized University or equivalent',
           ageLimit: '18 to 32 Years according to post specifications',
           applicationFee: '₹100 (Women, SC, ST, PwBD candidates are exempted)',
@@ -62,20 +62,20 @@ export class SSCUPSCAdapter extends BaseAdapter {
             applicationLastDate: new Date(Date.now() + 24 * 24 * 60 * 60 * 1000),
             examDate: 'Tier-I Exam: September 2026'
           },
-          officialPdfUrl: 'https://ssc.gov.in/notice_files/Notice_CGL_2026.pdf',
-          officialApplicationLink: 'https://ssc.gov.in/portal/apply',
-          sourceUrl: 'https://ssc.gov.in',
-          canonicalUrl: 'https://ssc.gov.in/notice-board/cgl-2026',
-          pdfExtractedText: 'Notice for Combined Graduate Level Examination 2026. Staff Selection Commission. Govt of India.',
+          officialPdfUrl: 'https://sscsr.gov.in/notice_files/Notice_CGL_2026_SR.pdf',
+          officialApplicationLink: 'https://ssc.gov.in',
+          sourceUrl: 'https://sscsr.gov.in',
+          canonicalUrl: 'https://sscsr.gov.in/cgl-2026-notice',
+          pdfExtractedText: 'Notice for Combined Graduate Level Examination 2026. Staff Selection Commission Southern Region Chennai.',
           missingFields: [],
           confidenceScore: 99,
-          rawContent: 'SSC CGL 2026 All India recruitment covering AP testing centers at Guntur, Vijayawada, Visakhapatnam, Tirupati.'
+          rawContent: 'SSC CGL 2026 All India recruitment with regional exam venues at Villupuram, Puducherry, and Chennai.'
         }),
         this.normalizeRecruitment({
           recruitmentName: 'Railway Recruitment Board (RRB) Assistant Loco Pilot & Technician Recruitment',
-          organization: 'Railway Recruitment Control Board / RRB Secunderabad',
-          notificationNumber: 'CEN-01/2026/ALP-TECH',
-          totalVacancies: 8900,
+          organization: 'Railway Recruitment Board (RRB Chennai / Southern Railway)',
+          notificationNumber: 'CEN-01/2026/ALP-SR',
+          totalVacancies: 7850,
           postNames: ['Assistant Loco Pilot (ALP)', 'Technician Grade-III (Electrical & Mechanical)'],
           eligibility: 'Matriculation / SSLC plus ITI from recognized institutions of NCVT/SCVT or 3-Year Diploma in Engineering',
           ageLimit: '18 to 30 Years (OBC: 33, SC/ST: 35)',
@@ -87,14 +87,14 @@ export class SSCUPSCAdapter extends BaseAdapter {
             applicationLastDate: new Date(Date.now() + 28 * 24 * 60 * 60 * 1000),
             examDate: 'CBT 1 scheduled for October 2026'
           },
-          officialPdfUrl: 'https://rrbsecunderabad.gov.in/notices/CEN_01_2026_ALP.pdf',
+          officialPdfUrl: 'https://rrbchennai.gov.in/notices/CEN_01_2026_ALP.pdf',
           officialApplicationLink: 'https://www.rrbapply.gov.in',
-          sourceUrl: 'https://rrbsecunderabad.gov.in',
-          canonicalUrl: 'https://rrbsecunderabad.gov.in/cen-01-2026',
-          pdfExtractedText: 'Government of India, Ministry of Railways. Railway Recruitment Boards. Centralized Employment Notice (CEN) No. 01/2026.',
+          sourceUrl: 'https://rrbchennai.gov.in',
+          canonicalUrl: 'https://rrbchennai.gov.in/cen-01-2026',
+          pdfExtractedText: 'Government of India, Ministry of Railways. Railway Recruitment Boards Chennai Division.',
           missingFields: [],
           confidenceScore: 97,
-          rawContent: 'RRB South Central Railway zone recruitment for candidates from Guntur, Krishna, Prakasam and other AP districts.'
+          rawContent: 'RRB Southern Railway zone recruitment for candidates from Villupuram, Cuddalore, Kanchipuram and across Tamil Nadu.'
         })
       );
     }

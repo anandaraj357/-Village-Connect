@@ -25,11 +25,9 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
     throw new Error(`Crawler is already running for source: ${source.name} (Source ID: ${lockKey})`);
   }
 
-  // Acquire lock
   activeCrawls.add(lockKey);
   const startTime = Date.now();
 
-  // Create CrawlerJob record
   const crawlerJob = new CrawlerJob({
     sourceId: source._id,
     sourceName: source.name,
@@ -41,7 +39,6 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
   });
   await crawlerJob.save();
 
-  // Update source status
   source.lastStatus = 'in_progress';
   source.lastCrawledAt = new Date();
   source.totalCrawlCount += 1;
@@ -56,7 +53,6 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
   const errors = [];
 
   try {
-    // 1. Instantiate Adapter and collect items
     const adapter = getAdapterForSource(source);
     await logActivity(source._id, source.name, crawlerJob._id, 'info', 'FETCHING_CONTENT', `Fetching remote data via ${source.crawlerType} engine from ${source.url}`);
     
@@ -64,10 +60,8 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
     recordsFound = rawItems.length;
     await logActivity(source._id, source.name, crawlerJob._id, 'info', 'CONTENT_EXTRACTED', `Extracted ${recordsFound} candidate records from ${source.name}`);
 
-    // 2. Process each item through AI pipeline & Duplicate detector
     for (const item of rawItems) {
       try {
-        // Duplicate & Revision check
         const dupResult = await detectDuplicateOrRevision(item, source.category, source._id, source.name);
 
         if (dupResult.isDuplicate) {
@@ -76,14 +70,12 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
           continue;
         }
 
-        // AI-Powered processing (cleaning, classification, summarization in English & Telugu, confidence scoring)
         await logActivity(source._id, source.name, crawlerJob._id, 'info', 'AI_PROCESSING', `Processing item with AI: "${item.title}"`);
         const aiResult = await processContentWithAI(item, {
           sourceName: source.name,
           recordType: source.category
         });
 
-        // If marked as revision of an existing record
         if (dupResult.isRevision) {
           recordsUpdated++;
           const targetDocId = dupResult.revisionTargetId;
@@ -101,7 +93,6 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
           continue;
         }
 
-        // Save brand new CrawledRecord
         const crawledRecord = new CrawledRecord({
           sourceId: source._id,
           sourceName: source.name,
@@ -119,6 +110,7 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
           aiProcessed: true,
           aiAnalysis: {
             summaryEnglish: aiResult.summaryEnglish,
+            summaryTamil: aiResult.summaryTamil,
             summaryTelugu: aiResult.summaryTelugu,
             confidenceScore: aiResult.confidenceScore,
             categoryIdentified: aiResult.categoryIdentified,
@@ -133,7 +125,6 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
         });
         await crawledRecord.save();
 
-        // Create ContentApproval entry for Admin Review
         const contentApproval = new ContentApproval({
           recordId: crawledRecord._id,
           recordType: source.category,
@@ -143,6 +134,7 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
           sourceUrl: crawledRecord.sourceUrl,
           publicationDate: item.datePublished || item.publishedDate || new Date(),
           summary: aiResult.summaryEnglish,
+          summaryTamil: aiResult.summaryTamil,
           summaryTelugu: aiResult.summaryTelugu,
           confidenceScore: aiResult.confidenceScore,
           verificationStatus: aiResult.confidenceScore >= 80 ? 'verified' : 'needs_review',
@@ -159,7 +151,6 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
       }
     }
 
-    // Success finalization
     const durationMs = Date.now() - startTime;
     crawlerJob.status = 'completed';
     crawlerJob.completedAt = new Date();
@@ -205,7 +196,6 @@ export async function executeCrawl(sourceId, triggerType = 'manual', bullJobId =
 
     throw err;
   } finally {
-    // Release lock
     activeCrawls.delete(lockKey);
   }
 }
