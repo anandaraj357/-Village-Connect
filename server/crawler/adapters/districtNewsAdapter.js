@@ -68,7 +68,7 @@ export class DistrictNewsAdapter extends BaseAdapter {
         }),
         this.normalizeNews({
           headline: 'வானூர் மற்றும் சுற்றுவட்டார கிராமப்புறங்களில் சிறப்பு இலவச மருத்துவ முகாம்கள்',
-          shortDescription: 'விழுப்புரம் மாவட்ட பொது சுகாதாரத்துறை சார்பில் நேசல் மற்றும் வானூர் சுற்றுவட்டார கிராமங்களில் இலவச டெங்கு தடுப்பு மற்றும் பருவக்கால சிறப்பு மருத்துவ முகாம்கள் நடைபெறுகின்றன.',
+          shortDescription: 'விழுப்புரம் மாவட்ட பொது சுகாதாரத்துறை சார்பில் நெசல் மற்றும் வானூர் சுற்றுவட்டார கிராமங்களில் இலவச டெங்கு தடுப்பு மற்றும் பருவக்கால சிறப்பு மருத்துவ முகாம்கள் நடைபெறுகின்றன.',
           category: 'Important Announcements',
           url: 'https://villupuram.nic.in/announcements/rural-health-camps-2026',
           canonicalUrl: 'https://villupuram.nic.in/announcements/rural-health-camps-2026',

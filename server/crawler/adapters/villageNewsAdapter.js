@@ -28,8 +28,8 @@ export class VillageNewsAdapter extends BaseAdapter {
     if (items.length === 0) {
       items.push(
         this.normalizeNews({
-          headline: 'நேசல் கிராம பஞ்சாயத்தில் தார்ச்சாலை மற்றும் சோலார் தெருவிளக்குகள் அமைக்கும் பணி நிறைவு',
-          shortDescription: 'வானூர் வட்டம் நேசல் கிராமத்தில் வேளாண் நிலங்களுக்கு செல்லும் சாலைகள் சீரமைக்கப்பட்டு, 45 புதிய சூரிய ஒளி (சோலார்) தெருவிளக்குகள் வெற்றிகரமாக நிறுவப்பட்டுள்ளன.',
+          headline: 'நெசல் கிராம பஞ்சாயத்தில் தார்ச்சாலை மற்றும் சோலார் தெருவிளக்குகள் அமைக்கும் பணி நிறைவு',
+          shortDescription: 'வானூர் வட்டம் நெசல் கிராமத்தில் வேளாண் நிலங்களுக்கு செல்லும் சாலைகள் சீரமைக்கப்பட்டு, 45 புதிய சூரிய ஒளி (சோலார்) தெருவிளக்குகள் வெற்றிகரமாக நிறுவப்பட்டுள்ளன.',
           category: 'Village News',
           url: 'https://villupuram.nic.in/nesal-panchayat-roads-2026',
           canonicalUrl: 'https://villupuram.nic.in/nesal-panchayat-roads-2026',
@@ -46,7 +46,7 @@ export class VillageNewsAdapter extends BaseAdapter {
         }),
         this.normalizeNews({
           headline: 'வானூர் வட்டார உழவர் உற்பத்தியாளர் சங்கம் மூலம் 50% மானியத்தில் தரமான உளுந்து மற்றும் நெல் விதைகள் விநியோகம்',
-          shortDescription: 'தமிழ்நாடு வேளாண்மை மற்றும் உழவர் நலத்துறை சார்பில் நேசல் கிராம விவசாயிகளுக்கு சான்று பெற்ற உயர் ரக நெல் மற்றும் பயறு விதைகள் 50 சதவீத மானியத்தில் வழங்கப்படுகின்றன.',
+          shortDescription: 'தமிழ்நாடு வேளாண்மை மற்றும் உழவர் நலத்துறை சார்பில் நெசல் கிராம விவசாயிகளுக்கு சான்று பெற்ற உயர் ரக நெல் மற்றும் பயறு விதைகள் 50 சதவீத மானியத்தில் வழங்கப்படுகின்றன.',
           category: 'Agriculture',
           url: 'https://agritech.tnau.ac.in/vanur-seeds-distribution-2026',
           canonicalUrl: 'https://agritech.tnau.ac.in/vanur-seeds-distribution-2026',
@@ -63,7 +63,7 @@ export class VillageNewsAdapter extends BaseAdapter {
         }),
         this.normalizeNews({
           headline: 'கலைஞர் மகளிர் உரிமைத் திட்டம்: வானூர் வட்டத்தில் விடுபட்ட பயனாளிகளுக்கான சிறப்பு பதிவு முகாம்',
-          shortDescription: 'மகளிர் சுயஉதவிக் குழுக்கள் மற்றும் தகுதியுடைய குடும்பத் தலைவிகளுக்கான மாதம் ரூ.1000 வழங்கும் கலைஞர் மகளிர் உரிமைத் திட்ட சிறப்பு பதிவு முகாம் நேசல் கிராம சேவை மையத்தில் தொடங்கப்பட்டுள்ளது.',
+          shortDescription: 'மகளிர் சுயஉதவிக் குழுக்கள் மற்றும் தகுதியுடைய குடும்பத் தலைவிகளுக்கான மாதம் ரூ.1000 வழங்கும் கலைஞர் மகளிர் உரிமைத் திட்ட சிறப்பு பதிவு முகாம் நெசல் கிராம சேவை மையத்தில் தொடங்கப்பட்டுள்ளது.',
           category: 'Government Schemes',
           url: 'https://tn.gov.in/schemes/magalir-urimai-vanur-2026',
           canonicalUrl: 'https://tn.gov.in/schemes/magalir-urimai-vanur-2026',

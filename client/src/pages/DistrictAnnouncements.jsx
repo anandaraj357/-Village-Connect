@@ -47,17 +47,17 @@ export const DistrictAnnouncements = () => {
               <span className="text-slate-300">•</span>
               <span className="inline-flex items-center text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
                 <MapPin className="w-3 h-3 mr-1 text-emerald-600" />
-                நேசல் கிராமம், வானூர் வட்டம் (604102)
+                நெசல் கிராமம், வானூர் வட்டம் (604102)
               </span>
             </div>
             <h1 className="text-3xl font-black text-slate-900 mt-1">
               {language === 'ta'
-                ? 'நேசல் கிராம ஊராட்சி & வானூர் வட்டார அறிவிப்புகள்'
+                ? 'நெசல் கிராம ஊராட்சி & வானூர் வட்டார அறிவிப்புகள்'
                 : 'Nesal Panchayat & Vanur Taluk Announcements'}
             </h1>
             <p className="text-slate-600 text-xs sm:text-sm mt-1">
               {language === 'ta'
-                ? 'நேசல் கிராம ஊராட்சி மன்றம், வானூர் வட்டாட்சியர் அலுவலகம் மற்றும் விழுப்புரம் மாவட்ட ஆட்சியரக சுற்றறிக்கைகள்.'
+                ? 'நெசல் கிராம ஊராட்சி மன்றம், வானூர் வட்டாட்சியர் அலுவலகம் மற்றும் விழுப்புரம் மாவட்ட ஆட்சியரக சுற்றறிக்கைகள்.'
                 : 'Official press releases, Grama Sabha notices, water schedule, and civic circulars for Nesal Village.'}
             </p>
           </div>
@@ -69,7 +69,7 @@ export const DistrictAnnouncements = () => {
               className="bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200 font-bold px-3 py-2 rounded-xl text-xs transition flex items-center space-x-1.5"
             >
               {isLocating ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Navigation className="w-3.5 h-3.5" />}
-              <span>நேசல் ஜிபிஎஸ்</span>
+              <span>நெசல் ஜிபிஎஸ்</span>
             </button>
             <button
               onClick={openLocationModal}
@@ -90,7 +90,7 @@ export const DistrictAnnouncements = () => {
         <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
           <Megaphone className="w-10 h-10 text-slate-300 mx-auto" />
           <h3 className="text-base font-bold text-slate-800">
-            {language === 'ta' ? 'நேசல் கிராம அறிவிப்புகள் எதுவும் இல்லை' : 'No active announcements for Nesal'}
+            {language === 'ta' ? 'நெசல் கிராம அறிவிப்புகள் எதுவும் இல்லை' : 'No active announcements for Nesal'}
           </h3>
         </div>
       ) : (
@@ -124,7 +124,7 @@ export const DistrictAnnouncements = () => {
                 <div className="flex items-center space-x-4 text-xs text-slate-500 pt-2">
                   <span className="flex items-center">
                     <MapPin className="w-3.5 h-3.5 mr-1 text-slate-400" />
-                    நேசல் கிராமம் • வானூர் வட்டம், விழுப்புரம் (604102)
+                    நெசல் கிராமம் • வானூர் வட்டம், விழுப்புரம் (604102)
                   </span>
                   <span className="flex items-center">
                     <Calendar className="w-3.5 h-3.5 mr-1 text-slate-400" />

@@ -70,14 +70,14 @@ export const LocationPickerModal = () => {
             <div className="space-y-1">
               <div className="inline-flex items-center space-x-1.5 bg-white/20 text-emerald-100 text-xs font-semibold px-2.5 py-0.5 rounded-full">
                 <MapPin className="w-3.5 h-3.5" />
-                <span>நேசல் கிராமம் • வானூர் வட்டம் (604102)</span>
+                <span>நெசல் கிராமம் • வானூர் வட்டம் (604102)</span>
               </div>
               <h2 className="text-lg sm:text-2xl font-black">
-                {language === 'ta' ? 'நேசல் கிராம வார்டுகள் & பகுதிகள்' : 'Nesal Village Wards & Sectors'}
+                {language === 'ta' ? 'நெசல் கிராம வார்டுகள் & பகுதிகள்' : 'Nesal Village Wards & Sectors'}
               </h2>
               <p className="text-emerald-100 text-xs sm:text-sm">
                 {language === 'ta'
-                  ? 'நேசல் கிராம நத்தம், காலனி, ஏரிக்கரை மற்றும் வானூர் சாலை வார்டுகளுக்கான பிரத்யேகத் தகவல்கள்.'
+                  ? 'நெசல் கிராம நத்தம், காலனி, ஏரிக்கரை மற்றும் வானூர் சாலை வார்டுகளுக்கான பிரத்யேகத் தகவல்கள்.'
                   : 'Hyper-localized wards, streets, and amenities dedicated exclusively to Nesal Village.'}
               </p>
             </div>
@@ -105,7 +105,7 @@ export const LocationPickerModal = () => {
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center space-x-1.5">
                 <Navigation className="w-3.5 h-3.5 text-emerald-600" />
-                <span>{language === 'ta' ? 'நேசல் ஜி.பி.எஸ் செயற்கைக்கோள் சரிபார்ப்பு' : 'Nesal GPS Geolocation Lock'}</span>
+                <span>{language === 'ta' ? 'நெசல் ஜி.பி.எஸ் செயற்கைக்கோள் சரிபார்ப்பு' : 'Nesal GPS Geolocation Lock'}</span>
               </span>
               <span className="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
                 12.0125° N, 79.7214° E
@@ -114,7 +114,7 @@ export const LocationPickerModal = () => {
 
             <p className="text-xs text-slate-600 leading-relaxed">
               {language === 'ta'
-                ? 'உங்கள் மொபைல் ஜிபிஎஸ் மூலம் நீங்கள் நேசல் கிராம எல்லைக்குள் உள்ள தூரத்தை உடனடியாகச் சரிபார்க்கவும்.'
+                ? 'உங்கள் மொபைல் ஜிபிஎஸ் மூலம் நீங்கள் நெசல் கிராம எல்லைக்குள் உள்ள தூரத்தை உடனடியாகச் சரிபார்க்கவும்.'
                 : 'Locks coordinates to Nesal Village Center (Lat 12.0125° N, Lng 79.7214° E) and measures proximity.'}
             </p>
 
@@ -131,7 +131,7 @@ export const LocationPickerModal = () => {
               ) : (
                 <>
                   <Navigation className="w-4 h-4" />
-                  <span>{language === 'ta' ? 'நேசல் ஜி.பி.எஸ்-ஐ உறுதிசெய்' : 'Verify Device GPS with Nesal Village'}</span>
+                  <span>{language === 'ta' ? 'நெசல் ஜி.பி.எஸ்-ஐ உறுதிசெய்' : 'Verify Device GPS with Nesal Village'}</span>
                 </>
               )}
             </button>
@@ -141,8 +141,8 @@ export const LocationPickerModal = () => {
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                 <span>
                   {location.distanceToNesalKm <= 3
-                    ? 'நீங்கள் நேசல் கிராம எல்லைக்குள் உள்ளீர்கள் (நேரடி ஜிபிஎஸ்).'
-                    : `நேசல் கிராம மையத்திலிருந்து உங்கள் தூரம்: ${location.distanceToNesalKm} கி.மீ.`}
+                    ? 'நீங்கள் நெசல் கிராம எல்லைக்குள் உள்ளீர்கள் (நேரடி ஜிபிஎஸ்).'
+                    : `நெசல் கிராம மையத்திலிருந்து உங்கள் தூரம்: ${location.distanceToNesalKm} கி.மீ.`}
                 </span>
               </div>
             )}
@@ -152,7 +152,7 @@ export const LocationPickerModal = () => {
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                {language === 'ta' ? 'நேசல் கிராம வார்டுகள் (தேர்வு செய்க)' : 'Select Nesal Village Ward'}
+                {language === 'ta' ? 'நெசல் கிராம வார்டுகள் (தேர்வு செய்க)' : 'Select Nesal Village Ward'}
               </span>
               <span className="text-[11px] text-emerald-700 font-semibold">
                 அஞ்சல் குறியீடு: 604102
@@ -199,7 +199,7 @@ export const LocationPickerModal = () => {
           {/* Civic Facilities at a Glance */}
           <div className="space-y-2 pt-3 border-t border-slate-100">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              {language === 'ta' ? 'நேசல் கிராம முக்கிய வசதிகள்' : 'Nesal Civic Amenities'}
+              {language === 'ta' ? 'நெசல் கிராம முக்கிய வசதிகள்' : 'Nesal Civic Amenities'}
             </span>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center space-x-2">
@@ -227,7 +227,7 @@ export const LocationPickerModal = () => {
           <div className="flex items-center space-x-2 text-xs text-slate-600">
             <MapPin className="w-3.5 h-3.5 text-emerald-600" />
             <span className="font-bold text-slate-800">
-              {location.wardName || 'நேசல் கிராமம் முழுமையும்'}
+              {location.wardName || 'நெசல் கிராமம் முழுமையும்'}
             </span>
           </div>
 

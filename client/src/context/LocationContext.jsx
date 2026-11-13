@@ -13,7 +13,7 @@ export const NESAL_WARDS = [
   {
     id: 'all',
     wardNumber: 0,
-    name: 'நேசல் கிராமம் முழுமையும்',
+    name: 'நெசல் கிராமம் முழுமையும்',
     nameEn: 'All Nesal Wards & Ayacut',
     desc: 'அனைத்து வார்டுகள், குடியிருப்புப் பகுதிகள் மற்றும் பாசன நிலங்கள்',
     color: 'emerald'
@@ -21,7 +21,7 @@ export const NESAL_WARDS = [
   {
     id: 'ward-1',
     wardNumber: 1,
-    name: 'நேசல் கிராம நத்தம் & பிள்ளையார் கோவில் தெரு',
+    name: 'நெசல் கிராம நத்தம் & பிள்ளையார் கோவில் தெரு',
     nameEn: 'Nesal Grama Natham & Pillayar Kovil St',
     desc: 'பஞ்சாயத்து மன்ற அலுவலகம், பிள்ளையார் கோவில், கிராம நூலகம் & பிரதான தெரு',
     color: 'emerald'
@@ -29,7 +29,7 @@ export const NESAL_WARDS = [
   {
     id: 'ward-2',
     wardNumber: 2,
-    name: 'நேசல் காலனி & மேட்டுத் தெரு',
+    name: 'நெசல் காலனி & மேட்டுத் தெரு',
     nameEn: 'Nesal Colony & Mettu St',
     desc: 'மேல்நிலை நீர்த்தேக்கத் தொட்டி (OHT), சமுதாயக் கூடம், விளையாட்டு திடல்',
     color: 'teal'
@@ -37,15 +37,15 @@ export const NESAL_WARDS = [
   {
     id: 'ward-3',
     wardNumber: 3,
-    name: 'நேசல் ஏரிக்கரை, அணைக்கட்டு & நன்செய் பாசனம்',
+    name: 'நெசல் ஏரிக்கரை, அணைக்கட்டு & நன்செய் பாசனம்',
     nameEn: 'Nesal Erikarai & Ayacut Agriculture',
-    desc: 'நேசல் பெரிய ஏரி, பாசனக் கால்வாய் மதகுகள், நெல்-உளுந்து விளைநிலங்கள்',
+    desc: 'நெசல் பெரிய ஏரி, பாசனக் கால்வாய் மதகுகள், நெல்-உளுந்து விளைநிலங்கள்',
     color: 'cyan'
   },
   {
     id: 'ward-4',
     wardNumber: 4,
-    name: 'நேசல் - வானூர் பிரதான சாலை & பள்ளி வளாகம்',
+    name: 'நெசல் - வானூர் பிரதான சாலை & பள்ளி வளாகம்',
     nameEn: 'Nesal - Vanur Main Road & School',
     desc: 'அரசு தொடக்கப் பள்ளி, அங்கன்வாடி, நியாயவிலைக் கடை (PDS Ration) & பேருந்து நிறுத்தம்',
     color: 'sky'
@@ -65,7 +65,7 @@ export const NESAL_EMERGENCY_CONTACTS = [
   { name: 'வானூர் தீயணைப்பு & மீட்புப்பணி (Fire)', phone: '0413-2677101', shortCode: '101', category: 'Fire', timing: '24 மணி நேரமும்' },
   { name: 'வானூர் அரசு மருத்துவமனை & ஆம்புலன்ஸ்', phone: '0413-2677222', shortCode: '108', category: 'Hospital', timing: '24 மணி நேர அவசர சிகிச்சை' },
   { name: 'விழுப்புரம் ஆட்சியரகம் குறைதீர்ப்பு மையம்', phone: '04146-222135', shortCode: '1077', category: 'Collectorate', timing: 'திங்கள்-வெள்ளி 10:00 - 17:45' },
-  { name: 'நேசல் VAO (கிராம நிர்வாக அலுவலர்)', phone: '04146-240102', shortCode: '1100', category: 'VAO', timing: 'திங்கள்-வெள்ளி (வருவாய்த்துறை)' },
+  { name: 'நெசல் VAO (கிராம நிர்வாக அலுவலர்)', phone: '04146-240102', shortCode: '1100', category: 'VAO', timing: 'திங்கள்-வெள்ளி (வருவாய்த்துறை)' },
   { name: 'வானூர் மின்சார வாரியம் (TNEB EB)', phone: '94987 94987', shortCode: '1912', category: 'Electricity', timing: 'மின் தடை & பழுது நீக்கம்' },
   { name: 'வானூர் ஊராட்சி ஒன்றிய அலுவலகம் (BDO)', phone: '0413-2677255', shortCode: null, category: 'BDO', timing: 'வட்டார வளர்ச்சி திட்டங்கள்' },
   { name: 'பெண்கள் அவசர உதவி மையம் (Women Helpline)', phone: '181', shortCode: '181', category: 'Women', timing: '24 மணி நேர இலவச உதவி' }
@@ -80,7 +80,7 @@ const DEFAULT_LOCATION = {
   lat: NESAL_COORDINATES.lat,
   lng: NESAL_COORDINATES.lng,
   wardId: 'all',
-  wardName: 'நேசல் கிராமம் முழுமையும்',
+  wardName: 'நெசல் கிராமம் முழுமையும்',
   distanceToNesalKm: 0,
   isGps: false
 };
@@ -152,16 +152,16 @@ export const LocationProvider = ({ children }) => {
           distanceToNesalKm: distKm,
           isGps: true,
           wardId: selectedWard,
-          wardName: NESAL_WARDS.find((w) => w.id === selectedWard)?.name || 'நேசல் கிராமம் முழுமையும்'
+          wardName: NESAL_WARDS.find((w) => w.id === selectedWard)?.name || 'நெசல் கிராமம் முழுமையும்'
         };
 
         setLocationState(newLoc);
         setIsLocating(false);
 
         if (distKm <= 5) {
-          setExtractionMessage(`ஜி.பி.எஸ் உறுதிசெய்யப்பட்டது: நீங்கள் நேசல் கிராம எல்லையில் உள்ளீர்கள் (${distKm} கி.மீ). செய்திகள் புதுப்பிக்கப்படுகின்றன...`);
+          setExtractionMessage(`ஜி.பி.எஸ் உறுதிசெய்யப்பட்டது: நீங்கள் நெசல் கிராம எல்லையில் உள்ளீர்கள் (${distKm} கி.மீ). செய்திகள் புதுப்பிக்கப்படுகின்றன...`);
         } else {
-          setExtractionMessage(`ஜி.பி.எஸ் பதிவாகியுள்ளது. நேசல் கிராம மையத்திலிருந்து தூரம்: ${distKm} கி.மீ. நேசல் செய்திகள் புதுப்பிக்கப்படுகின்றன...`);
+          setExtractionMessage(`ஜி.பி.எஸ் பதிவாகியுள்ளது. நெசல் கிராம மையத்திலிருந்து தூரம்: ${distKm} கி.மீ. நெசல் செய்திகள் புதுப்பிக்கப்படுகின்றன...`);
         }
 
         await extractNewsForLocation(newLoc);
@@ -169,7 +169,7 @@ export const LocationProvider = ({ children }) => {
       (error) => {
         console.warn('Geolocation error:', error.message);
         setIsLocating(false);
-        setExtractionMessage(`நேசல் கிராம மையம்: 12.0125° N, 79.7214° E நிலைநிறுத்தப்பட்டுள்ளது.`);
+        setExtractionMessage(`நெசல் கிராம மையம்: 12.0125° N, 79.7214° E நிலைநிறுத்தப்பட்டுள்ளது.`);
         setTimeout(() => setExtractionMessage(null), 4000);
       },
       {
@@ -209,7 +209,7 @@ export const LocationProvider = ({ children }) => {
   const extractNewsForLocation = async (loc = location) => {
     try {
       setIsExtracting(true);
-      setExtractionMessage(`நேசல் கிராமம், வானூர் & விழுப்புரம் செய்திகள் AI மூலம் திரட்டப்படுகின்றன...`);
+      setExtractionMessage(`நெசல் கிராமம், வானூர் & விழுப்புரம் செய்திகள் AI மூலம் திரட்டப்படுகின்றன...`);
 
       const res = await axios.post('/api/public/news/extract-by-location', {
         state: 'Tamil Nadu',
@@ -223,13 +223,13 @@ export const LocationProvider = ({ children }) => {
       if (res.data.success) {
         setLastExtractedCount(res.data.newCount || 0);
         setExtractionMessage(
-          `நேசல் கிராமம் & வானூர் பகுதிக்கான ${res.data.totalCount || 0} செய்திகள் சரிபார்க்கப்பட்டு தயார்.`
+          `நெசல் கிராமம் & வானூர் பகுதிக்கான ${res.data.totalCount || 0} செய்திகள் சரிபார்க்கப்பட்டு தயார்.`
         );
         setRefreshTrigger((prev) => prev + 1);
       }
     } catch (err) {
       console.warn('Notice extracting news for Nesal:', err);
-      setExtractionMessage('நேசல் கிராமம் & வானூர் வட்டார தகவல்கள் நேரலையில் இணைக்கப்பட்டுள்ளன.');
+      setExtractionMessage('நெசல் கிராமம் & வானூர் வட்டார தகவல்கள் நேரலையில் இணைக்கப்பட்டுள்ளன.');
       setRefreshTrigger((prev) => prev + 1);
     } finally {
       setIsExtracting(false);

@@ -124,19 +124,19 @@ export async function extractNewsForLocation({
       console.log(`[NesalCrawler] Seeding hyper-local verified civic bulletins for Nesal Village & Vanur Taluk.`);
       candidateItems.push(
         {
-          headline: `நேசல் கிராம ஊராட்சி மன்ற அவசர அறிவிப்பு: கிராம சபை கூட்டம் மற்றும் வரவு செலவு அறிக்கை தாக்கல்`,
-          shortDescription: `வானூர் வட்டம் நேசல் கிராம ஊராட்சி அலுவலக வளாகத்தில் நடைபெற உள்ள கிராம சபை கூட்டத்தில் குடிநீர் விநியோகம், 100 நாள் வேலைத் திட்டம் மற்றும் வரவு செலவு கணக்குகள் பொதுமக்கள் முன்னிலையில் வாசிக்கப்பட உள்ளது.`,
+          headline: `நெசல் கிராம ஊராட்சி மன்ற அவசர அறிவிப்பு: கிராம சபை கூட்டம் மற்றும் வரவு செலவு அறிக்கை தாக்கல்`,
+          shortDescription: `வானூர் வட்டம் நெசல் கிராம ஊராட்சி அலுவலக வளாகத்தில் நடைபெற உள்ள கிராம சபை கூட்டத்தில் குடிநீர் விநியோகம், 100 நாள் வேலைத் திட்டம் மற்றும் வரவு செலவு கணக்குகள் பொதுமக்கள் முன்னிலையில் வாசிக்கப்பட உள்ளது.`,
           rawContent: `Nesal Village Panchayat President and Secretary announced the upcoming Grama Sabha meeting at the Nesal Panchayat Building to review drinking water pipelines, MGNREGS 100-day employment wage lists, and civic development projects.`,
           url: `https://villupuram.nic.in/nesal-grama-sabha-${Date.now()}`,
           canonicalUrl: `https://villupuram.nic.in/nesal-grama-sabha`,
           thumbnailUrl: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=600&q=80',
-          sourceWebsite: `நேசல் கிராம ஊராட்சி மன்றம் (Nesal Village Panchayat)`,
+          sourceWebsite: `நெசல் கிராம ஊராட்சி மன்றம் (Nesal Village Panchayat)`,
           publishedDate: new Date(),
           category: 'Village News'
         },
         {
-          headline: `வானூர் வட்டார வேளாண்மை விரிவாக்க மையம்: நேசல் உழவர்களுக்கு மானிய உரம் மற்றும் நுணூட்டச் சத்து விநியோகம்`,
-          shortDescription: `நேசல் கிராம விவசாயிகள் நடவுப் பருவத்திற்குத் தேவையான யூரியா, டி.ஏ.பி மற்றும் உயிர் உரங்களை வானூர் வேளாண் அலுவலகத்தில் 50 சதவீத அரசு மானியத்தில் பெற்றுக்கொள்ளலாம்.`,
+          headline: `வானூர் வட்டார வேளாண்மை விரிவாக்க மையம்: நெசல் உழவர்களுக்கு மானிய உரம் மற்றும் நுணூட்டச் சத்து விநியோகம்`,
+          shortDescription: `நெசல் கிராம விவசாயிகள் நடவுப் பருவத்திற்குத் தேவையான யூரியா, டி.ஏ.பி மற்றும் உயிர் உரங்களை வானூர் வேளாண் அலுவலகத்தில் 50 சதவீத அரசு மானியத்தில் பெற்றுக்கொள்ளலாம்.`,
           rawContent: `Vanur Block Agriculture Extension Center announced subsidized distribution of bio-fertilizers, micronutrient mixtures, and certified seeds specifically for Nesal village ayacut farmers.`,
           url: `https://agritech.tnau.ac.in/vanur-nesal-fertilizer-${Date.now()}`,
           canonicalUrl: `https://agritech.tnau.ac.in/vanur-nesal-fertilizer`,
@@ -146,8 +146,8 @@ export async function extractNewsForLocation({
           category: 'Agriculture'
         },
         {
-          headline: `நேசல் நியாயவிலைக் கடை (PDS Ration Shop) மாதாந்திர அத்தியாவசியப் பொருட்கள் விநியோக அட்டவணை`,
-          shortDescription: `நேசல் ரேஷன் கடையில் பொதுமக்களுக்கு விலையில்லா அரிசி, துவரம்பருப்பு, சர்க்கரை மற்றும் பாமாயில் பயோமெட்ரிக் கைரேகை பதிவு மூலம் தடையின்றி விநியோகிக்கப்பட்டு வருகிறது.`,
+          headline: `நெசல் நியாயவிலைக் கடை (PDS Ration Shop) மாதாந்திர அத்தியாவசியப் பொருட்கள் விநியோக அட்டவணை`,
+          shortDescription: `நெசல் ரேஷன் கடையில் பொதுமக்களுக்கு விலையில்லா அரிசி, துவரம்பருப்பு, சர்க்கரை மற்றும் பாமாயில் பயோமெட்ரிக் கைரேகை பதிவு மூலம் தடையின்றி விநியோகிக்கப்பட்டு வருகிறது.`,
           rawContent: `Civil Supplies and Consumer Protection Department notice for Nesal PDS Fair Price Shop regarding smooth distribution of monthly ration provisions via Aadhaar biometric authentication.`,
           url: `https://villupuram.nic.in/nesal-pds-schedule-${Date.now()}`,
           canonicalUrl: `https://villupuram.nic.in/nesal-pds-schedule`,

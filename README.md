@@ -1,6 +1,6 @@
 # OUR VILLAGE (நமது கிராமம்) - Automated Web Crawling and AI-Powered Information Aggregation System
 
-A scalable, multi-tier MERN stack and AI-powered information aggregation system customized for **Nesal Village, Vanur Taluk, Villupuram District, Tamil Nadu (நேசல் கிராமம், வானூர் வட்டம், விழுப்புரம் மாவட்டம், தமிழ்நாடு)**.
+A scalable, multi-tier MERN stack and AI-powered information aggregation system customized for **Nesal Village, Vanur Taluk, Villupuram District, Tamil Nadu (நெசல் கிராமம், வானூர் வட்டம், விழுப்புரம் மாவட்டம், தமிழ்நாடு)**.
 
 The system automatically crawls, extracts, cleans, verifies, summarizes, translates into **Tamil (தமிழ்)**, and organizes job vacancies, government recruitment notifications (TNPSC / SSC), district announcements, and daily agricultural and civic news highlights from authorized external portals.
 
@@ -8,7 +8,7 @@ The system automatically crawls, extracts, cleans, verifies, summarizes, transla
 
 ## 📍 Geographic & Administrative Configuration
 
-- **Village**: Nesal (நேசல்)
+- **Village**: Nesal (நெசல்)
 - **Taluk / Block**: Vanur (வானூர்)
 - **District**: Villupuram (விழுப்புரம்)
 - **State**: Tamil Nadu (தமிழ்நாடு)

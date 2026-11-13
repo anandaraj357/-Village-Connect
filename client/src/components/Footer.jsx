@@ -42,7 +42,7 @@ export const Footer = () => {
           <div>
             <h5 className="text-white font-semibold text-xs uppercase tracking-wider mb-3">Village Administration Hub</h5>
             <p className="text-xs text-slate-400">
-              நேசல் கிராம பஞ்சாயத்து (Nesal Gram Panchayat), வானூர் வட்டம் (Vanur Taluk), விழுப்புரம் மாவட்டம் (Villupuram District), தமிழ்நாடு - 604102.
+              நெசல் கிராம பஞ்சாயத்து (Nesal Gram Panchayat), வானூர் வட்டம் (Vanur Taluk), விழுப்புரம் மாவட்டம் (Villupuram District), தமிழ்நாடு - 604102.
             </p>
             <div className="mt-3 text-xs text-emerald-400 font-medium">
               Data strictly verified through administrator approvals before public display.

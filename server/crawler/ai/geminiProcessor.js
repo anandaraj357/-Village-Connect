@@ -168,7 +168,7 @@ function generateTamilFallback(title, category) {
     'Education': 'கல்வி மற்றும் தொழிற்பயிற்சி அறிவிப்பு',
     'Government Schemes': 'தமிழ்நாடு அரசு நலத்திட்டம்',
     'District News': 'விழுப்புரம் மாவட்ட முக்கிய செய்தி',
-    'Village News': 'நேசல் கிராம & வானூர் வட்டார தகவல்',
+    'Village News': 'நெசல் கிராம & வானூர் வட்டார தகவல்',
     'Tamil Nadu News': 'தமிழ்நாடு மாநில முக்கியச் செய்திகள்',
     'Important Announcements': 'முக்கிய அதிகாரப்பூர்வ அறிவிப்பு',
     'Government': 'அரசு வேலைவாய்ப்பு மற்றும் பணி நியமனம்',
@@ -177,7 +177,7 @@ function generateTamilFallback(title, category) {
   };
 
   const catTamil = categoryTamilMap[category] || 'அதிகாரப்பூர்வ தகவல்';
-  return `${catTamil}: ${title}. தகுதியுடைய நேசல் மற்றும் வானூர் பகுதி பொதுமக்கள் அதிகாரப்பூர்வ இணையதளம் மூலம் முழு விவரங்களை அறியலாம்.`;
+  return `${catTamil}: ${title}. தகுதியுடைய நெசல் மற்றும் வானூர் பகுதி பொதுமக்கள் அதிகாரப்பூர்வ இணையதளம் மூலம் முழு விவரங்களை அறியலாம்.`;
 }
 
 function checkMissingFields(text, recordType) {

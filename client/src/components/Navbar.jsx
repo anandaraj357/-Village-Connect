@@ -36,7 +36,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
 
   const navLinks = [
     { id: 'home', label: language === 'ta' ? 'முகப்பு' : 'Home', icon: null },
-    { id: 'news', label: language === 'ta' ? 'நேசல் செய்திகள்' : 'Nesal News', icon: Newspaper },
+    { id: 'news', label: language === 'ta' ? 'நெசல் செய்திகள்' : 'Nesal News', icon: Newspaper },
     { id: 'announcements', label: language === 'ta' ? 'ஊராட்சி அறிவிப்புகள்' : 'Panchayat Notices', icon: Megaphone },
     { id: 'jobs', label: language === 'ta' ? 'வேலைவாய்ப்புகள்' : 'Job Vacancies', icon: Briefcase },
     { id: 'recruitments', label: language === 'ta' ? 'அரசு தேர்வுகள் (TNPSC)' : 'Govt Recruitments', icon: FileText },
@@ -49,18 +49,18 @@ export const Navbar = ({ currentView, setCurrentView }) => {
       <div className="bg-slate-900 text-slate-300 text-xs py-1.5 px-4 sm:px-8 flex flex-wrap justify-between items-center gap-2">
         <div className="flex items-center space-x-2">
           <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span className="font-semibold text-emerald-400 hidden sm:inline">நேசல் நேரலை</span>
+          <span className="font-semibold text-emerald-400 hidden sm:inline">நெசல் நேரலை</span>
           <span className="text-slate-600 hidden sm:inline">|</span>
           
           {/* Clickable Location Pill */}
           <button
             onClick={openLocationModal}
             className="flex items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-0.5 rounded-full border border-slate-700 hover:border-emerald-500 transition text-xs group"
-            title="நேசல் கிராம வார்டுகள் & பகுதிகள்"
+            title="நெசல் கிராம வார்டுகள் & பகுதிகள்"
           >
             <MapPin className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition" />
             <span className="font-bold text-white">
-              நேசல் கிராமம் (Nesal) • வானூர், விழுப்புரம்
+              நெசல் கிராமம் (Nesal) • வானூர், விழுப்புரம்
             </span>
             <span className="text-emerald-400 text-[11px] underline ml-1">
               {language === 'ta' ? 'வார்டுகள்' : 'Wards'}
@@ -72,7 +72,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
             onClick={requestGpsLocation}
             disabled={isLocating || isExtracting}
             className="flex items-center space-x-1 text-[11px] text-emerald-300 hover:text-emerald-200 bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-700/60 px-2 py-0.5 rounded transition"
-            title="நேசல் கிராம மையத்துடன் ஜிபிஎஸ் தூரத்தை சரிபார்க்கவும்"
+            title="நெசல் கிராம மையத்துடன் ஜிபிஎஸ் தூரத்தை சரிபார்க்கவும்"
           >
             {isLocating ? (
               <RefreshCw className="w-3 h-3 animate-spin text-emerald-400" />
@@ -80,7 +80,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
               <Navigation className="w-3 h-3 text-emerald-400" />
             )}
             <span className="hidden sm:inline">
-              {isLocating ? 'சரிபார்க்கிறது...' : 'நேசல் ஜி.பி.எஸ்'}
+              {isLocating ? 'சரிபார்க்கிறது...' : 'நெசல் ஜி.பி.எஸ்'}
             </span>
           </button>
         </div>
@@ -131,7 +131,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
               <div className="font-extrabold text-slate-900 text-lg tracking-tight flex items-center space-x-1.5">
                 <span>OUR VILLAGE - NESAL</span>
                 <span className="text-xs bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full">
-                  நேசல் கிராமம்
+                  நெசல் கிராமம்
                 </span>
               </div>
               <div className="text-[11px] sm:text-xs text-slate-500 font-medium">
@@ -187,7 +187,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
                 <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-xl border border-slate-200 py-2 z-50">
                   <div className="flex justify-between items-center px-4 py-2 border-b border-slate-100">
                     <h4 className="font-bold text-slate-800 text-sm">
-                      {language === 'ta' ? 'நேசல் கிராம விழிப்பூட்டல்கள்' : 'Nesal Notifications & Alerts'}
+                      {language === 'ta' ? 'நெசல் கிராம விழிப்பூட்டல்கள்' : 'Nesal Notifications & Alerts'}
                     </h4>
                     <button
                       onClick={() => setShowNotifDropdown(false)}
@@ -263,7 +263,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
                     🌾
                   </div>
                   <div>
-                    <h3 className="font-extrabold text-slate-900 text-sm">நமது நேசல் கிராமம்</h3>
+                    <h3 className="font-extrabold text-slate-900 text-sm">நமது நெசல் கிராமம்</h3>
                     <p className="text-[10px] text-emerald-700 font-semibold">வானூர், விழுப்புரம் (604102)</p>
                   </div>
                 </div>
@@ -280,7 +280,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-bold text-emerald-950 flex items-center space-x-1">
                     <MapPin className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>நேசல் கிராமம்</span>
+                    <span>நெசல் கிராமம்</span>
                   </span>
                   <span className="bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">
                     604102

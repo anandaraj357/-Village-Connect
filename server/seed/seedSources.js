@@ -276,11 +276,11 @@ export async function seedDatabase(forceClean = false) {
     if (newsCount === 0 || forceClean) {
       await NewsArticle.create([
         {
-          headline: 'நேசல் கிராம பஞ்சாயத்தில் தார்ச்சாலை மற்றும் சோலார் தெருவிளக்குகள் அமைக்கும் பணி நிறைவு',
-          shortDescription: 'வானூர் வட்டம் நேசல் கிராமத்தில் வேளாண் விளைபொருட்களை ஏற்றிச்செல்லும் சாலைகள் சீரமைக்கப்பட்டு 45 புதிய சோலார் விளக்குகள் நிறுவப்பட்டுள்ளன.',
+          headline: 'நெசல் கிராம பஞ்சாயத்தில் தார்ச்சாலை மற்றும் சோலார் தெருவிளக்குகள் அமைக்கும் பணி நிறைவு',
+          shortDescription: 'வானூர் வட்டம் நெசல் கிராமத்தில் வேளாண் விளைபொருட்களை ஏற்றிச்செல்லும் சாலைகள் சீரமைக்கப்பட்டு 45 புதிய சோலார் விளக்குகள் நிறுவப்பட்டுள்ளன.',
           summaryEnglish: 'The Nesal Village Panchayat in Vanur Taluk has successfully completed the paving of key agricultural haul roads and installed 45 energy-efficient solar street lamps, enhancing village mobility and night safety for farmers and school students.',
-          summaryTamil: 'வானூர் வட்டம் நேசல் கிராமத்தில் முக்கிய வேளாண் இணைப்புச் சாலைகள் தார்ச்சாலையாக தரம் உயர்த்தப்பட்டு, 45 உயர்தர சோலார் தெருவிளக்குகள் அமைக்கும் பணிகள் முழுமையாக நிறைவடைந்துள்ளன. இதனால் விவசாயிகள் மற்றும் பள்ளி மாணவ, மாணவியர் பெரிதும் பயனடைவர்.',
-          summaryTelugu: 'வானூர் வட்டம் நேசல் கிராமத்தில் முக்கிய வேளாண் சாலைகள் தார்ச்சாலையாக அமைக்கப்பட்டுள்ளன.',
+          summaryTamil: 'வானூர் வட்டம் நெசல் கிராமத்தில் முக்கிய வேளாண் இணைப்புச் சாலைகள் தார்ச்சாலையாக தரம் உயர்த்தப்பட்டு, 45 உயர்தர சோலார் தெருவிளக்குகள் அமைக்கும் பணிகள் முழுமையாக நிறைவடைந்துள்ளன. இதனால் விவசாயிகள் மற்றும் பள்ளி மாணவ, மாணவியர் பெரிதும் பயனடைவர்.',
+          summaryTelugu: 'வானூர் வட்டம் நெசல் கிராமத்தில் முக்கிய வேளாண் சாலைகள் தார்ச்சாலையாக அமைக்கப்பட்டுள்ளன.',
           category: 'Village News',
           sourceWebsite: 'Nesal Village & Vanur Agriculture Extension Bulletin',
           originalArticleUrl: 'https://villupuram.nic.in/nesal-panchayat-roads-2026',
@@ -319,9 +319,9 @@ export async function seedDatabase(forceClean = false) {
         },
         {
           headline: 'வானூர் வட்டாரத்தில் உளுந்து மற்றும் நெல் சாகுபடிக்கு 50% மானியத்தில் சான்று விதைகள் விநியோகம்',
-          shortDescription: 'நேசல் கிராம விவசாயிகளுக்கு உழவர் உற்பத்தியாளர் சங்கம் மற்றும் வேளாண் விரிவாக்க மையம் மூலம் 50 சதவீத அரசு மானியத்தில் தரமான விதைகள் வழங்கப்படுகின்றன.',
+          shortDescription: 'நெசல் கிராம விவசாயிகளுக்கு உழவர் உற்பத்தியாளர் சங்கம் மற்றும் வேளாண் விரிவாக்க மையம் மூலம் 50 சதவீத அரசு மானியத்தில் தரமான விதைகள் வழங்கப்படுகின்றன.',
           summaryEnglish: 'Tamil Nadu Agriculture and Farmers Welfare Department is distributing certified high-yield paddy and blackgram seeds along with bio-fertilizers at a 50% subsidy to registered farmers in Nesal Village, Vanur block.',
-          summaryTamil: 'தமிழ்நாடு வேளாண்மை - உழவர் நலத்துறை சார்பில், வானூர் வட்டார வேளாண்மை விரிவாக்க மையம் மூலமாக நேசல் கிராம விவசாயிகளுக்கு 50% மானிய விலையில் சான்று பெற்ற உயர்ரக நெல் மற்றும் பயறு விதைகள் விநியோகம் செய்யப்படுகின்றன.',
+          summaryTamil: 'தமிழ்நாடு வேளாண்மை - உழவர் நலத்துறை சார்பில், வானூர் வட்டார வேளாண்மை விரிவாக்க மையம் மூலமாக நெசல் கிராம விவசாயிகளுக்கு 50% மானிய விலையில் சான்று பெற்ற உயர்ரக நெல் மற்றும் பயறு விதைகள் விநியோகம் செய்யப்படுகின்றன.',
           summaryTelugu: 'விவசாயிகளுக்கு 50 சதவீத மானியத்தில் சான்று விதைகள் விநியோகம்.',
           category: 'Agriculture',
           sourceWebsite: 'Nesal Village & Vanur Agriculture Extension Bulletin',
@@ -348,13 +348,13 @@ export async function seedDatabase(forceClean = false) {
       await InAppNotification.create([
         {
           title: 'புதிய தமிழ்நாடு அரசுப் பணி: TNPSC குரூப்-4 & கிராம நிர்வாக அலுவலர் (VAO) அறிவிப்பு',
-          body: '6,244 பணியிடங்களுக்கான TNPSC குரூப்-4 ஆன்லைன் விண்ணப்பப் பதிவு தொடங்கியது. நேசல் மற்றும் வானூர் பகுதி விண்ணப்பதாரர்கள் பயன்பெறலாம்.',
+          body: '6,244 பணியிடங்களுக்கான TNPSC குரூப்-4 ஆன்லைன் விண்ணப்பப் பதிவு தொடங்கியது. நெசல் மற்றும் வானூர் பகுதி விண்ணப்பதாரர்கள் பயன்பெறலாம்.',
           category: 'Government Jobs',
           type: 'recruitment',
           isImportant: true
         },
         {
-          title: 'வேளாண்மை விழிப்பூட்டல்: நேசல் கிராம விவசாயிகளுக்கு 50% மானியத்தில் சான்று விதைகள்',
+          title: 'வேளாண்மை விழிப்பூட்டல்: நெசல் கிராம விவசாயிகளுக்கு 50% மானியத்தில் சான்று விதைகள்',
           body: 'வானூர் வட்டார வேளாண்மை அலுவலகம் மூலம் 50% மானியத்தில் நெல் மற்றும் உளுந்து விதைகள் பெற விவசாயிகள் உடனடியாக அணுகவும்.',
           category: 'Agriculture',
           type: 'news',

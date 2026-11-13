@@ -70,18 +70,18 @@ export const NewsPortal = () => {
               <span className="text-slate-300">•</span>
               <span className="inline-flex items-center text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
                 <MapPin className="w-3 h-3 mr-1 text-emerald-600" />
-                நேசல் கிராமம் • வானூர் வட்டம் (604102)
+                நெசல் கிராமம் • வானூர் வட்டம் (604102)
               </span>
             </div>
 
             <h1 className="text-3xl font-black text-slate-900 mt-1">
               {language === 'ta'
-                ? 'நேசல் கிராமம் & வானூர் வட்டார செய்திகள்'
+                ? 'நெசல் கிராமம் & வானூர் வட்டார செய்திகள்'
                 : 'Nesal Village & Vanur Taluk News'}
             </h1>
             <p className="text-slate-600 text-xs sm:text-sm mt-1">
               {language === 'ta'
-                ? 'நேசல் கிராம ஊராட்சி, வானூர் வட்டார வளர்ச்சி மற்றும் விழுப்புரம் மாவட்ட நிர்வாகத்தின் உண்மை சரிபார்க்கப்பட்ட தமிழ் செய்திகள்.'
+                ? 'நெசல் கிராம ஊராட்சி, வானூர் வட்டார வளர்ச்சி மற்றும் விழுப்புரம் மாவட்ட நிர்வாகத்தின் உண்மை சரிபார்க்கப்பட்ட தமிழ் செய்திகள்.'
                 : 'AI-verified, hyper-local factual updates for Nesal Village and Vanur Taluk, Villupuram District.'}
             </p>
           </div>
@@ -107,11 +107,11 @@ export const NewsPortal = () => {
               <div className="text-xs font-bold text-slate-800 flex items-center space-x-1.5">
                 <span>{language === 'ta' ? 'தேர்ந்தெடுக்கப்பட்ட பகுதி:' : 'Active Sector:'}</span>
                 <span className="text-emerald-700 font-extrabold">
-                  {location.wardName || 'நேசல் கிராமம் முழுமையும்'}
+                  {location.wardName || 'நெசல் கிராமம் முழுமையும்'}
                 </span>
               </div>
               <div className="text-[11px] text-slate-500">
-                நேசல் கிராம எல்லை: 12.0125° N, 79.7214° E (வானூர் வட்டம், விழுப்புரம்)
+                நெசல் கிராம எல்லை: 12.0125° N, 79.7214° E (வானூர் வட்டம், விழுப்புரம்)
               </div>
             </div>
           </div>
@@ -121,7 +121,7 @@ export const NewsPortal = () => {
               onClick={requestGpsLocation}
               disabled={isLocating || isExtracting}
               className="bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-300 font-bold px-3 py-1.5 rounded-xl text-xs transition flex items-center space-x-1.5 shadow-sm"
-              title="நேசல் கிராம ஜிபிஎஸ் சரிபார்க்கவும்"
+              title="நெசல் கிராம ஜிபிஎஸ் சரிபார்க்கவும்"
             >
               {isLocating ? (
                 <RefreshCw className="w-3.5 h-3.5 animate-spin text-emerald-600" />
@@ -149,7 +149,7 @@ export const NewsPortal = () => {
               ) : (
                 <Sparkles className="w-3.5 h-3.5" />
               )}
-              <span>{isExtracting ? 'செய்திகள் பெறுகின்றன...' : (language === 'ta' ? 'நேசல் செய்திகளைப் புதுப்பிக்க' : 'Extract Latest News')}</span>
+              <span>{isExtracting ? 'செய்திகள் பெறுகின்றன...' : (language === 'ta' ? 'நெசல் செய்திகளைப் புதுப்பிக்க' : 'Extract Latest News')}</span>
             </button>
           </div>
         </div>
@@ -183,7 +183,7 @@ export const NewsPortal = () => {
       {/* News Grid */}
       {loading ? (
         <div className="py-20 text-center text-slate-400 text-sm">
-          நேசல் கிராம செய்திகள் ஏற்றப்படுகின்றன...
+          நெசல் கிராம செய்திகள் ஏற்றப்படுகின்றன...
         </div>
       ) : news.length === 0 ? (
         <div className="bg-white p-12 rounded-3xl border border-slate-200 text-center space-y-3">
@@ -232,7 +232,7 @@ export const NewsPortal = () => {
                   <div className="flex items-center space-x-2 text-xs text-slate-500 pt-1">
                     <MapPin className="w-3.5 h-3.5 text-emerald-600" />
                     <span>
-                      நேசல் கிராமம் • வானூர் வட்டம், விழுப்புரம்
+                      நெசல் கிராமம் • வானூர் வட்டம், விழுப்புரம்
                     </span>
                   </div>
                 </div>
@@ -246,7 +246,7 @@ export const NewsPortal = () => {
                   <div className="flex items-center space-x-2">
                     <a
                       href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-                        `🌾 *நமது நேசல் கிராமம் செய்தி*\n📰 *${item.headline}*\n📍 நேசல், வானூர், விழுப்புரம் (604102)\n\n${item.summaryTamil || item.summaryEnglish || item.shortDescription}\n\n🔗 ${item.originalArticleUrl}`
+                        `🌾 *நமது நெசல் கிராமம் செய்தி*\n📰 *${item.headline}*\n📍 நெசல், வானூர், விழுப்புரம் (604102)\n\n${item.summaryTamil || item.summaryEnglish || item.shortDescription}\n\n🔗 ${item.originalArticleUrl}`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

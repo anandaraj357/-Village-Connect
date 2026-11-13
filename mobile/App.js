@@ -24,7 +24,7 @@ const EMERGENCY_CONTACTS = [
   { name: 'காவல் (Police)', phone: '0413-2677333', shortCode: '100' },
   { name: 'தீயணைப்பு (Fire)', phone: '0413-2677101', shortCode: '101' },
   { name: 'மருத்துவமனை (GH)', phone: '0413-2677222', shortCode: '108' },
-  { name: 'நேசல் VAO', phone: '04146-240102', shortCode: '1100' },
+  { name: 'நெசல் VAO', phone: '04146-240102', shortCode: '1100' },
   { name: 'மின்சாரம் (TNEB)', phone: '9498794987', shortCode: '1912' },
   { name: 'ஆட்சியரகம்', phone: '04146-222135', shortCode: '1077' }
 ];
@@ -78,7 +78,7 @@ export default function App() {
       setIsLocating(true);
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        Alert.alert('அனுமதி தேவை', 'நேசல் கிராம ஜிபிஎஸ் சரிபார்க்க அனுமதி தேவை.');
+        Alert.alert('அனுமதி தேவை', 'நெசல் கிராம ஜிபிஎஸ் சரிபார்க்க அனுமதி தேவை.');
         setIsLocating(false);
         return;
       }
@@ -91,10 +91,10 @@ export default function App() {
       if (res.data.success) {
         const loc = res.data.location;
         const dist = loc.distanceToNesalKm || 0;
-        setGpsStatus(`${dist <= 4 ? 'நேசல் எல்லைக்குள்' : `நேசலிலிருந்து ${dist} கி.மீ`}`);
+        setGpsStatus(`${dist <= 4 ? 'நெசல் எல்லைக்குள்' : `நேசலிலிருந்து ${dist} கி.மீ`}`);
         Alert.alert(
-          '📍 நேசல் ஜி.பி.எஸ் சரிபார்க்கப்பட்டது',
-          `நேசல் கிராம மையம்: 12.0125° N, 79.7214° E\nஉங்கள் தூரம்: ${dist} கி.மீ\nவானூர் வட்டம், விழுப்புரம் மாவட்டம் (604102)`
+          '📍 நெசல் ஜி.பி.எஸ் சரிபார்க்கப்பட்டது',
+          `நெசல் கிராம மையம்: 12.0125° N, 79.7214° E\nஉங்கள் தூரம்: ${dist} கி.மீ\nவானூர் வட்டம், விழுப்புரம் மாவட்டம் (604102)`
         );
         fetchTabData();
       }
@@ -107,7 +107,7 @@ export default function App() {
 
   // WhatsApp Share helper
   const shareOnWhatsApp = (text, url) => {
-    const message = `🌾 *நமது நேசல் கிராமம் (NESAL VILLAGE)*\n📍 வானூர் வட்டம், விழுப்புரம் (604102)\n\n${text}\n\n🔗 ${url}`;
+    const message = `🌾 *நமது நெசல் கிராமம் (NESAL VILLAGE)*\n📍 வானூர் வட்டம், விழுப்புரம் (604102)\n\n${text}\n\n🔗 ${url}`;
     Linking.openURL(`whatsapp://send?text=${encodeURIComponent(message)}`).catch(() => {
       Alert.alert('Notice', 'WhatsApp is not installed on this device.');
     });
@@ -123,7 +123,7 @@ export default function App() {
           <View style={styles.logoRow}>
             <Text style={styles.logoIcon}>🌾</Text>
             <View>
-              <Text style={styles.logoTitle}>நமது நேசல் கிராமம்</Text>
+              <Text style={styles.logoTitle}>நமது நெசல் கிராமம்</Text>
               <Text style={styles.logoSubtitle}>வானூர் வட்டம் • விழுப்புரம் - 604102</Text>
             </View>
           </View>
@@ -175,7 +175,7 @@ export default function App() {
           <View style={styles.centerContainer}>
             <ActivityIndicator size="large" color="#059669" />
             <Text style={styles.loadingText}>
-              {language === 'ta' ? 'நேசல் தகவல்கள் ஏற்றப்படுகின்றன...' : 'Loading Nesal Village updates...'}
+              {language === 'ta' ? 'நெசல் தகவல்கள் ஏற்றப்படுகின்றன...' : 'Loading Nesal Village updates...'}
             </Text>
           </View>
         ) : (
@@ -185,10 +185,10 @@ export default function App() {
               <View>
                 {/* Hero Card */}
                 <View style={styles.heroCard}>
-                  <Text style={styles.heroBadge}>🌾 நேசல் கிராம டிஜிட்டல் தளம் (604102)</Text>
+                  <Text style={styles.heroBadge}>🌾 நெசல் கிராம டிஜிட்டல் தளம் (604102)</Text>
                   <Text style={styles.heroTitle}>
                     {language === 'ta'
-                      ? 'நமது நேசல் கிராமம்'
+                      ? 'நமது நெசல் கிராமம்'
                       : 'Our Nesal Village'}
                   </Text>
                   <Text style={styles.heroDesc}>
@@ -206,18 +206,18 @@ export default function App() {
                     <Text style={styles.civicValue}>காலை 6:30 & மாலை 5:30</Text>
                   </View>
                   <View style={styles.civicRow}>
-                    <Text style={styles.civicLabel}>• நேசல் ரேஷன் கடை:</Text>
+                    <Text style={styles.civicLabel}>• நெசல் ரேஷன் கடை:</Text>
                     <Text style={styles.civicValue}>காலை 9:00 - 1:00 & மாலை 3:00 - 6:00</Text>
                   </View>
                   <View style={styles.civicRow}>
                     <Text style={styles.civicLabel}>• 100 நாள் வேலைத் திட்டம்:</Text>
-                    <Text style={styles.civicValue}>நேசல் ஊராட்சி மன்ற அலுவலகம்</Text>
+                    <Text style={styles.civicValue}>நெசல் ஊராட்சி மன்ற அலுவலகம்</Text>
                   </View>
                 </View>
 
                 {/* Section Header: News */}
                 <Text style={styles.sectionTitle}>
-                  {language === 'ta' ? '📰 நேசல் கிராம & வானூர் செய்திகள்' : '📰 Nesal & Vanur News'}
+                  {language === 'ta' ? '📰 நெசல் கிராம & வானூர் செய்திகள்' : '📰 Nesal & Vanur News'}
                 </Text>
                 {news.slice(0, 3).map((item) => (
                   <View key={item._id} style={styles.card}>
@@ -276,7 +276,7 @@ export default function App() {
             {currentTab === 'news' && (
               <View>
                 <Text style={styles.sectionTitle}>
-                  {language === 'ta' ? 'நேசல் கிராம செய்திகள்' : 'Nesal Village News'}
+                  {language === 'ta' ? 'நெசல் கிராம செய்திகள்' : 'Nesal Village News'}
                 </Text>
                 {news.map((item) => (
                   <View key={item._id} style={styles.card}>
@@ -308,7 +308,7 @@ export default function App() {
             {currentTab === 'announcements' && (
               <View>
                 <Text style={styles.sectionTitle}>
-                  {language === 'ta' ? 'நேசல் ஊராட்சி சுற்றறிக்கைகள்' : 'Panchayat Announcements'}
+                  {language === 'ta' ? 'நெசல் ஊராட்சி சுற்றறிக்கைகள்' : 'Panchayat Announcements'}
                 </Text>
                 {announcements.map((ann) => (
                   <View key={ann._id} style={styles.card}>

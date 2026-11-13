@@ -78,7 +78,7 @@ export const Home = ({ setCurrentView }) => {
         <div className="relative z-10 max-w-3xl space-y-4">
           <div className="flex flex-wrap items-center gap-2">
             <div className="inline-flex items-center space-x-2 bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/30">
-              <span>🌾 நேசல் கிராம டிஜிட்டல் தளம்</span>
+              <span>🌾 நெசல் கிராம டிஜிட்டல் தளம்</span>
               <span>•</span>
               <span className="font-mono">அஞ்சல்: 604102</span>
             </div>
@@ -88,19 +88,19 @@ export const Home = ({ setCurrentView }) => {
               className="inline-flex items-center space-x-1.5 bg-slate-800/80 hover:bg-slate-700/80 text-emerald-300 border border-slate-700 text-xs font-semibold px-3 py-1 rounded-full transition cursor-pointer"
             >
               <MapPin className="w-3 h-3 text-emerald-400" />
-              <span>{location.wardName || 'நேசல் வார்டுகள்'}</span>
+              <span>{location.wardName || 'நெசல் வார்டுகள்'}</span>
             </button>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
             {language === 'ta'
-              ? 'நமது நேசல் கிராமம்: ஊராட்சி அறிவிப்புகள், வேளாண்மை & வேலைவாய்ப்புகள்'
+              ? 'நமது நெசல் கிராமம்: ஊராட்சி அறிவிப்புகள், வேளாண்மை & வேலைவாய்ப்புகள்'
               : 'Our Nesal Village: Panchayat Notices, Agriculture & Government Opportunities'}
           </h1>
 
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
             {language === 'ta'
-              ? 'தமிழ்நாடு, விழுப்புரம் மாவட்டம், வானூர் வட்டம், நேசல் கிராமத்திற்கான அதிகாரப்பூர்வ கிராம சபை அறிவிப்புகள், நியாயவிலைக் கடை, குடிநீர் நேரம், TNPSC அரசுத் தேர்வுகள் மற்றும் வேளாண் மானியத் தகவல்கள்.'
+              ? 'தமிழ்நாடு, விழுப்புரம் மாவட்டம், வானூர் வட்டம், நெசல் கிராமத்திற்கான அதிகாரப்பூர்வ கிராம சபை அறிவிப்புகள், நியாயவிலைக் கடை, குடிநீர் நேரம், TNPSC அரசுத் தேர்வுகள் மற்றும் வேளாண் மானியத் தகவல்கள்.'
               : 'Dedicated hyper-local digital portal for Nesal Village (Vanur Taluk, Villupuram District, Pincode 604102) — verified civic notices, ration schedules, drinking water times, and TNPSC jobs.'}
           </p>
 
@@ -110,7 +110,7 @@ export const Home = ({ setCurrentView }) => {
               className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-5 py-2.5 rounded-xl transition shadow-lg flex items-center space-x-2 text-sm"
             >
               <Newspaper className="w-4 h-4" />
-              <span>{language === 'ta' ? 'நேசல் செய்திகள்' : 'Nesal News'}</span>
+              <span>{language === 'ta' ? 'நெசல் செய்திகள்' : 'Nesal News'}</span>
             </button>
             <button
               onClick={() => setCurrentView('announcements')}
@@ -137,14 +137,14 @@ export const Home = ({ setCurrentView }) => {
           </div>
           <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
             <div className="text-xl font-black text-emerald-400">604102</div>
-            <div className="text-xs text-slate-400 font-medium">நேசல் அஞ்சல் குறியீடு</div>
+            <div className="text-xs text-slate-400 font-medium">நெசல் அஞ்சல் குறியீடு</div>
           </div>
           <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
             <div className="text-xl font-black text-emerald-400">12.0125° N</div>
-            <div className="text-xs text-slate-400 font-medium">நேசல் ஜி.பி.எஸ் அட்சரேகை</div>
+            <div className="text-xs text-slate-400 font-medium">நெசல் ஜி.பி.எஸ் அட்சரேகை</div>
           </div>
           <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
-            <div className="text-xl font-black text-emerald-400">100% நேசல்</div>
+            <div className="text-xl font-black text-emerald-400">100% நெசல்</div>
             <div className="text-xs text-slate-400 font-medium">பிரத்யேக கிராமத் தளம்</div>
           </div>
         </div>
@@ -157,11 +157,11 @@ export const Home = ({ setCurrentView }) => {
             <div className="text-xs font-bold uppercase tracking-wider text-emerald-700">Daily Civic Updates</div>
             <h2 className="text-2xl font-black text-slate-900 flex items-center space-x-2">
               <Building2 className="w-6 h-6 text-emerald-600" />
-              <span>{language === 'ta' ? 'நேசல் கிராம ஊராட்சி தகவல் பலகை' : 'Nesal Village Civic Notice Board'}</span>
+              <span>{language === 'ta' ? 'நெசல் கிராம ஊராட்சி தகவல் பலகை' : 'Nesal Village Civic Notice Board'}</span>
             </h2>
           </div>
           <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full self-start sm:self-auto">
-            📍 நேசல் கிராமம், வானூர் வட்டம்
+            📍 நெசல் கிராமம், வானூர் வட்டம்
           </span>
         </div>
 
@@ -188,7 +188,7 @@ export const Home = ({ setCurrentView }) => {
               <h3 className="font-bold text-sm">ரேஷன் கடை (PDS)</h3>
             </div>
             <p className="text-xs text-slate-700 leading-relaxed">
-              நேசல் நியாயவிலைக் கடையில் பயோமெட்ரிக் மூலம் விலையில்லா அரிசி, பருப்பு விநியோகம்.
+              நெசல் நியாயவிலைக் கடையில் பயோமெட்ரிக் மூலம் விலையில்லா அரிசி, பருப்பு விநியோகம்.
             </p>
             <div className="text-[11px] font-bold text-teal-800 bg-white/80 p-2 rounded-lg border border-teal-100 flex items-center space-x-1.5">
               <Clock className="w-3.5 h-3.5 text-teal-600" />
@@ -203,11 +203,11 @@ export const Home = ({ setCurrentView }) => {
               <h3 className="font-bold text-sm">100 நாள் வேலைத் திட்டம்</h3>
             </div>
             <p className="text-xs text-slate-700 leading-relaxed">
-              மகாத்மா காந்தி தேசிய ஊரக வேலை உறுதித் திட்டம் (MGNREGS) நேசல் ஏரிக்கரை தூர்வாரும் பணி.
+              மகாத்மா காந்தி தேசிய ஊரக வேலை உறுதித் திட்டம் (MGNREGS) நெசல் ஏரிக்கரை தூர்வாரும் பணி.
             </p>
             <div className="text-[11px] font-bold text-cyan-900 bg-white/80 p-2 rounded-lg border border-cyan-100 flex items-center space-x-1.5">
               <CheckCircle className="w-3.5 h-3.5 text-cyan-600" />
-              <span>நேசல் ஊராட்சி மன்றத்தில் அட்டை பெறலாம்</span>
+              <span>நெசல் ஊராட்சி மன்றத்தில் அட்டை பெறலாம்</span>
             </div>
           </div>
 
@@ -238,7 +238,7 @@ export const Home = ({ setCurrentView }) => {
             </div>
             <h2 className="text-2xl font-black">
               {language === 'ta'
-                ? 'நேசல் & வானூர் அவசர உதவி தொலைபேசி எண்கள்'
+                ? 'நெசல் & வானூர் அவசர உதவி தொலைபேசி எண்கள்'
                 : 'Nesal Village & Vanur Taluk Emergency Helplines'}
             </h2>
             <p className="text-slate-400 text-xs sm:text-sm mt-0.5">
@@ -294,7 +294,7 @@ export const Home = ({ setCurrentView }) => {
             <div className="text-xs font-bold uppercase tracking-wider text-emerald-700">Rural News & Governance</div>
             <h2 className="text-2xl font-extrabold text-slate-900 flex items-center space-x-2">
               <Newspaper className="w-6 h-6 text-emerald-600" />
-              <span>{language === 'ta' ? 'நேசல் கிராமம் & வானூர் வட்டார செய்திகள்' : 'Nesal Village & Vanur Updates'}</span>
+              <span>{language === 'ta' ? 'நெசல் கிராமம் & வானூர் வட்டார செய்திகள்' : 'Nesal Village & Vanur Updates'}</span>
             </h2>
           </div>
           <button
@@ -345,7 +345,7 @@ export const Home = ({ setCurrentView }) => {
                   <div className="flex items-center space-x-2">
                     <a
                       href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-                        `🌾 *நமது நேசல் கிராமம் செய்தி*\n📰 *${item.headline}*\n📍 நேசல், வானூர், விழுப்புரம்\n\n${item.summaryTamil || item.summaryEnglish || item.shortDescription}\n\n🔗 ${item.originalArticleUrl}`
+                        `🌾 *நமது நெசல் கிராமம் செய்தி*\n📰 *${item.headline}*\n📍 நெசல், வானூர், விழுப்புரம்\n\n${item.summaryTamil || item.summaryEnglish || item.shortDescription}\n\n🔗 ${item.originalArticleUrl}`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -535,12 +535,12 @@ export const Home = ({ setCurrentView }) => {
         <div className="space-y-2">
           <h3 className="text-xl font-bold text-emerald-950">
             {language === 'ta'
-              ? 'நேசல் கிராம அறிவிப்புகள் மற்றும் அரசு வேலைவாய்ப்புகளை உடனடியாகப் பெறுங்கள்'
+              ? 'நெசல் கிராம அறிவிப்புகள் மற்றும் அரசு வேலைவாய்ப்புகளை உடனடியாகப் பெறுங்கள்'
               : 'Never Miss a Village Alert or Government Job Opening in Nesal & Vanur'}
           </h3>
           <p className="text-xs sm:text-sm text-emerald-800">
             {language === 'ta'
-              ? 'நேசல் கிராமம், வானூர் வட்டம் மற்றும் விழுப்புரம் மாவட்டத்திற்கு ஏற்றவாறு நிகழ்நேர விழிப்பூட்டல்களைப் பெறுங்கள்.'
+              ? 'நெசல் கிராமம், வானூர் வட்டம் மற்றும் விழுப்புரம் மாவட்டத்திற்கு ஏற்றவாறு நிகழ்நேர விழிப்பூட்டல்களைப் பெறுங்கள்.'
               : 'Subscribe to category alerts tailored specifically for Nesal Village, Vanur Taluk and Villupuram District.'}
           </p>
         </div>

@@ -94,11 +94,11 @@ export const SubscriptionCenter = () => {
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-2">
         <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Category Alert Preferences</span>
         <h1 className="text-3xl font-extrabold text-slate-900">
-          {language === 'ta' ? 'நேசல் கிராம விழிப்பூட்டல் அமைப்புகள்' : 'Subscribe to Targeted Rural Alerts'}
+          {language === 'ta' ? 'நெசல் கிராம விழிப்பூட்டல் அமைப்புகள்' : 'Subscribe to Targeted Rural Alerts'}
         </h1>
         <p className="text-slate-600 text-xs sm:text-sm">
           {language === 'ta'
-            ? 'நேசல் கிராமம், வானூர் வட்டம் மற்றும் விழுப்புரம் மாவட்டத்திற்கான வேலைவாய்ப்பு, வேளாண்மை மற்றும் அரசு நலத்திட்ட அறிவிப்புகளை உடனுக்குடன் பெற பதிவு செய்யுங்கள்.'
+            ? 'நெசல் கிராமம், வானூர் வட்டம் மற்றும் விழுப்புரம் மாவட்டத்திற்கான வேலைவாய்ப்பு, வேளாண்மை மற்றும் அரசு நலத்திட்ட அறிவிப்புகளை உடனுக்குடன் பெற பதிவு செய்யுங்கள்.'
             : 'Select specific employment, agricultural or governance categories to receive instant notifications tailored for Nesal, Vanur, and Villupuram.'}
         </p>
       </div>
