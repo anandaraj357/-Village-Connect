@@ -1,0 +1,8 @@
+[MongoDB] Connected: 127.0.0.1/our_village_crawler
+[Seed] Connected to MongoDB
+[Seed] Database initialization complete for Tamil Nadu, Villupuram, Vanur, Nesal.
+=======================================================
+🌾 OUR VILLAGE - Crawler & Information Aggregator API
+🚀 Server running on http://localhost:5000
+📡 Endpoints: /api/crawler, /api/approval, /api/public, /api/location
+=======================================================

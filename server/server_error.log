@@ -1,0 +1,2 @@
+[Redis Notice] Redis is offline at 127.0.0.1:6379. BullMQ background crawler scheduler is paused.
+[Redis Notice] The web application & API are fully operational. (To enable recurring background crawls, run C:\redis\redis-server.exe)
