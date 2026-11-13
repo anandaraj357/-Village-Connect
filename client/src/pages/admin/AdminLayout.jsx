@@ -1,7 +1,14 @@
 import React from 'react';
-import { LayoutDashboard, CheckSquare, Briefcase, FileText, Newspaper, Megaphone, Globe, ScrollText, Clock, ArrowLeft } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { LayoutDashboard, CheckSquare, Briefcase, FileText, Newspaper, Megaphone, Globe, ScrollText, Clock, ArrowLeft, LogOut, UserCheck } from 'lucide-react';
 
 export const AdminLayout = ({ adminTab, setAdminTab, setCurrentView, children }) => {
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    setCurrentView('home');
+  };
   const tabs = [
     { id: 'analytics', label: 'Analytics & Overview', icon: LayoutDashboard },
     { id: 'pending', label: 'Pending Approvals', icon: CheckSquare, badge: 'Pending' },
@@ -33,13 +40,33 @@ export const AdminLayout = ({ adminTab, setAdminTab, setCurrentView, children })
           </p>
         </div>
 
-        <button
-          onClick={() => setCurrentView('home')}
-          className="flex items-center space-x-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-4 py-2 rounded-xl text-xs transition"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to Public View</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Admin User Profile Pill */}
+          <div className="hidden sm:flex items-center space-x-2 bg-slate-800/90 border border-slate-700/80 px-3 py-1.5 rounded-xl text-xs">
+            <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <div>
+              <div className="font-bold text-white text-[11px] leading-tight">{user?.name || 'Authorized Admin'}</div>
+              <div className="text-[10px] text-slate-400 leading-tight">{user?.email || 'admin@ourvillage.tn.gov.in'}</div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => setCurrentView('home')}
+            className="flex items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3 py-2 rounded-xl text-xs transition"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Public View</span>
+          </button>
+
+          <button
+            onClick={handleLogout}
+            className="flex items-center space-x-1.5 bg-rose-950/80 hover:bg-rose-900 text-rose-200 border border-rose-800 font-semibold px-3 py-2 rounded-xl text-xs transition"
+            title="Log out of Administrator Session"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Sign Out</span>
+          </button>
+        </div>
       </div>
 
       {/* Admin Subnav Tabs */}

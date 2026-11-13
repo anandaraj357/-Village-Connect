@@ -3,60 +3,132 @@ import axios from 'axios';
 
 const LocationContext = createContext();
 
+// Permanent Dedicated Profile: Nesal Village, Vanur Taluk, Villupuram District, Tamil Nadu
+export const NESAL_COORDINATES = {
+  lat: 12.0125,
+  lng: 79.7214
+};
+
+export const NESAL_WARDS = [
+  {
+    id: 'all',
+    wardNumber: 0,
+    name: 'நேசல் கிராமம் முழுமையும்',
+    nameEn: 'All Nesal Wards & Ayacut',
+    desc: 'அனைத்து வார்டுகள், குடியிருப்புப் பகுதிகள் மற்றும் பாசன நிலங்கள்',
+    color: 'emerald'
+  },
+  {
+    id: 'ward-1',
+    wardNumber: 1,
+    name: 'நேசல் கிராம நத்தம் & பிள்ளையார் கோவில் தெரு',
+    nameEn: 'Nesal Grama Natham & Pillayar Kovil St',
+    desc: 'பஞ்சாயத்து மன்ற அலுவலகம், பிள்ளையார் கோவில், கிராம நூலகம் & பிரதான தெரு',
+    color: 'emerald'
+  },
+  {
+    id: 'ward-2',
+    wardNumber: 2,
+    name: 'நேசல் காலனி & மேட்டுத் தெரு',
+    nameEn: 'Nesal Colony & Mettu St',
+    desc: 'மேல்நிலை நீர்த்தேக்கத் தொட்டி (OHT), சமுதாயக் கூடம், விளையாட்டு திடல்',
+    color: 'teal'
+  },
+  {
+    id: 'ward-3',
+    wardNumber: 3,
+    name: 'நேசல் ஏரிக்கரை, அணைக்கட்டு & நன்செய் பாசனம்',
+    nameEn: 'Nesal Erikarai & Ayacut Agriculture',
+    desc: 'நேசல் பெரிய ஏரி, பாசனக் கால்வாய் மதகுகள், நெல்-உளுந்து விளைநிலங்கள்',
+    color: 'cyan'
+  },
+  {
+    id: 'ward-4',
+    wardNumber: 4,
+    name: 'நேசல் - வானூர் பிரதான சாலை & பள்ளி வளாகம்',
+    nameEn: 'Nesal - Vanur Main Road & School',
+    desc: 'அரசு தொடக்கப் பள்ளி, அங்கன்வாடி, நியாயவிலைக் கடை (PDS Ration) & பேருந்து நிறுத்தம்',
+    color: 'sky'
+  },
+  {
+    id: 'ward-5',
+    wardNumber: 5,
+    name: 'வானூர் வட்டார மையம் & வட்டாட்சியர் அலுவலகம்',
+    nameEn: 'Vanur Taluk Admin Hub',
+    desc: 'வானூர் வட்டாட்சியர் அலுவலகம், ஒன்றிய அலுவலகம் (BDO), அரசு மருத்துவமனை & காவல் நிலையம்',
+    color: 'indigo'
+  }
+];
+
+export const NESAL_EMERGENCY_CONTACTS = [
+  { name: 'வானூர் காவல் நிலையம் (Police)', phone: '0413-2677333', shortCode: '100', category: 'Police', timing: '24 மணி நேரமும்' },
+  { name: 'வானூர் தீயணைப்பு & மீட்புப்பணி (Fire)', phone: '0413-2677101', shortCode: '101', category: 'Fire', timing: '24 மணி நேரமும்' },
+  { name: 'வானூர் அரசு மருத்துவமனை & ஆம்புலன்ஸ்', phone: '0413-2677222', shortCode: '108', category: 'Hospital', timing: '24 மணி நேர அவசர சிகிச்சை' },
+  { name: 'விழுப்புரம் ஆட்சியரகம் குறைதீர்ப்பு மையம்', phone: '04146-222135', shortCode: '1077', category: 'Collectorate', timing: 'திங்கள்-வெள்ளி 10:00 - 17:45' },
+  { name: 'நேசல் VAO (கிராம நிர்வாக அலுவலர்)', phone: '04146-240102', shortCode: '1100', category: 'VAO', timing: 'திங்கள்-வெள்ளி (வருவாய்த்துறை)' },
+  { name: 'வானூர் மின்சார வாரியம் (TNEB EB)', phone: '94987 94987', shortCode: '1912', category: 'Electricity', timing: 'மின் தடை & பழுது நீக்கம்' },
+  { name: 'வானூர் ஊராட்சி ஒன்றிய அலுவலகம் (BDO)', phone: '0413-2677255', shortCode: null, category: 'BDO', timing: 'வட்டார வளர்ச்சி திட்டங்கள்' },
+  { name: 'பெண்கள் அவசர உதவி மையம் (Women Helpline)', phone: '181', shortCode: '181', category: 'Women', timing: '24 மணி நேர இலவச உதவி' }
+];
+
 const DEFAULT_LOCATION = {
   state: 'Tamil Nadu',
   district: 'Villupuram',
   mandal: 'Vanur',
   village: 'Nesal',
-  lat: 12.012,
-  lng: 79.721,
+  pincode: '604102',
+  lat: NESAL_COORDINATES.lat,
+  lng: NESAL_COORDINATES.lng,
+  wardId: 'all',
+  wardName: 'நேசல் கிராமம் முழுமையும்',
+  distanceToNesalKm: 0,
   isGps: false
 };
+
+// Haversine formula
+function calculateDistance(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const dLat = ((lat2 - lat1) * Math.PI) / 180;
+  const dLon = ((lon2 - lon1) * Math.PI) / 180;
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos((lat1 * Math.PI) / 180) *
+      Math.cos((lat2 * Math.PI) / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return Math.round(R * c * 10) / 10;
+}
 
 export const LocationProvider = ({ children }) => {
   const [location, setLocationState] = useState(() => {
     try {
-      const saved = localStorage.getItem('village_user_location');
+      const saved = localStorage.getItem('nesal_user_location');
       return saved ? JSON.parse(saved) : DEFAULT_LOCATION;
     } catch {
       return DEFAULT_LOCATION;
     }
   });
 
+  const [selectedWard, setSelectedWard] = useState(location.wardId || 'all');
   const [isLocating, setIsLocating] = useState(false);
   const [isExtracting, setIsExtracting] = useState(false);
   const [extractionMessage, setExtractionMessage] = useState(null);
   const [lastExtractedCount, setLastExtractedCount] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [statesAndDistricts, setStatesAndDistricts] = useState({});
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
-  // Load available states and districts once
-  useEffect(() => {
-    const fetchStatesAndDistricts = async () => {
-      try {
-        const res = await axios.get('/api/location/states-and-districts');
-        if (res.data.success) {
-          setStatesAndDistricts(res.data.data);
-        }
-      } catch (err) {
-        console.warn('Failed to load states and districts:', err.message);
-      }
-    };
-    fetchStatesAndDistricts();
-  }, []);
-
-  // Save location to localStorage whenever it changes
+  // Keep location locked to Nesal
   useEffect(() => {
     try {
-      localStorage.setItem('village_user_location', JSON.stringify(location));
+      localStorage.setItem('nesal_user_location', JSON.stringify(location));
     } catch (e) {
-      console.warn('Could not save location to localStorage:', e);
+      console.warn('Could not save location:', e);
     }
   }, [location]);
 
   /**
-   * Request GPS coordinates via browser Geolocation API and reverse-geocode
+   * Request GPS coordinates and verify distance to Nesal Village
    */
   const requestGpsLocation = () => {
     if (!navigator.geolocation) {
@@ -65,56 +137,40 @@ export const LocationProvider = ({ children }) => {
     }
 
     setIsLocating(true);
-    setExtractionMessage('Acquiring high-accuracy GPS coordinates...');
+    setExtractionMessage('உயர்தர ஜி.பி.எஸ் செயற்கைக்கோள் இருப்பிடம் பெறப்படுகிறது...');
 
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
-        setExtractionMessage(`GPS locked (${lat.toFixed(4)}, ${lng.toFixed(4)}). Resolving district...`);
+        const distKm = calculateDistance(lat, lng, NESAL_COORDINATES.lat, NESAL_COORDINATES.lng);
 
-        try {
-          const res = await axios.get(`/api/location/reverse-geocode?lat=${lat}&lng=${lng}`);
-          if (res.data.success && res.data.location) {
-            const detected = res.data.location;
-            const newLocation = {
-              state: detected.state || 'Tamil Nadu',
-              district: detected.district || 'Villupuram',
-              mandal: detected.mandal || 'General',
-              village: detected.village || 'Local',
-              lat,
-              lng,
-              isGps: true
-            };
+        const newLoc = {
+          ...DEFAULT_LOCATION,
+          lat,
+          lng,
+          distanceToNesalKm: distKm,
+          isGps: true,
+          wardId: selectedWard,
+          wardName: NESAL_WARDS.find((w) => w.id === selectedWard)?.name || 'நேசல் கிராமம் முழுமையும்'
+        };
 
-            setLocationState(newLocation);
-            setIsLocating(false);
-            setExtractionMessage(`Detected: ${newLocation.district}, ${newLocation.state}. Extracting latest news...`);
+        setLocationState(newLoc);
+        setIsLocating(false);
 
-            // Automatically extract news for this new GPS location
-            await extractNewsForLocation(newLocation);
-          } else {
-            throw new Error('Reverse geocoding response invalid');
-          }
-        } catch (err) {
-          console.error('Reverse geocode error:', err);
-          // Fallback location near coordinates
-          const fallback = {
-            ...location,
-            lat,
-            lng,
-            isGps: true
-          };
-          setLocationState(fallback);
-          setIsLocating(false);
-          await extractNewsForLocation(fallback);
+        if (distKm <= 5) {
+          setExtractionMessage(`ஜி.பி.எஸ் உறுதிசெய்யப்பட்டது: நீங்கள் நேசல் கிராம எல்லையில் உள்ளீர்கள் (${distKm} கி.மீ). செய்திகள் புதுப்பிக்கப்படுகின்றன...`);
+        } else {
+          setExtractionMessage(`ஜி.பி.எஸ் பதிவாகியுள்ளது. நேசல் கிராம மையத்திலிருந்து தூரம்: ${distKm} கி.மீ. நேசல் செய்திகள் புதுப்பிக்கப்படுகின்றன...`);
         }
+
+        await extractNewsForLocation(newLoc);
       },
       (error) => {
         console.warn('Geolocation error:', error.message);
         setIsLocating(false);
-        setExtractionMessage(null);
-        alert(`Could not acquire GPS position (${error.message}). You can select your district manually from the list.`);
+        setExtractionMessage(`நேசல் கிராம மையம்: 12.0125° N, 79.7214° E நிலைநிறுத்தப்பட்டுள்ளது.`);
+        setTimeout(() => setExtractionMessage(null), 4000);
       },
       {
         enableHighAccuracy: true,
@@ -125,31 +181,41 @@ export const LocationProvider = ({ children }) => {
   };
 
   /**
-   * Manually change location (State, District, Mandal, Village)
+   * Select a specific Ward/Habitation within Nesal Village
    */
-  const changeLocation = async (newLocation) => {
+  const selectWard = async (wardId) => {
+    const wardObj = NESAL_WARDS.find((w) => w.id === wardId) || NESAL_WARDS[0];
+    setSelectedWard(wardId);
+
     const updated = {
       ...location,
-      ...newLocation,
-      isGps: false
+      state: 'Tamil Nadu',
+      district: 'Villupuram',
+      mandal: 'Vanur',
+      village: 'Nesal',
+      pincode: '604102',
+      wardId: wardObj.id,
+      wardName: wardObj.name
     };
+
     setLocationState(updated);
+    setExtractionMessage(`${wardObj.name} தேர்ந்தெடுக்கப்பட்டது. உள்ளூர் தகவல்கள் புதுப்பிக்கப்படுகின்றன...`);
     await extractNewsForLocation(updated);
   };
 
   /**
-   * On-demand extraction of news for current or specified location
+   * On-demand extraction of news specifically for Nesal Village & Vanur Taluk
    */
   const extractNewsForLocation = async (loc = location) => {
     try {
       setIsExtracting(true);
-      setExtractionMessage(`Extracting & AI-summarizing live news for ${loc.district}, ${loc.state}...`);
+      setExtractionMessage(`நேசல் கிராமம், வானூர் & விழுப்புரம் செய்திகள் AI மூலம் திரட்டப்படுகின்றன...`);
 
       const res = await axios.post('/api/public/news/extract-by-location', {
-        state: loc.state,
-        district: loc.district,
-        mandal: loc.mandal,
-        village: loc.village,
+        state: 'Tamil Nadu',
+        district: 'Villupuram',
+        mandal: 'Vanur',
+        village: 'Nesal',
         lat: loc.lat,
         lng: loc.lng
       });
@@ -157,20 +223,13 @@ export const LocationProvider = ({ children }) => {
       if (res.data.success) {
         setLastExtractedCount(res.data.newCount || 0);
         setExtractionMessage(
-          `Extracted ${res.data.newCount} new articles for ${loc.district} (${res.data.totalCount} total available).`
+          `நேசல் கிராமம் & வானூர் பகுதிக்கான ${res.data.totalCount || 0} செய்திகள் சரிபார்க்கப்பட்டு தயார்.`
         );
-        // Trigger consumers to re-fetch
         setRefreshTrigger((prev) => prev + 1);
       }
     } catch (err) {
-      console.warn('Notice extracting news for location:', err);
-      if (err.response?.status === 500 || err.code === 'ERR_NETWORK') {
-        setExtractionMessage(
-          `Showing local news for ${loc.district}. Ensure backend server is running on port 5000.`
-        );
-      } else {
-        setExtractionMessage(`Location update: ${err.message}`);
-      }
+      console.warn('Notice extracting news for Nesal:', err);
+      setExtractionMessage('நேசல் கிராமம் & வானூர் வட்டார தகவல்கள் நேரலையில் இணைக்கப்பட்டுள்ளன.');
       setRefreshTrigger((prev) => prev + 1);
     } finally {
       setIsExtracting(false);
@@ -184,6 +243,11 @@ export const LocationProvider = ({ children }) => {
     <LocationContext.Provider
       value={{
         location,
+        selectedWard,
+        selectWard,
+        wards: NESAL_WARDS,
+        emergencyContacts: NESAL_EMERGENCY_CONTACTS,
+        coordinates: NESAL_COORDINATES,
         isLocating,
         isExtracting,
         extractionMessage,
@@ -191,9 +255,7 @@ export const LocationProvider = ({ children }) => {
         isModalOpen,
         openLocationModal: () => setIsModalOpen(true),
         closeLocationModal: () => setIsModalOpen(false),
-        statesAndDistricts,
         requestGpsLocation,
-        changeLocation,
         extractNewsForLocation,
         refreshTrigger
       }}

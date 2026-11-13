@@ -1,0 +1,42 @@
+{
+  "name": "நமது நேசல் கிராமம் - OUR VILLAGE NESAL",
+  "short_name": "Nesal Village",
+  "description": "Dedicated hyper-local digital portal for Nesal Village, Vanur Taluk, Villupuram District, Tamil Nadu (604102)",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0f172a",
+  "theme_color": "#065f46",
+  "categories": ["government", "news", "jobs", "utilities"],
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Panchayat Notices",
+      "short_name": "Notices",
+      "description": "Nesal Village Panchayat & Civic Circulars",
+      "url": "/?view=announcements",
+      "icons": [{ "src": "/icon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Nesal News",
+      "short_name": "News",
+      "description": "Nesal & Vanur verified news updates",
+      "url": "/?view=news",
+      "icons": [{ "src": "/icon.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Job Vacancies",
+      "short_name": "Jobs",
+      "description": "Explore verified job vacancies in Villupuram & TN",
+      "url": "/?view=jobs",
+      "icons": [{ "src": "/icon.svg", "sizes": "192x192" }]
+    }
+  ]
+}

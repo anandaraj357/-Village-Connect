@@ -110,6 +110,41 @@ Background scheduling is handled by BullMQ connected to Redis:
 
 ---
 
+## 📱 Mobile App & Web App Architecture
+
+OUR VILLAGE provides both a **Desktop Web Portal** and **Cross-Platform Mobile Apps**:
+
+### 1. Unified Web & Mobile PWA (`client/`)
+- **Responsive Mobile Bottom Navigation**: 5 thumb-friendly touch targets (`Home`, `Jobs`, `Recruitments`, `News`, `GPS Location`).
+- **Mobile Bottom Sheet Drawer**: Touch-friendly pull-up drawer for state and district selection.
+- **Installable Progressive Web App (PWA)**: Includes `manifest.json`, service worker offline caching, and automatic "Add to Home Screen" installation prompt.
+- **WhatsApp Share**: 1-click sharing of verified job openings and district announcements formatted with emojis for rural citizen groups.
+- **Interactive Device Previewer**: Toggle between `Web View` and `Mobile App View` (an interactive smartphone simulator frame) directly on desktop.
+
+### 2. Native Mobile Packaging with Capacitor
+Wrap the web client into an official native Android (`.apk` / `.aab`) and iOS (`.ipa`) app using [capacitor.config.json](file:///c:/Users/TEMP/-Village-Connect/capacitor.config.json):
+```bash
+# Build the client web assets
+cd client
+npm run build
+
+# Add native Android platform
+npm install @capacitor/core @capacitor/cli @capacitor/android
+npx cap add android
+npx cap open android
+```
+
+### 3. Standalone React Native / Expo App (`mobile/`)
+A pure native cross-platform mobile application utilizing hardware GPS (`expo-location`), native push notifications, and bottom tabs connecting to the backend API:
+```bash
+cd mobile
+npm install
+npm start
+# Press 'a' for Android emulator or 'i' for iOS simulator
+```
+
+---
+
 ## 🖥️ Active URLs
 
 - **Public Web Application & API**: [http://localhost:5000](http://localhost:5000)

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNotifications } from '../context/NotificationContext';
 import { CategoryBadge, ConfidenceBadge } from '../components/Badge';
-import { Search, Filter, Briefcase, Calendar, MapPin, Building, GraduationCap, DollarSign, Download, ExternalLink } from 'lucide-react';
+import { Search, Filter, Briefcase, Calendar, MapPin, Building, GraduationCap, DollarSign, Download, ExternalLink, Share2 } from 'lucide-react';
 
 const CATEGORIES = ['All', 'Government', 'Private', 'IT', 'Non-IT', 'Internship', 'Work From Home', 'Local Job'];
 
@@ -175,7 +175,20 @@ export const JobsPortal = () => {
                   {language === 'ta' ? 'கடைசி தேதி: ' : 'Deadline: '} {job.applicationLastDate ? new Date(job.applicationLastDate).toLocaleDateString() : 'See Official Link'}
                 </span>
 
-                <div className="flex space-x-2">
+                <div className="flex items-center space-x-1.5 sm:space-x-2">
+                  {/* WhatsApp Quick Share for Mobile & Web */}
+                  <a
+                    href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
+                      `🌾 *OUR VILLAGE வேலைவாய்ப்பு*\n💼 *${job.jobTitle}*\n🏢 ${job.organizationName}\n📍 இடம்: ${job.jobLocation}\n🎓 தகுதி: ${job.qualification}\n🔗 விண்ணப்பிக்க: ${job.applicationUrl || job.officialNotificationUrl}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 transition"
+                    title="Share job on WhatsApp"
+                  >
+                    <Share2 className="w-4 h-4" />
+                  </a>
+
                   {job.originalPdfUrl && (
                     <a
                       href={job.originalPdfUrl}
@@ -191,9 +204,9 @@ export const JobsPortal = () => {
                     href={job.applicationUrl || job.officialNotificationUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center space-x-1 text-xs font-bold text-white bg-slate-900 hover:bg-emerald-600 px-4 py-2 rounded-xl transition shadow-sm"
+                    className="inline-flex items-center space-x-1 text-xs font-bold text-white bg-slate-900 hover:bg-emerald-600 px-3.5 sm:px-4 py-2 rounded-xl transition shadow-sm"
                   >
-                    <span>{language === 'ta' ? 'விண்ணப்பிக்க' : 'Apply Now'}</span>
+                    <span>{language === 'ta' ? 'விண்ணப்பிக்க' : 'Apply'}</span>
                     <ExternalLink className="w-3.5 h-3.5 ml-1" />
                   </a>
                 </div>

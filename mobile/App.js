@@ -1,0 +1,693 @@
+import React, { useState, useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  StatusBar,
+  ScrollView,
+  FlatList,
+  ActivityIndicator,
+  Linking,
+  Alert
+} from 'react-native';
+import * as Location from 'expo-location';
+import { apiClient } from './src/services/api';
+
+const NESAL_COORDINATES = {
+  lat: 12.0125,
+  lng: 79.7214
+};
+
+const EMERGENCY_CONTACTS = [
+  { name: 'காவல் (Police)', phone: '0413-2677333', shortCode: '100' },
+  { name: 'தீயணைப்பு (Fire)', phone: '0413-2677101', shortCode: '101' },
+  { name: 'மருத்துவமனை (GH)', phone: '0413-2677222', shortCode: '108' },
+  { name: 'நேசல் VAO', phone: '04146-240102', shortCode: '1100' },
+  { name: 'மின்சாரம் (TNEB)', phone: '9498794987', shortCode: '1912' },
+  { name: 'ஆட்சியரகம்', phone: '04146-222135', shortCode: '1077' }
+];
+
+export default function App() {
+  const [currentTab, setCurrentTab] = useState('home');
+  const [language, setLanguage] = useState('ta'); // 'ta' for Tamil, 'en' for English
+  const [isLocating, setIsLocating] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [gpsStatus, setGpsStatus] = useState(null);
+
+  const [jobs, setJobs] = useState([]);
+  const [recruitments, setRecruitments] = useState([]);
+  const [news, setNews] = useState([]);
+  const [announcements, setAnnouncements] = useState([]);
+
+  // Fetch data on tab change
+  useEffect(() => {
+    fetchTabData();
+  }, [currentTab]);
+
+  const fetchTabData = async () => {
+    try {
+      setLoading(true);
+      if (currentTab === 'jobs' || currentTab === 'home') {
+        const res = await apiClient.get('/public/jobs?district=Villupuram&limit=10');
+        if (res.data.success) setJobs(res.data.jobs);
+      }
+      if (currentTab === 'recruitments' || currentTab === 'home') {
+        const res = await apiClient.get('/public/recruitments?limit=10');
+        if (res.data.success) setRecruitments(res.data.recruitments);
+      }
+      if (currentTab === 'news' || currentTab === 'home') {
+        const res = await apiClient.get('/public/news?district=Villupuram&state=Tamil%20Nadu&limit=10');
+        if (res.data.success) setNews(res.data.news);
+      }
+      if (currentTab === 'announcements' || currentTab === 'home') {
+        const res = await apiClient.get('/public/announcements?district=Villupuram&state=Tamil%20Nadu');
+        if (res.data.success) setAnnouncements(res.data.announcements);
+      }
+    } catch (err) {
+      console.warn('API fetch warning:', err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Acquire Live GPS coordinates and compute distance to Nesal Village
+  const handleGpsLocate = async () => {
+    try {
+      setIsLocating(true);
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('அனுமதி தேவை', 'நேசல் கிராம ஜிபிஎஸ் சரிபார்க்க அனுமதி தேவை.');
+        setIsLocating(false);
+        return;
+      }
+
+      const position = await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced });
+      const { latitude, longitude } = position.coords;
+
+      // Reverse geocode via backend API
+      const res = await apiClient.get(`/location/reverse-geocode?lat=${latitude}&lng=${longitude}`);
+      if (res.data.success) {
+        const loc = res.data.location;
+        const dist = loc.distanceToNesalKm || 0;
+        setGpsStatus(`${dist <= 4 ? 'நேசல் எல்லைக்குள்' : `நேசலிலிருந்து ${dist} கி.மீ`}`);
+        Alert.alert(
+          '📍 நேசல் ஜி.பி.எஸ் சரிபார்க்கப்பட்டது',
+          `நேசல் கிராம மையம்: 12.0125° N, 79.7214° E\nஉங்கள் தூரம்: ${dist} கி.மீ\nவானூர் வட்டம், விழுப்புரம் மாவட்டம் (604102)`
+        );
+        fetchTabData();
+      }
+    } catch (err) {
+      Alert.alert('GPS Notice', err.message);
+    } finally {
+      setIsLocating(false);
+    }
+  };
+
+  // WhatsApp Share helper
+  const shareOnWhatsApp = (text, url) => {
+    const message = `🌾 *நமது நேசல் கிராமம் (NESAL VILLAGE)*\n📍 வானூர் வட்டம், விழுப்புரம் (604102)\n\n${text}\n\n🔗 ${url}`;
+    Linking.openURL(`whatsapp://send?text=${encodeURIComponent(message)}`).catch(() => {
+      Alert.alert('Notice', 'WhatsApp is not installed on this device.');
+    });
+  };
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#064e3b" />
+
+      {/* Top Mobile App Header */}
+      <View style={styles.header}>
+        <View style={styles.headerTop}>
+          <View style={styles.logoRow}>
+            <Text style={styles.logoIcon}>🌾</Text>
+            <View>
+              <Text style={styles.logoTitle}>நமது நேசல் கிராமம்</Text>
+              <Text style={styles.logoSubtitle}>வானூர் வட்டம் • விழுப்புரம் - 604102</Text>
+            </View>
+          </View>
+
+          <View style={styles.headerActions}>
+            <TouchableOpacity
+              onPress={() => setLanguage(language === 'ta' ? 'en' : 'ta')}
+              style={styles.langBtn}
+            >
+              <Text style={styles.langBtnText}>{language === 'ta' ? 'English' : 'தமிழ்'}</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={handleGpsLocate}
+              disabled={isLocating}
+              style={styles.gpsBtn}
+            >
+              <Text style={styles.gpsBtnText}>{isLocating ? '🛰️...' : '📍 GPS'}</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {gpsStatus && (
+          <View style={styles.gpsBanner}>
+            <Text style={styles.gpsBannerText}>🛰️ {gpsStatus}</Text>
+          </View>
+        )}
+      </View>
+
+      {/* Emergency Quick Helpline Scroll */}
+      <View style={styles.helplineBar}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.helplineScroll}>
+          <Text style={styles.helplineTitle}>🚨 அவசரம்:</Text>
+          {EMERGENCY_CONTACTS.map((item, idx) => (
+            <TouchableOpacity
+              key={idx}
+              onPress={() => Linking.openURL(`tel:${item.phone}`)}
+              style={styles.helplineChip}
+            >
+              <Text style={styles.helplineChipText}>{item.name}: {item.phone}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
+      {/* Main Content Area */}
+      <View style={styles.content}>
+        {loading ? (
+          <View style={styles.centerContainer}>
+            <ActivityIndicator size="large" color="#059669" />
+            <Text style={styles.loadingText}>
+              {language === 'ta' ? 'நேசல் தகவல்கள் ஏற்றப்படுகின்றன...' : 'Loading Nesal Village updates...'}
+            </Text>
+          </View>
+        ) : (
+          <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+            {/* Home Tab */}
+            {currentTab === 'home' && (
+              <View>
+                {/* Hero Card */}
+                <View style={styles.heroCard}>
+                  <Text style={styles.heroBadge}>🌾 நேசல் கிராம டிஜிட்டல் தளம் (604102)</Text>
+                  <Text style={styles.heroTitle}>
+                    {language === 'ta'
+                      ? 'நமது நேசல் கிராமம்'
+                      : 'Our Nesal Village'}
+                  </Text>
+                  <Text style={styles.heroDesc}>
+                    {language === 'ta'
+                      ? 'வானூர் வட்டம், விழுப்புரம் மாவட்டம். கிராம சபை அறிவிப்புகள், குடிநீர் நேரம், நியாயவிலைக் கடை மற்றும் TNPSC வேலைவாய்ப்புகள்.'
+                      : 'Hyper-localized portal for Nesal Village (Vanur Taluk, Villupuram District, Pincode 604102).'}
+                  </Text>
+                </View>
+
+                {/* Civic Amenities Box */}
+                <View style={styles.civicBox}>
+                  <Text style={styles.civicBoxTitle}>💧 குடிநீர் & நியாயவிலைக் கடை நேரம்</Text>
+                  <View style={styles.civicRow}>
+                    <Text style={styles.civicLabel}>• மேல்நிலை குடிநீர் தொட்டி:</Text>
+                    <Text style={styles.civicValue}>காலை 6:30 & மாலை 5:30</Text>
+                  </View>
+                  <View style={styles.civicRow}>
+                    <Text style={styles.civicLabel}>• நேசல் ரேஷன் கடை:</Text>
+                    <Text style={styles.civicValue}>காலை 9:00 - 1:00 & மாலை 3:00 - 6:00</Text>
+                  </View>
+                  <View style={styles.civicRow}>
+                    <Text style={styles.civicLabel}>• 100 நாள் வேலைத் திட்டம்:</Text>
+                    <Text style={styles.civicValue}>நேசல் ஊராட்சி மன்ற அலுவலகம்</Text>
+                  </View>
+                </View>
+
+                {/* Section Header: News */}
+                <Text style={styles.sectionTitle}>
+                  {language === 'ta' ? '📰 நேசல் கிராம & வானூர் செய்திகள்' : '📰 Nesal & Vanur News'}
+                </Text>
+                {news.slice(0, 3).map((item) => (
+                  <View key={item._id} style={styles.card}>
+                    <Text style={styles.cardTag}>{item.category}</Text>
+                    <Text style={styles.cardTitle}>{item.headline}</Text>
+                    <Text style={styles.cardSummary}>
+                      {language === 'ta' ? (item.summaryTamil || item.summaryEnglish) : item.summaryEnglish}
+                    </Text>
+                    <View style={styles.cardFooter}>
+                      <TouchableOpacity
+                        onPress={() => shareOnWhatsApp(item.headline, item.originalArticleUrl)}
+                        style={styles.shareBtn}
+                      >
+                        <Text style={styles.shareBtnText}>💬 WhatsApp</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => Linking.openURL(item.originalArticleUrl)}
+                        style={styles.applyBtn}
+                      >
+                        <Text style={styles.applyBtnText}>{language === 'ta' ? 'முழு விவரம்' : 'Read'}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ))}
+
+                {/* Jobs Section */}
+                <Text style={[styles.sectionTitle, { marginTop: 24 }]}>
+                  {language === 'ta' ? '💼 வேலைவாய்ப்புகள் & TNPSC அறிவிப்புகள்' : '💼 Jobs & TNPSC Alerts'}
+                </Text>
+                {jobs.slice(0, 2).map((job) => (
+                  <View key={job._id} style={styles.card}>
+                    <Text style={styles.cardTag}>{job.jobCategory}</Text>
+                    <Text style={styles.cardTitle}>{job.jobTitle}</Text>
+                    <Text style={styles.cardOrg}>🏢 {job.organizationName}</Text>
+                    <Text style={styles.cardLoc}>📍 {job.jobLocation}</Text>
+                    <View style={styles.cardFooter}>
+                      <TouchableOpacity
+                        onPress={() => shareOnWhatsApp(job.jobTitle, job.applicationUrl || job.officialNotificationUrl)}
+                        style={styles.shareBtn}
+                      >
+                        <Text style={styles.shareBtnText}>💬 WhatsApp</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => Linking.openURL(job.applicationUrl || job.officialNotificationUrl)}
+                        style={styles.applyBtn}
+                      >
+                        <Text style={styles.applyBtnText}>{language === 'ta' ? 'விண்ணப்பிக்க' : 'Apply'}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
+
+            {/* News Tab */}
+            {currentTab === 'news' && (
+              <View>
+                <Text style={styles.sectionTitle}>
+                  {language === 'ta' ? 'நேசல் கிராம செய்திகள்' : 'Nesal Village News'}
+                </Text>
+                {news.map((item) => (
+                  <View key={item._id} style={styles.card}>
+                    <Text style={styles.cardTag}>{item.category}</Text>
+                    <Text style={styles.cardTitle}>{item.headline}</Text>
+                    <Text style={styles.cardSummary}>
+                      {language === 'ta' ? (item.summaryTamil || item.summaryEnglish) : item.summaryEnglish}
+                    </Text>
+                    <View style={styles.cardFooter}>
+                      <TouchableOpacity
+                        onPress={() => shareOnWhatsApp(item.headline, item.originalArticleUrl)}
+                        style={styles.shareBtn}
+                      >
+                        <Text style={styles.shareBtnText}>💬 WhatsApp</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => Linking.openURL(item.originalArticleUrl)}
+                        style={styles.applyBtn}
+                      >
+                        <Text style={styles.applyBtnText}>{language === 'ta' ? 'முழு விவரம்' : 'Read'}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
+
+            {/* Announcements Tab */}
+            {currentTab === 'announcements' && (
+              <View>
+                <Text style={styles.sectionTitle}>
+                  {language === 'ta' ? 'நேசல் ஊராட்சி சுற்றறிக்கைகள்' : 'Panchayat Announcements'}
+                </Text>
+                {announcements.map((ann) => (
+                  <View key={ann._id} style={styles.card}>
+                    <Text style={styles.cardTag}>{ann.category}</Text>
+                    <Text style={styles.cardTitle}>{ann.headline}</Text>
+                    <Text style={styles.cardSummary}>
+                      {language === 'ta' ? (ann.summaryTamil || ann.summaryEnglish) : ann.summaryEnglish}
+                    </Text>
+                    <View style={styles.cardFooter}>
+                      <TouchableOpacity
+                        onPress={() => shareOnWhatsApp(ann.headline, ann.originalArticleUrl)}
+                        style={styles.shareBtn}
+                      >
+                        <Text style={styles.shareBtnText}>💬 WhatsApp</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => Linking.openURL(ann.originalArticleUrl)}
+                        style={styles.applyBtn}
+                      >
+                        <Text style={styles.applyBtnText}>{language === 'ta' ? 'சுற்றறிக்கை' : 'Circular'}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
+
+            {/* Jobs Tab */}
+            {currentTab === 'jobs' && (
+              <View>
+                <Text style={styles.sectionTitle}>
+                  {language === 'ta' ? 'வானூர் & விழுப்புரம் வேலைவாய்ப்புகள்' : 'Jobs in Villupuram & Vanur'}
+                </Text>
+                {jobs.map((job) => (
+                  <View key={job._id} style={styles.card}>
+                    <Text style={styles.cardTag}>{job.jobCategory}</Text>
+                    <Text style={styles.cardTitle}>{job.jobTitle}</Text>
+                    <Text style={styles.cardOrg}>🏢 {job.organizationName}</Text>
+                    <Text style={styles.cardLoc}>📍 {job.jobLocation}</Text>
+                    <Text style={styles.cardDesc} numberOfLines={2}>{job.jobDescription}</Text>
+                    <View style={styles.cardFooter}>
+                      <TouchableOpacity
+                        onPress={() => shareOnWhatsApp(job.jobTitle, job.applicationUrl || job.officialNotificationUrl)}
+                        style={styles.shareBtn}
+                      >
+                        <Text style={styles.shareBtnText}>💬 WhatsApp</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => Linking.openURL(job.applicationUrl || job.officialNotificationUrl)}
+                        style={styles.applyBtn}
+                      >
+                        <Text style={styles.applyBtnText}>{language === 'ta' ? 'விண்ணப்பிக்க' : 'Apply'}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
+          </ScrollView>
+        )}
+      </View>
+
+      {/* Mobile Bottom Navigation Bar */}
+      <View style={styles.bottomNav}>
+        {[
+          { id: 'home', label: language === 'ta' ? 'முகப்பு' : 'Home', icon: '🌾' },
+          { id: 'news', label: language === 'ta' ? 'செய்திகள்' : 'News', icon: '📰' },
+          { id: 'announcements', label: language === 'ta' ? 'அறிவிப்பு' : 'Notices', icon: '📢' },
+          { id: 'jobs', label: language === 'ta' ? 'வேலைகள்' : 'Jobs', icon: '💼' }
+        ].map((tab) => (
+          <TouchableOpacity
+            key={tab.id}
+            onPress={() => setCurrentTab(tab.id)}
+            style={[styles.tabButton, currentTab === tab.id && styles.activeTabButton]}
+          >
+            <Text style={styles.tabIcon}>{tab.icon}</Text>
+            <Text style={[styles.tabLabel, currentTab === tab.id && styles.activeTabLabel]}>
+              {tab.label}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#064e3b'
+  },
+  header: {
+    backgroundColor: '#064e3b',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255,255,255,0.1)'
+  },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  logoRow: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  logoIcon: {
+    fontSize: 26,
+    marginRight: 8
+  },
+  logoTitle: {
+    fontSize: 17,
+    fontWeight: '900',
+    color: '#ffffff'
+  },
+  logoSubtitle: {
+    fontSize: 10,
+    color: '#a7f3d0',
+    fontWeight: '600'
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  langBtn: {
+    backgroundColor: 'rgba(255,255,255,0.15)',
+    paddingHorizontal: 9,
+    paddingVertical: 5,
+    borderRadius: 8,
+    marginRight: 6
+  },
+  langBtnText: {
+    color: '#ffffff',
+    fontSize: 11,
+    fontWeight: 'bold'
+  },
+  gpsBtn: {
+    backgroundColor: '#059669',
+    paddingHorizontal: 9,
+    paddingVertical: 5,
+    borderRadius: 8
+  },
+  gpsBtnText: {
+    color: '#ffffff',
+    fontSize: 11,
+    fontWeight: 'bold'
+  },
+  gpsBanner: {
+    marginTop: 6,
+    backgroundColor: 'rgba(5, 150, 105, 0.4)',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6
+  },
+  gpsBannerText: {
+    color: '#a7f3d0',
+    fontSize: 10,
+    fontWeight: 'bold'
+  },
+  helplineBar: {
+    backgroundColor: '#022c22',
+    paddingVertical: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255,255,255,0.08)'
+  },
+  helplineScroll: {
+    paddingHorizontal: 12,
+    alignItems: 'center'
+  },
+  helplineTitle: {
+    color: '#f87171',
+    fontSize: 11,
+    fontWeight: 'bold',
+    marginRight: 6
+  },
+  helplineChip: {
+    backgroundColor: '#064e3b',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+    marginRight: 8,
+    borderWidth: 1,
+    borderColor: '#059669'
+  },
+  helplineChipText: {
+    color: '#ffffff',
+    fontSize: 10,
+    fontWeight: 'bold'
+  },
+  content: {
+    flex: 1,
+    backgroundColor: '#f8fafc'
+  },
+  scrollContent: {
+    padding: 16,
+    paddingBottom: 24
+  },
+  centerContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 13,
+    color: '#64748b'
+  },
+  heroCard: {
+    backgroundColor: '#022c22',
+    padding: 16,
+    borderRadius: 18,
+    marginBottom: 14
+  },
+  heroBadge: {
+    color: '#34d399',
+    fontSize: 10,
+    fontWeight: 'bold',
+    marginBottom: 4
+  },
+  heroTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#ffffff',
+    marginBottom: 4
+  },
+  heroDesc: {
+    fontSize: 11,
+    color: '#cbd5e1',
+    lineHeight: 16
+  },
+  civicBox: {
+    backgroundColor: '#ecfdf5',
+    padding: 14,
+    borderRadius: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#a7f3d0'
+  },
+  civicBoxTitle: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#065f46',
+    marginBottom: 6
+  },
+  civicRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 2
+  },
+  civicLabel: {
+    fontSize: 10,
+    color: '#047857',
+    fontWeight: '600'
+  },
+  civicValue: {
+    fontSize: 10,
+    color: '#0f172a',
+    fontWeight: 'bold'
+  },
+  sectionTitle: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#0f172a',
+    marginBottom: 10
+  },
+  card: {
+    backgroundColor: '#ffffff',
+    borderRadius: 14,
+    padding: 14,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    elevation: 2
+  },
+  cardTag: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#ecfdf5',
+    color: '#047857',
+    fontSize: 10,
+    fontWeight: 'bold',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+    marginBottom: 6
+  },
+  cardTitle: {
+    fontSize: 14,
+    fontWeight: '800',
+    color: '#0f172a',
+    marginBottom: 4
+  },
+  cardOrg: {
+    fontSize: 11,
+    color: '#475569',
+    marginBottom: 2
+  },
+  cardLoc: {
+    fontSize: 10,
+    color: '#64748b',
+    marginBottom: 6
+  },
+  cardDesc: {
+    fontSize: 11,
+    color: '#64748b',
+    lineHeight: 15,
+    marginBottom: 8
+  },
+  cardSummary: {
+    fontSize: 11,
+    color: '#334155',
+    lineHeight: 16,
+    marginBottom: 8,
+    backgroundColor: '#f0fdf4',
+    padding: 8,
+    borderRadius: 8
+  },
+  cardFooter: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#f1f5f9'
+  },
+  shareBtn: {
+    backgroundColor: '#f0fdf4',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 8,
+    marginRight: 6,
+    borderWidth: 1,
+    borderColor: '#bbf7d0'
+  },
+  shareBtnText: {
+    color: '#15803d',
+    fontSize: 10,
+    fontWeight: 'bold'
+  },
+  applyBtn: {
+    backgroundColor: '#0f172a',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8
+  },
+  applyBtnText: {
+    color: '#ffffff',
+    fontSize: 10,
+    fontWeight: 'bold'
+  },
+  bottomNav: {
+    flexDirection: 'row',
+    backgroundColor: '#ffffff',
+    borderTopWidth: 1,
+    borderTopColor: '#e2e8f0',
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+    justifyContent: 'space-around'
+  },
+  tabButton: {
+    alignItems: 'center',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 10
+  },
+  activeTabButton: {
+    backgroundColor: '#ecfdf5'
+  },
+  tabIcon: {
+    fontSize: 16
+  },
+  tabLabel: {
+    fontSize: 9,
+    color: '#64748b',
+    fontWeight: '600',
+    marginTop: 2
+  },
+  activeTabLabel: {
+    color: '#047857',
+    fontWeight: '800'
+  }
+});

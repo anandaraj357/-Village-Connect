@@ -1,0 +1,21 @@
+{
+  "appId": "org.ourvillage.connect",
+  "appName": "Our Village (நமது கிராமம்)",
+  "webDir": "client/dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#065f46",
+      "showSpinner": true,
+      "spinnerColor": "#34d399"
+    },
+    "PushNotifications": {
+      "presentationOptions": ["badge", "sound", "alert"]
+    }
+  }
+}
