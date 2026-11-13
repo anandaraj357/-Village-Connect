@@ -3,6 +3,7 @@ import JobVacancy from '../models/JobVacancy.js';
 import RecruitmentNotification from '../models/RecruitmentNotification.js';
 import NewsArticle from '../models/NewsArticle.js';
 import InAppNotification from '../models/InAppNotification.js';
+import { extractNewsForLocation } from '../crawler/core/locationNewsCrawler.js';
 
 const router = express.Router();
 
@@ -67,10 +68,40 @@ router.get('/recruitments', async (req, res) => {
   }
 });
 
+function escapeRegex(text) {
+  return String(text || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Extract news on-demand by GPS or selected District/State
+router.post('/news/extract-by-location', async (req, res) => {
+  try {
+    const { state, district, mandal, village, lat, lng } = req.body || {};
+    const result = await extractNewsForLocation({
+      state: state || 'Tamil Nadu',
+      district: district || 'Villupuram',
+      mandal: mandal || 'General',
+      village: village || 'All',
+      gps: lat && lng ? { lat: Number(lat), lng: Number(lng) } : null
+    });
+    res.json(result);
+  } catch (err) {
+    console.error(`[ExtractByLocation Error]: ${err.message}`);
+    res.json({
+      success: true,
+      district: req.body?.district || 'Villupuram',
+      state: req.body?.state || 'Tamil Nadu',
+      newCount: 0,
+      totalCount: 0,
+      news: [],
+      warning: err.message
+    });
+  }
+});
+
 // Public News Articles endpoint
 router.get('/news', async (req, res) => {
   try {
-    const { category, scope, search, page = 1, limit = 20 } = req.query;
+    const { category, scope, search, district, state, page = 1, limit = 20 } = req.query;
     const filter = {};
 
     if (category && category !== 'All') {
@@ -79,12 +110,30 @@ router.get('/news', async (req, res) => {
     if (scope && scope !== 'All') {
       filter['geographicRelevance.scope'] = scope;
     }
-    if (search) {
-      filter.$or = [
-        { headline: new RegExp(search, 'i') },
-        { shortDescription: new RegExp(search, 'i') },
-        { summaryEnglish: new RegExp(search, 'i') }
+    if (district) {
+      const safeDist = escapeRegex(district);
+      filter['$or'] = [
+        { 'geographicRelevance.district': new RegExp(safeDist, 'i') },
+        { 'geographicRelevance.scope': { $in: ['State', 'Tamil Nadu', 'Andhra Pradesh', 'National'] } }
       ];
+    }
+    if (state) {
+      filter['geographicRelevance.state'] = new RegExp(escapeRegex(state), 'i');
+    }
+    if (search) {
+      const searchRegex = new RegExp(escapeRegex(search), 'i');
+      const searchCond = [
+        { headline: searchRegex },
+        { shortDescription: searchRegex },
+        { summaryEnglish: searchRegex },
+        { summaryTamil: searchRegex }
+      ];
+      if (filter['$or']) {
+        filter['$and'] = [{ $or: filter['$or'] }, { $or: searchCond }];
+        delete filter['$or'];
+      } else {
+        filter['$or'] = searchCond;
+      }
     }
 
     const total = await NewsArticle.countDocuments(filter);
@@ -102,9 +151,21 @@ router.get('/news', async (req, res) => {
 // Public District & Village Announcements
 router.get('/announcements', async (req, res) => {
   try {
+    const { district, state } = req.query;
     const filter = {
       category: { $in: ['Important Announcements', 'Government Schemes', 'District News', 'Village News'] }
     };
+
+    if (district) {
+      filter['$or'] = [
+        { 'geographicRelevance.district': new RegExp(escapeRegex(district), 'i') },
+        { 'geographicRelevance.scope': { $in: ['State', 'Tamil Nadu', 'Andhra Pradesh', 'National'] } }
+      ];
+    }
+    if (state) {
+      filter['geographicRelevance.state'] = new RegExp(escapeRegex(state), 'i');
+    }
+
     const announcements = await NewsArticle.find(filter)
       .sort({ isImportant: -1, publishedDate: -1 })
       .limit(15);

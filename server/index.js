@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { connectDB } from './config/db.js';
+import { isRedisReachable } from './config/redis.js';
 import { seedDatabase } from './seed/seedSources.js';
 import { initializeScheduler } from './scheduler/crawlerScheduler.js';
 import { closeBrowser } from './crawler/core/playwrightScraper.js';
@@ -14,6 +15,7 @@ import publicContentRoutes from './routes/publicContentRoutes.js';
 import subscriptionRoutes from './routes/subscriptionRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import locationRoutes from './routes/locationRoutes.js';
 
 dotenv.config();
 
@@ -44,6 +46,7 @@ app.use('/api/public', publicContentRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/location', locationRoutes);
 
 // Serve static frontend build if present
 const clientDistPath = path.join(__dirname, '../client/dist');
@@ -73,18 +76,27 @@ async function startServer() {
     await connectDB();
     await seedDatabase();
 
-    // Initialize BullMQ Scheduler connected to Redis
-    try {
-      await initializeScheduler();
-    } catch (schedErr) {
-      console.warn(`[BullMQ Init Warning] ${schedErr.message}. Scheduler fallback active.`);
+    // Check if Redis is online before starting BullMQ to prevent startup blocking
+    const redisHost = process.env.REDIS_HOST || '127.0.0.1';
+    const redisPort = Number(process.env.REDIS_PORT) || 6379;
+    const redisOnline = await isRedisReachable(redisHost, redisPort, 1000);
+
+    if (redisOnline) {
+      try {
+        await initializeScheduler();
+      } catch (schedErr) {
+        console.warn(`[BullMQ Init Warning] ${schedErr.message}. Scheduler fallback active.`);
+      }
+    } else {
+      console.warn(`[Redis Notice] Redis is offline at ${redisHost}:${redisPort}. BullMQ background crawler scheduler is paused.`);
+      console.warn(`[Redis Notice] The web application & API are fully operational. (To enable recurring background crawls, run C:\\redis\\redis-server.exe)`);
     }
 
     const server = app.listen(PORT, () => {
       console.log(`=======================================================`);
       console.log(`🌾 OUR VILLAGE - Crawler & Information Aggregator API`);
       console.log(`🚀 Server running on http://localhost:${PORT}`);
-      console.log(`📡 Endpoints: /api/crawler, /api/approval, /api/public`);
+      console.log(`📡 Endpoints: /api/crawler, /api/approval, /api/public, /api/location`);
       console.log(`=======================================================`);
     });
 

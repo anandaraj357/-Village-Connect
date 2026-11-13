@@ -120,10 +120,22 @@ async function runTests() {
     const distSource = await CrawlerSource.findOne({ adapterKey: 'district_news' });
     assert(!!distSource, `Found District Crawler Source (${distSource?.name})`);
 
-    const crawlResult = await executeCrawl(distSource._id, 'manual');
-    assert(crawlResult.success === true, 'Crawl execution completed successfully');
-    assert(crawlResult.recordsFound > 0, `Extracted ${crawlResult.recordsFound} records`);
-    assert(crawlResult.recordsNew >= 0 || crawlResult.recordsUpdated >= 0, 'Processed candidate records');
+    let crawlResult;
+    for (let attempt = 0; attempt < 10; attempt++) {
+      try {
+        crawlResult = await executeCrawl(distSource._id, 'manual');
+        break;
+      } catch (err) {
+        if (err.message.includes('already running')) {
+          await new Promise((r) => setTimeout(r, 1000));
+        } else {
+          throw err;
+        }
+      }
+    }
+    assert(crawlResult?.success === true, 'Crawl execution completed successfully');
+    assert(crawlResult?.recordsFound > 0, `Extracted ${crawlResult?.recordsFound} records`);
+    assert(crawlResult?.recordsNew >= 0 || crawlResult?.recordsUpdated >= 0, 'Processed candidate records');
 
     // TEST 6: Admin Approval & Publishing Workflow
     console.log('\n--- TEST 6: Admin Approval and Publishing to Public Experience ---');
@@ -159,6 +171,21 @@ async function runTests() {
     const schedulerMetrics = await getSchedulerMetrics();
     assert(schedulerMetrics.status === 'active', 'BullMQ queue is active and connected to Redis');
     console.log(`  ℹ️ Repeatable Scheduled Jobs: ${schedulerMetrics.repeatableCount}`);
+
+    // TEST 8: GPS Location & Dynamic District News Extraction
+    console.log('\n--- TEST 8: GPS Location & Dynamic District News Extraction ---');
+    const { extractNewsForLocation } = await import('../crawler/core/locationNewsCrawler.js');
+    const locationCrawl = await extractNewsForLocation({
+      state: 'Tamil Nadu',
+      district: 'Cuddalore',
+      mandal: 'Panruti',
+      village: 'Marungur',
+      gps: { lat: 11.7480, lng: 79.7714 }
+    });
+    assert(locationCrawl.success === true, 'Successfully extracted news for changed district (Cuddalore)');
+    assert(locationCrawl.news.length > 0, `Extracted ${locationCrawl.news.length} articles for Cuddalore`);
+    const cuddaloreArticles = await NewsArticle.find({ 'geographicRelevance.district': /Cuddalore/i });
+    assert(cuddaloreArticles.length > 0, `Verified Cuddalore articles stored with geographic relevance (${cuddaloreArticles.length} found)`);
 
     console.log('\n=================================================================');
     console.log(`📊 TEST SUITE SUMMARY: ${passedTests}/${totalTests} TESTS PASSED (${Math.round((passedTests / totalTests) * 100)}%)`);

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { useNotifications } from '../context/NotificationContext';
-import { Bell, Globe, Shield, MapPin, Briefcase, FileText, Newspaper, Megaphone, CheckCircle2, ChevronRight, X } from 'lucide-react';
+import { useLocation } from '../context/LocationContext';
+import { LocationPickerModal } from './LocationPickerModal';
+import { Bell, Globe, Shield, MapPin, Briefcase, FileText, Newspaper, Megaphone, CheckCircle2, ChevronRight, X, Navigation, Compass, RefreshCw } from 'lucide-react';
 
 export const Navbar = ({ currentView, setCurrentView }) => {
   const { notifications, unreadCount, markAllRead, language, toggleLanguage } = useNotifications();
+  const { location, openLocationModal, requestGpsLocation, isLocating, isExtracting, extractionMessage } = useLocation();
   const [showNotifDropdown, setShowNotifDropdown] = useState(false);
 
   const navLinks = [
@@ -18,18 +21,61 @@ export const Navbar = ({ currentView, setCurrentView }) => {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
       {/* Top Banner with location & live indicators */}
-      <div className="bg-slate-900 text-slate-300 text-xs py-1.5 px-4 sm:px-8 flex justify-between items-center">
+      <div className="bg-slate-900 text-slate-300 text-xs py-1.5 px-4 sm:px-8 flex flex-wrap justify-between items-center gap-2">
         <div className="flex items-center space-x-2">
           <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span className="font-medium text-emerald-400">Live Crawlers Active</span>
-          <span className="text-slate-500">|</span>
-          <span className="flex items-center text-slate-300">
-            <MapPin className="w-3.5 h-3.5 mr-1 text-emerald-400" />
-            நேசல் (Nesal) • வானூர் (Vanur Taluk) • விழுப்புரம் (Villupuram District), தமிழ்நாடு
-          </span>
+          <span className="font-medium text-emerald-400 hidden sm:inline">Live Crawlers</span>
+          <span className="text-slate-600 hidden sm:inline">|</span>
+          
+          {/* Clickable Location Pill */}
+          <button
+            onClick={openLocationModal}
+            className="flex items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 px-2.5 py-0.5 rounded-full border border-slate-700 hover:border-emerald-500 transition text-xs group"
+            title="Click to change District or State"
+          >
+            <MapPin className="w-3.5 h-3.5 text-emerald-400 group-hover:scale-110 transition" />
+            <span className="font-bold text-white">
+              {location.district}, {location.state}
+            </span>
+            {location.mandal && location.mandal !== 'General' && (
+              <span className="text-slate-400 text-[11px] hidden md:inline">({location.mandal})</span>
+            )}
+            {location.isGps && (
+              <span className="bg-emerald-500/20 text-emerald-300 text-[10px] font-bold px-1.5 py-0.2 rounded border border-emerald-500/30">
+                GPS
+              </span>
+            )}
+            <span className="text-emerald-400 text-[11px] underline ml-1">
+              {language === 'ta' ? 'மாற்றுக' : 'Change'}
+            </span>
+          </button>
+
+          {/* Direct 1-Click GPS Button */}
+          <button
+            onClick={requestGpsLocation}
+            disabled={isLocating || isExtracting}
+            className="flex items-center space-x-1 text-[11px] text-emerald-300 hover:text-emerald-200 bg-emerald-950/70 hover:bg-emerald-900 border border-emerald-700/60 px-2 py-0.5 rounded transition"
+            title="Auto-detect current GPS location"
+          >
+            {isLocating ? (
+              <RefreshCw className="w-3 h-3 animate-spin text-emerald-400" />
+            ) : (
+              <Navigation className="w-3 h-3 text-emerald-400" />
+            )}
+            <span className="hidden sm:inline">
+              {isLocating ? 'Locating...' : 'GPS Auto-Detect'}
+            </span>
+          </button>
         </div>
 
         <div className="flex items-center space-x-4">
+          {extractionMessage && (
+            <div className="hidden lg:flex items-center space-x-1.5 text-[11px] text-emerald-300 animate-pulse">
+              <RefreshCw className="w-3 h-3 animate-spin" />
+              <span className="truncate max-w-xs">{extractionMessage}</span>
+            </div>
+          )}
+
           <button
             onClick={toggleLanguage}
             className="flex items-center space-x-1 font-semibold text-white bg-slate-800 hover:bg-slate-700 px-2 py-0.5 rounded transition"
@@ -72,7 +118,9 @@ export const Navbar = ({ currentView, setCurrentView }) => {
                 </span>
               </div>
               <div className="text-xs text-slate-500 font-medium">
-                {language === 'ta' ? 'நேசல் கிராம டிஜிட்டல் தளம் (வானூர் வட்டம்)' : 'Nesal Village Digital Portal (Vanur Taluk)'}
+                {language === 'ta'
+                  ? `${location.district} & ${location.state} டிஜிட்டல் தளம்`
+                  : `${location.district} & ${location.state} Digital Portal`}
               </div>
             </div>
           </div>
@@ -171,6 +219,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
           </div>
         </div>
       </div>
+      <LocationPickerModal />
     </header>
   );
 };

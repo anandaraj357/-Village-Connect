@@ -54,6 +54,7 @@ const NewsArticleSchema = new mongoose.Schema(
 
 NewsArticleSchema.index({ category: 1, publishedDate: -1 });
 NewsArticleSchema.index({ 'geographicRelevance.district': 1 });
+NewsArticleSchema.index({ 'geographicRelevance.state': 1 });
 NewsArticleSchema.index({ isImportant: 1, publishedDate: -1 });
 
 export default mongoose.model('NewsArticle', NewsArticleSchema);

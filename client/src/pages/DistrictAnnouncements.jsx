@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNotifications } from '../context/NotificationContext';
+import { useLocation } from '../context/LocationContext';
 import { CategoryBadge } from '../components/Badge';
-import { Megaphone, Calendar, MapPin, ExternalLink, ShieldCheck } from 'lucide-react';
+import { Megaphone, Calendar, MapPin, ExternalLink, ShieldCheck, RefreshCw, Navigation, Sparkles } from 'lucide-react';
 
 export const DistrictAnnouncements = () => {
   const { language } = useNotifications();
+  const { location, openLocationModal, requestGpsLocation, extractNewsForLocation, isLocating, isExtracting, refreshTrigger } = useLocation();
   const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +15,10 @@ export const DistrictAnnouncements = () => {
     const fetchAnnouncements = async () => {
       try {
         setLoading(true);
-        const res = await axios.get('/api/public/announcements');
+        const params = new URLSearchParams();
+        if (location.district) params.append('district', location.district);
+        if (location.state) params.append('state', location.state);
+        const res = await axios.get(`/api/public/announcements?${params.toString()}`);
         if (res.data.success) {
           setAnnouncements(res.data.announcements);
         }
@@ -25,20 +30,51 @@ export const DistrictAnnouncements = () => {
     };
 
     fetchAnnouncements();
-  }, []);
+  }, [location.district, location.state, refreshTrigger]);
 
   return (
     <div className="space-y-8 pb-16">
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-2">
-        <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Official Communiques</span>
-        <h1 className="text-3xl font-extrabold text-slate-900">
-          {language === 'ta' ? 'விழுப்புரம் மாவட்ட & வானூர் வட்டார அறிவிப்புகள்' : 'District & Taluk Announcements'}
-        </h1>
-        <p className="text-slate-600 text-xs sm:text-sm">
-          {language === 'ta'
-            ? 'விழுப்புரம் மாவட்ட ஆட்சியரகம், வானூர் வட்டாட்சியர் அலுவலகம் மற்றும் நேசல் கிராம பஞ்சாயத்து அதிகாரப்பூர்வ சுற்றறிக்கைகள்.'
-            : 'Press releases, public grievances schedules, welfare notices, and civic circulars from Villupuram District Administration and Vanur Taluk.'}
-        </p>
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center space-x-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Official Communiques</span>
+              <span className="text-slate-300">•</span>
+              <span className="inline-flex items-center text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+                <MapPin className="w-3 h-3 mr-1 text-emerald-600" />
+                {location.district}, {location.state}
+              </span>
+            </div>
+            <h1 className="text-3xl font-extrabold text-slate-900 mt-1">
+              {language === 'ta'
+                ? `${location.district} மாவட்ட அதிகாரப்பூர்வ அறிவிப்புகள்`
+                : `${location.district} District Announcements`}
+            </h1>
+            <p className="text-slate-600 text-xs sm:text-sm mt-1">
+              {language === 'ta'
+                ? `${location.district} மாவட்ட ஆட்சியரகம், வட்டாட்சியர் அலுவலகம் மற்றும் உள்ளாட்சி நிர்வாக அறிவிப்புகள்.`
+                : `Official press releases, public grievances schedules, and civic circulars for ${location.district}, ${location.state}.`}
+            </p>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={requestGpsLocation}
+              disabled={isLocating || isExtracting}
+              className="bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 border border-slate-200 font-bold px-3 py-2 rounded-xl text-xs transition flex items-center space-x-1.5"
+            >
+              {isLocating ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Navigation className="w-3.5 h-3.5" />}
+              <span>GPS</span>
+            </button>
+            <button
+              onClick={openLocationModal}
+              className="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center space-x-1.5"
+            >
+              <MapPin className="w-3.5 h-3.5 text-emerald-600" />
+              <span>{language === 'ta' ? 'இடத்தை மாற்றுக' : 'Change District'}</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       {loading ? (

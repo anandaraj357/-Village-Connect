@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNotifications } from '../context/NotificationContext';
+import { useLocation } from '../context/LocationContext';
 import { CategoryBadge, ConfidenceBadge } from '../components/Badge';
-import { Briefcase, FileText, Newspaper, Megaphone, Calendar, ArrowRight, ExternalLink, Download, CheckCircle, Search } from 'lucide-react';
+import { Briefcase, FileText, Newspaper, Megaphone, Calendar, ArrowRight, ExternalLink, Download, CheckCircle, Search, MapPin, Navigation, Sparkles } from 'lucide-react';
 
 export const Home = ({ setCurrentView }) => {
   const { language } = useNotifications();
+  const { location, openLocationModal, requestGpsLocation, isLocating, refreshTrigger } = useLocation();
   const [jobs, setJobs] = useState([]);
   const [recruitments, setRecruitments] = useState([]);
   const [news, setNews] = useState([]);
@@ -16,11 +18,14 @@ export const Home = ({ setCurrentView }) => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        const distParam = location.district ? `&district=${encodeURIComponent(location.district)}` : '';
+        const stateParam = location.state ? `&state=${encodeURIComponent(location.state)}` : '';
+
         const [jobsRes, recRes, newsRes, annRes] = await Promise.all([
-          axios.get('/api/public/jobs?limit=4'),
+          axios.get(`/api/public/jobs?limit=4${distParam}`),
           axios.get('/api/public/recruitments?limit=3'),
-          axios.get('/api/public/news?limit=4'),
-          axios.get('/api/public/announcements')
+          axios.get(`/api/public/news?limit=4${distParam}${stateParam}`),
+          axios.get(`/api/public/announcements?${distParam.replace('&', '')}${stateParam}`)
         ]);
 
         if (jobsRes.data.success) setJobs(jobsRes.data.jobs);
@@ -35,7 +40,7 @@ export const Home = ({ setCurrentView }) => {
     };
 
     fetchData();
-  }, []);
+  }, [location.district, location.state, refreshTrigger]);
 
   return (
     <div className="space-y-10 pb-16">
@@ -44,22 +49,34 @@ export const Home = ({ setCurrentView }) => {
         <div className="absolute top-0 right-0 -mt-10 -mr-10 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="relative z-10 max-w-3xl space-y-4">
-          <div className="inline-flex items-center space-x-2 bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/30">
-            <span>✨ AI-Verified Information Network</span>
-            <span>•</span>
-            <span className="tamil-text">நேசல் • வானூர் • விழுப்புரம் • தமிழ்நாடு</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center space-x-2 bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/30">
+              <span>✨ AI-Verified Information Network</span>
+              <span>•</span>
+              <span className="tamil-text">
+                {location.village} • {location.mandal} • {location.district} • {location.state}
+              </span>
+            </div>
+
+            <button
+              onClick={openLocationModal}
+              className="inline-flex items-center space-x-1.5 bg-slate-800/80 hover:bg-slate-700/80 text-emerald-300 border border-slate-700 text-xs font-semibold px-3 py-1 rounded-full transition cursor-pointer"
+            >
+              <MapPin className="w-3 h-3 text-emerald-400" />
+              <span>{language === 'ta' ? 'இடத்தை மாற்றுக' : 'Change Location / GPS'}</span>
+            </button>
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
             {language === 'ta'
-              ? 'நமது கிராமம் - நேசல்: வேலைவாய்ப்புகள், அரசுத் தேர்வுகள் & மாவட்ட செய்திகள்'
-              : 'Our Village - Nesal: Verified Jobs, Government Recruitments & District Updates'}
+              ? `நமது கிராமம் - ${location.district}: வேலைவாய்ப்புகள், அரசுத் தேர்வுகள் & மாவட்ட செய்திகள்`
+              : `Our Village - ${location.district}: Verified Jobs, Government Recruitments & District Updates`}
           </h1>
 
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
             {language === 'ta'
-              ? 'தமிழ்நாடு அரசுப் பணியாளர் தேர்வாணையம் (TNPSC), தேசிய வேலைவாய்ப்பு சேவை (NCS), எம்ப்ளாய்மென்ட் நியூஸ் மற்றும் விழுப்புரம் மாவட்ட ஆட்சியரகம் மூலம் அதிகாரப்பூர்வமாக சரிபார்க்கப்பட்ட தகவல்கள்.'
-              : 'Direct from authorized portals: TNPSC, National Career Service, Employment News, and Villupuram District Collectorate — crawled, cleaned, and verified for Nesal & Vanur citizens.'}
+              ? `${location.district} மற்றும் ${location.state} வட்டாரப் பகுதிகளுக்கான அதிகாரப்பூர்வ வேலைகள், தேர்வுகள் மற்றும் மாவட்ட செய்திகள் தானியங்கி கிராலர் மற்றும் AI சரிபார்ப்பு மூலம் வழங்கப்படுகின்றன.`
+              : `Direct from authorized portals: State & Central Employment Services, TNPSC/SSC, and ${location.district} District Collectorate — crawled, cleaned, and verified for citizens.`}
           </p>
 
           <div className="pt-2 flex flex-wrap gap-3">
