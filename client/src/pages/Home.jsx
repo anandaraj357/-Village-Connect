@@ -25,7 +25,8 @@ import {
   Building2,
   Wheat,
   Share2,
-  BookOpen
+  BookOpen,
+  Archive
 } from 'lucide-react';
 
 export const Home = ({ setCurrentView }) => {
@@ -111,7 +112,14 @@ export const Home = ({ setCurrentView }) => {
               className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
             >
               <BookOpen className="w-4 h-4 text-emerald-200" />
-              <span>{language === 'ta' ? 'நெசல் வரலாறு (About Us)' : 'About Nesal'}</span>
+              <span>{language === 'ta' ? 'நெசல் வரலாறு' : 'About Nesal'}</span>
+            </button>
+            <button
+              onClick={() => setCurrentView('heritage')}
+              className="bg-amber-500 hover:bg-amber-400 text-stone-950 font-black px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
+            >
+              <Archive className="w-4 h-4 text-stone-950" />
+              <span>{language === 'ta' ? 'வரலாற்றுப் பெட்டகம்' : 'Heritage Archive'}</span>
             </button>
             <button
               onClick={() => setCurrentView('news')}
@@ -256,16 +264,28 @@ export const Home = ({ setCurrentView }) => {
             விழுப்புரம் மாவட்டம், வானூர் வட்டம் நெசல் கிராமத்தின் இயற்கை வளம், விவசாயம், மாரியம்மன் & திரௌபதி அம்மன் கோவில் ஆன்மீக மரபு, சமூக ஒற்றுமை மற்றும் எதிர்கால தொலைநோக்கு.
           </p>
         </div>
-        <button
-          onClick={() => {
-            setCurrentView('about');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }}
-          className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-6 py-3 rounded-2xl shadow-lg transition flex items-center space-x-2 text-sm whitespace-nowrap self-stretch md:self-auto justify-center"
-        >
-          <span>முழு வரலாற்றைப் படிக்க</span>
-          <ArrowRight className="w-4 h-4" />
-        </button>
+        <div className="flex flex-col sm:flex-row gap-3 self-stretch md:self-auto">
+          <button
+            onClick={() => {
+              setCurrentView('about');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-5 py-2.5 rounded-2xl shadow-lg transition flex items-center justify-center space-x-2 text-sm whitespace-nowrap"
+          >
+            <span>முழு வரலாற்றைப் படிக்க</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+          <button
+            onClick={() => {
+              setCurrentView('heritage');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+            className="bg-amber-500 hover:bg-amber-400 text-stone-950 font-black px-5 py-2.5 rounded-2xl shadow-lg transition flex items-center justify-center space-x-2 text-sm whitespace-nowrap"
+          >
+            <Archive className="w-4 h-4 text-stone-950" />
+            <span>வரலாற்றுப் பெட்டகம் (புகைப்படங்கள் & ஆவணங்கள்)</span>
+          </button>
+        </div>
       </section>
 
       {/* NESAL & VANUR EMERGENCY DIRECTORY WIDGET */}

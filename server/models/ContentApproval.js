@@ -6,7 +6,7 @@ const ContentApprovalSchema = new mongoose.Schema(
     recordType: {
       type: String,
       required: true,
-      enum: ['job', 'recruitment', 'news', 'announcement']
+      enum: ['job', 'recruitment', 'news', 'announcement', 'heritage']
     },
     title: { type: String, required: true },
     category: { type: String, default: 'General' },
@@ -35,7 +35,7 @@ const ContentApprovalSchema = new mongoose.Schema(
     editedFields: { type: mongoose.Schema.Types.Mixed },
     publishedCollection: {
       type: String,
-      enum: ['JobVacancies', 'RecruitmentNotifications', 'NewsArticles']
+      enum: ['JobVacancies', 'RecruitmentNotifications', 'NewsArticles', 'HeritageArchives']
     },
     publishedDocumentId: { type: mongoose.Schema.Types.ObjectId }
   },

@@ -4,6 +4,7 @@ import RecruitmentNotification from '../models/RecruitmentNotification.js';
 import NewsArticle from '../models/NewsArticle.js';
 import InAppNotification from '../models/InAppNotification.js';
 import ContentApproval from '../models/ContentApproval.js';
+import HeritageArchive from '../models/HeritageArchive.js';
 import { extractNewsForLocation } from '../crawler/core/locationNewsCrawler.js';
 
 const router = express.Router();
@@ -449,6 +450,140 @@ router.get('/notifications', async (req, res) => {
       .limit(Number(limit));
 
     res.json({ success: true, notifications });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ==========================================
+// NESAL HERITAGE ARCHIVE (நெசல் வரலாற்றுப் பெட்டகம்)
+// ==========================================
+
+// GET /api/public/heritage - Retrieve archived photos and documents
+router.get('/heritage', async (req, res) => {
+  try {
+    const { category, search, page = 1, limit = 50 } = req.query;
+    const filter = { status: 'approved' };
+
+    if (category && category !== 'All') {
+      filter.category = category;
+    }
+
+    if (search) {
+      const searchRegex = new RegExp(escapeRegex(search), 'i');
+      filter.$or = [
+        { title: searchRegex },
+        { titleEnglish: searchRegex },
+        { description: searchRegex },
+        { yearOrEra: searchRegex },
+        { contributorName: searchRegex }
+      ];
+    }
+
+    const total = await HeritageArchive.countDocuments(filter);
+    const items = await HeritageArchive.find(filter)
+      .sort({ isFeatured: -1, createdAt: -1 })
+      .skip((Number(page) - 1) * Number(limit))
+      .limit(Number(limit));
+
+    res.json({
+      success: true,
+      total,
+      items
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// POST /api/public/heritage/upload - Upload historical photos & documents by village citizens
+router.post('/heritage/upload', async (req, res) => {
+  try {
+    const {
+      title,
+      titleEnglish,
+      category,
+      yearOrEra,
+      description,
+      fileUrl,
+      fileType = 'image',
+      contributorName,
+      contributorPhone,
+      contributorWard,
+      tags
+    } = req.body;
+
+    if (!title || !title.trim()) {
+      return res.status(400).json({ success: false, message: 'ஆவணம் அல்லது புகைப்படத்தின் தலைப்பு அவசியம் (Title is required).' });
+    }
+
+    if (!contributorName || !contributorName.trim()) {
+      return res.status(400).json({ success: false, message: 'சமர்ப்பிப்பவர் பெயர் அவசியம் (Contributor name is required).' });
+    }
+
+    const newArchive = await HeritageArchive.create({
+      title: title.trim(),
+      titleEnglish: titleEnglish ? titleEnglish.trim() : '',
+      category: category || 'Photo',
+      yearOrEra: yearOrEra || 'பாரம்பரியம் / காலம் அறியப்படவில்லை',
+      description: description ? description.trim() : '',
+      fileUrl: fileUrl || '',
+      fileType: fileType || 'image',
+      contributorName: contributorName.trim(),
+      contributorPhone: contributorPhone ? contributorPhone.trim() : '',
+      contributorWard: contributorWard ? contributorWard.trim() : 'நெசல் கிராமம்',
+      status: 'approved',
+      isFeatured: false,
+      tags: Array.isArray(tags) ? tags : []
+    });
+
+    // Create an approval record for Admin visibility
+    await ContentApproval.create({
+      recordType: 'heritage',
+      title: `நெசல் வரலாற்றுப் பதிவு: ${title.trim()}`,
+      category: category || 'Photo',
+      sourceName: `கிராம மக்கள் சமர்ப்பிப்பு: ${contributorName.trim()} (${contributorPhone || 'N/A'})`,
+      sourceUrl: fileUrl || 'Village Archive Upload',
+      summary: description || `Historical contribution by ${contributorName.trim()}`,
+      summaryTamil: `நெசல் கிராம வரலாற்றுப் பெட்டகத்தில் ${contributorName.trim()} அவர்கள் பதிவேற்றிய ${title.trim()} (${yearOrEra || 'பாரம்பரியம்'}).`,
+      verificationStatus: 'verified',
+      status: 'approved',
+      publishedCollection: 'HeritageArchives',
+      publishedDocumentId: newArchive._id,
+      isImportant: true
+    });
+
+    // Broadcast In-App Notification to citizens
+    await InAppNotification.create({
+      title: `புதிய வரலாற்று ஆவணம்/புகைப்படம்: ${title.slice(0, 40)}`,
+      body: `${contributorName.trim()} அவர்கள் நெசல் வரலாற்றுப் பெட்டகத்தில் சமர்ப்பித்துள்ளார் (${yearOrEra || 'பாரம்பரியம்'}).`,
+      category: 'Announcements',
+      type: 'news',
+      isImportant: false
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'நெசல் வரலாற்றுப் பெட்டகத்தில் உங்கள் ஆவணம்/புகைப்படம் வெற்றிகரமாக பதிவேற்றப்பட்டது!',
+      item: newArchive
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// POST /api/public/heritage/:id/like - Like a heritage archive post
+router.post('/heritage/:id/like', async (req, res) => {
+  try {
+    const item = await HeritageArchive.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { likesCount: 1 } },
+      { new: true }
+    );
+    if (!item) {
+      return res.status(404).json({ success: false, message: 'Archive item not found' });
+    }
+    res.json({ success: true, likesCount: item.likesCount });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

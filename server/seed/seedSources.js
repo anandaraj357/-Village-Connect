@@ -8,6 +8,7 @@ import NewsArticle from '../models/NewsArticle.js';
 import ContentApproval from '../models/ContentApproval.js';
 import CrawledRecord from '../models/CrawledRecord.js';
 import InAppNotification from '../models/InAppNotification.js';
+import HeritageArchive from '../models/HeritageArchive.js';
 
 dotenv.config();
 
@@ -772,6 +773,94 @@ export async function seedDatabase(forceClean = false) {
         }
       ]);
       console.log('[Seed] Tamil Nadu in-app notifications seeded.');
+    }
+
+    // 7. Seed Nesal Heritage Archive (நெசல் வரலாற்றுப் பெட்டகம்)
+    const heritageCount = await HeritageArchive.countDocuments();
+    if (heritageCount === 0 || forceClean) {
+      await HeritageArchive.create([
+        {
+          title: '1972 மாரியம்மன் கோவில் சித்திரைத் திருவிழா அரிய புகைப்படம்',
+          titleEnglish: '1972 Nesal Mariamman Temple Chithirai Festival Rare Photo',
+          category: 'Photo',
+          yearOrEra: '1972 (54 ஆண்டுகளுக்கு முன்)',
+          description: 'நெசல் கிராம மாரியம்மன் கோவில் தெருவில் ஊர் பொதுமக்கள் அனைவரும் ஒன்று கூடி விமரிசையாகக் கொண்டாடிய சித்திரைத் திருவிழா வரலாற்றுப் புகைப்படம். பாரம்பரிய நாதஸ்வரம், கரகாட்டம் மற்றும் தேர் பவனி.',
+          fileUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
+          fileType: 'image',
+          contributorName: 'குப்புசாமி நாயக்கர் குடும்பத்தார்',
+          contributorPhone: '9443123450',
+          contributorWard: 'மாரியம்மன் கோவில் தெரு, நெசல்',
+          isFeatured: true,
+          status: 'approved',
+          likesCount: 28,
+          tags: ['மாரியம்மன் கோவில்', 'திருவிழா', '1972', 'பாரம்பரியம்']
+        },
+        {
+          title: '1964 நெசல் கிராம நன்செய் நிலப்பட்டா & பழமையான வருவாய் ஆவணம்',
+          titleEnglish: '1964 Nesal Village Land Patta & Ancient Revenue Record',
+          category: 'Document',
+          yearOrEra: '1964',
+          description: 'வானூர் வட்டார எல்லைக்குள் நெசல் கிராமத்தின் ஏரிப்பாசன நன்செய் நிலங்களின் எல்லைகள் மற்றும் சர்வே எண்கள் அடங்கிய வரலாற்றுப் பட்டா ஆவணம். முன்னோர்களின் கையெழுத்து மற்றும் முத்திரையுடன் பாதுகாக்கப்பட்டது.',
+          fileUrl: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80',
+          fileType: 'document',
+          contributorName: 'முத்தையன் பிள்ளை (ஓய்வுபெற்ற ஆசிரியர்)',
+          contributorPhone: '9842567812',
+          contributorWard: 'தெற்குத் தெரு, நெசல்',
+          isFeatured: true,
+          status: 'approved',
+          likesCount: 19,
+          tags: ['நிலப்பட்டா', '1964', 'வானூர் வட்டம்', 'ஆவணம்']
+        },
+        {
+          title: 'திரௌபதி அம்மன் கோவில் மகாபாரத கூத்து & தீமிதி உற்சவம் (1981)',
+          titleEnglish: 'Draupadi Amman Temple Mahabharata Koothu & Firewalking Festival (1981)',
+          category: 'Temple',
+          yearOrEra: '1981',
+          description: 'நெசல் திரௌபதி அம்மன் கோவிலில் 18 நாட்கள் நடைபெற்ற மகாபாரத பாரதப் பிரசங்கம், தெருக்கூத்து மற்றும் பக்திப் பரவசத்துடன் நடைபெற்ற தீமிதி திருவிழா வரலாற்று நினைவுக் குறிப்பு.',
+          fileUrl: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=800&q=80',
+          fileType: 'image',
+          contributorName: 'கோவிந்தசாமி & கிராம இளைஞர் நற்பணி மன்றம்',
+          contributorPhone: '9787123987',
+          contributorWard: 'கோவில் வீதி, நெசல்',
+          isFeatured: true,
+          status: 'approved',
+          likesCount: 34,
+          tags: ['திரௌபதி அம்மன்', 'தீமிதி', 'மகாபாரதம்', '1981']
+        },
+        {
+          title: 'பாரம்பரிய ஏர் உழவு மற்றும் ஏரிக்கரை அறுவடை காட்சி (1978)',
+          titleEnglish: 'Traditional Bullock Ploughing and Nesal Lake Harvest (1978)',
+          category: 'Agriculture',
+          yearOrEra: '1978',
+          description: 'நெசல் கிராமத்தின் பழமையான ஏரிக்கரை பாசனத்தில் பாரம்பரிய நாட்டு மாடுகள் கொண்டு உழவு செய்து, பாரம்பரிய சீரக சம்பா மற்றும் குண்டு நெல் விளைவித்த காலத்தின் அரிய வேளாண் பதிவு.',
+          fileUrl: 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=800&q=80',
+          fileType: 'image',
+          contributorName: 'ஆறுமுகம் உழவர் மன்றம்',
+          contributorPhone: '9442098765',
+          contributorWard: 'மேலத் தெரு, நெசல்',
+          isFeatured: false,
+          status: 'approved',
+          likesCount: 22,
+          tags: ['விவசாயம்', 'ஏர் உழவு', '1978', 'நெசல் ஏரி']
+        },
+        {
+          title: '1955 நெசல் கிராம பள்ளி தொடக்கப் பதிவு மற்றும் கல்வி வரலாறு',
+          titleEnglish: '1955 Nesal Village Primary School Historical Inception Record',
+          category: 'Document',
+          yearOrEra: '1955',
+          description: 'நெசல் கிராமத்தில் குழந்தைகள் கல்வி பயில கிராமப் பெரியோர்கள் நிலம் வழங்கி அமைக்கப்பட்ட முதல் தொடக்கப் பள்ளியின் அரசு ஆணை நகல் மற்றும் முதல் தலைமை ஆசிரியர் குறிப்பு.',
+          fileUrl: 'https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=800&q=80',
+          fileType: 'document',
+          contributorName: 'நடராஜன் (கிராம நலச் சங்கம்)',
+          contributorPhone: '9843345566',
+          contributorWard: 'பள்ளி தெரு, நெசல்',
+          isFeatured: false,
+          status: 'approved',
+          likesCount: 16,
+          tags: ['பள்ளி ஆவணம்', '1955', 'கல்வி வரலாறு']
+        }
+      ]);
+      console.log('[Seed] Nesal Heritage Archive (நெசல் வரலாற்றுப் பெட்டகம்) seeded.');
     }
 
     console.log('[Seed] Database initialization complete for Tamil Nadu, Villupuram, Vanur, Nesal.');

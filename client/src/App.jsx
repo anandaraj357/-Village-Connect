@@ -16,6 +16,7 @@ import { PostJobPortal } from './pages/PostJobPortal';
 import { NewsPortal } from './pages/NewsPortal';
 import { DistrictAnnouncements } from './pages/DistrictAnnouncements';
 import { AboutUs } from './pages/AboutUs';
+import { HeritageArchivePortal } from './pages/HeritageArchivePortal';
 import { SubscriptionCenter } from './pages/SubscriptionCenter';
 
 import { AdminLayout } from './pages/admin/AdminLayout';
@@ -50,6 +51,7 @@ function AppContent() {
     if (currentView === 'news') return <NewsPortal />;
     if (currentView === 'announcements') return <DistrictAnnouncements />;
     if (currentView === 'about') return <AboutUs setCurrentView={setCurrentView} />;
+    if (currentView === 'heritage') return <HeritageArchivePortal />;
     if (currentView === 'subscriptions') return <SubscriptionCenter />;
 
     if (currentView === 'admin') {

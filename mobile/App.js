@@ -51,6 +51,48 @@ export default function App() {
   const [postSalary, setPostSalary] = useState('');
   const [isPosting, setIsPosting] = useState(false);
 
+  // Mobile Heritage State
+  const [heritageItems, setHeritageItems] = useState([]);
+  const [heritageTitle, setHeritageTitle] = useState('');
+  const [heritageCategory, setHeritageCategory] = useState('Photo');
+  const [heritageYear, setHeritageYear] = useState('');
+  const [heritageDesc, setHeritageDesc] = useState('');
+  const [heritageContributor, setHeritageContributor] = useState('');
+  const [heritagePhone, setHeritagePhone] = useState('');
+  const [isUploadingHeritage, setIsUploadingHeritage] = useState(false);
+
+  const handleMobileHeritageUpload = async () => {
+    if (!heritageTitle.trim() || !heritageContributor.trim()) {
+      Alert.alert(language === 'ta' ? 'கட்டாய விவரம்' : 'Required Fields', language === 'ta' ? 'ஆவணத்தின் தலைப்பு மற்றும் உங்கள் பெயர் அவசியம்.' : 'Please enter title and contributor name.');
+      return;
+    }
+    try {
+      setIsUploadingHeritage(true);
+      const res = await apiClient.post('/public/heritage/upload', {
+        title: heritageTitle.trim(),
+        category: heritageCategory,
+        yearOrEra: heritageYear.trim() || 'பாரம்பரியம்',
+        description: heritageDesc.trim(),
+        contributorName: heritageContributor.trim(),
+        contributorPhone: heritagePhone.trim(),
+        contributorWard: 'நெசல் கிராமம்'
+      });
+      if (res.data.success) {
+        Alert.alert(language === 'ta' ? 'வெற்றி' : 'Success', language === 'ta' ? 'வரலாற்றுப் பெட்டகத்தில் ஆவணம் பதிவேற்றப்பட்டது!' : 'Heritage record uploaded successfully!');
+        setHeritageTitle('');
+        setHeritageYear('');
+        setHeritageDesc('');
+        setHeritageContributor('');
+        setHeritagePhone('');
+        fetchTabData();
+      }
+    } catch (err) {
+      Alert.alert('Notice', err.message);
+    } finally {
+      setIsUploadingHeritage(false);
+    }
+  };
+
   // Handle direct job posting from mobile
   const handleMobileJobPost = async () => {
     if (!postTitle.trim() || !postOrg.trim() || !postPhone.trim()) {
@@ -107,6 +149,10 @@ export default function App() {
       if (currentTab === 'announcements' || currentTab === 'home') {
         const res = await apiClient.get('/public/announcements');
         if (res.data.success) setAnnouncements(res.data.announcements);
+      }
+      if (currentTab === 'heritage' || currentTab === 'home') {
+        const res = await apiClient.get('/public/heritage?limit=30');
+        if (res.data.success) setHeritageItems(res.data.items);
       }
     } catch (err) {
       console.warn('API fetch warning:', err.message);
@@ -706,6 +752,134 @@ export default function App() {
                 </View>
               </View>
             )}
+
+            {/* Heritage Archive Tab (நெசல் வரலாற்றுப் பெட்டகம்) */}
+            {currentTab === 'heritage' && (
+              <View>
+                {/* Header Card */}
+                <View style={[styles.heroCard, { backgroundColor: '#451a03', borderWidth: 1, borderColor: '#92400e' }]}>
+                  <Text style={[styles.heroBadge, { color: '#fbbf24' }]}>📜 வானூர் வட்டம் • நெசல் கிராமம் (605014)</Text>
+                  <Text style={[styles.heroTitle, { fontSize: 20, color: '#fef3c7' }]}>
+                    நெசல் வரலாற்றுப் பெட்டகம்
+                  </Text>
+                  <Text style={{ fontSize: 11, color: '#fde68a', marginTop: 2, lineHeight: 16 }}>
+                    கிராம மக்கள் தங்களிடம் உள்ள பழைய புகைப்படங்கள் மற்றும் வரலாற்று ஆவணங்களைப் பதிவேற்றும் பிரத்யேக களம்.
+                  </Text>
+                </View>
+
+                {/* Upload Form Card */}
+                <View style={[styles.card, { borderColor: '#f59e0b', borderWidth: 1.5 }]}>
+                  <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#78350f', marginBottom: 6 }}>
+                    ➕ பழைய புகைப்படம் / ஆவணம் பதிவேற்றம்
+                  </Text>
+                  <Text style={{ fontSize: 11, color: '#64748b', marginBottom: 10 }}>
+                    உங்கள் வீட்டில் உள்ள பழமையான படங்கள், நிலப்பட்டா ஆவணங்கள், கோவில் வரலாற்றுச் சான்றுகளை இங்கே பகிருங்கள்.
+                  </Text>
+
+                  <Text style={styles.inputLabel}>ஆவணம் / புகைப்படத்தின் தலைப்பு *</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    value={heritageTitle}
+                    onChangeText={setHeritageTitle}
+                    placeholder="எ.கா: 1975 மாரியம்மன் கோவில் திருவிழா"
+                  />
+
+                  <Text style={styles.inputLabel}>ஆண்டு அல்லது காலம்</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    value={heritageYear}
+                    onChangeText={setHeritageYear}
+                    placeholder="எ.கா: 1970 - 1980 / 1964"
+                  />
+
+                  <Text style={styles.inputLabel}>சமர்ப்பித்தவர் பெயர் *</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    value={heritageContributor}
+                    onChangeText={setHeritageContributor}
+                    placeholder="உங்கள் பெயர்"
+                  />
+
+                  <Text style={styles.inputLabel}>தொடர்பு தொலைபேசி / வாட்ஸ்அப்</Text>
+                  <TextInput
+                    style={styles.textInput}
+                    value={heritagePhone}
+                    onChangeText={setHeritagePhone}
+                    keyboardType="phone-pad"
+                    placeholder="9876543210"
+                  />
+
+                  <Text style={styles.inputLabel}>வரலாற்று விளக்கம்</Text>
+                  <TextInput
+                    style={[styles.textInput, { height: 60 }]}
+                    multiline
+                    value={heritageDesc}
+                    onChangeText={setHeritageDesc}
+                    placeholder="ஆவணத்தின் முக்கியத்துவம், தொடர்புடைய நபர்கள்..."
+                  />
+
+                  <TouchableOpacity
+                    onPress={handleMobileHeritageUpload}
+                    disabled={isUploadingHeritage}
+                    style={[styles.submitJobBtn, { backgroundColor: '#b45309' }, isUploadingHeritage && { opacity: 0.7 }]}
+                  >
+                    {isUploadingHeritage ? (
+                      <ActivityIndicator color="#ffffff" />
+                    ) : (
+                      <Text style={styles.submitJobBtnText}>
+                        🏛️ வரலாற்றுப் பெட்டகத்தில் பதிவேற்றுக
+                      </Text>
+                    )}
+                  </TouchableOpacity>
+                </View>
+
+                {/* Archives List */}
+                <Text style={styles.sectionTitle}>
+                  🏛️ ஆவணப்படுத்தப்பட்ட கிராம வரலாற்றுப் பதிவுகள் ({heritageItems.length})
+                </Text>
+
+                {heritageItems.map((item) => (
+                  <View key={item._id} style={styles.card}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                      <Text style={[styles.cardTag, { backgroundColor: '#fef3c7', color: '#92400e' }]}>
+                        {item.category === 'Photo' ? '📷 புகைப்படம்' : item.category === 'Document' ? '📜 ஆவணம்' : item.category === 'Temple' ? '🛕 கோவில்' : '🌾 பாரம்பரியம்'}
+                      </Text>
+                      {item.yearOrEra && (
+                        <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#78350f' }}>
+                          🗓️ {item.yearOrEra}
+                        </Text>
+                      )}
+                    </View>
+
+                    <Text style={styles.cardTitle}>{item.title}</Text>
+                    {item.description ? (
+                      <Text style={styles.cardDesc} numberOfLines={3}>{item.description}</Text>
+                    ) : null}
+
+                    <Text style={{ fontSize: 10, color: '#64748b', marginTop: 2, fontStyle: 'italic' }}>
+                      👤 சமர்ப்பித்தவர்: {item.contributorName} ({item.contributorWard || 'நெசல்'})
+                    </Text>
+
+                    <View style={styles.cardFooter}>
+                      <TouchableOpacity
+                        onPress={() => shareOnWhatsApp(item.title, item.fileUrl || 'https://nesal.village/heritage')}
+                        style={styles.shareBtn}
+                      >
+                        <Text style={styles.shareBtnText}>💬 WhatsApp</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => {
+                          if (item.fileUrl) Linking.openURL(item.fileUrl);
+                        }}
+                        style={[styles.applyBtn, { backgroundColor: '#78350f' }]}
+                      >
+                        <Text style={styles.applyBtnText}>முழு ஆவணம்</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
           </ScrollView>
         )}
       </View>
@@ -715,6 +889,7 @@ export default function App() {
         {[
           { id: 'home', label: language === 'ta' ? 'முகப்பு' : 'Home', icon: '🌾' },
           { id: 'about', label: language === 'ta' ? 'வரலாறு' : 'About', icon: '📖' },
+          { id: 'heritage', label: language === 'ta' ? 'பெட்டகம்' : 'Archive', icon: '🏛️' },
           { id: 'jobs', label: language === 'ta' ? 'வேலை' : 'Jobs', icon: '💼' },
           { id: 'recruitments', label: language === 'ta' ? 'அரசுப் பணி' : 'Recruit', icon: '📜' },
           { id: 'post-job', label: language === 'ta' ? 'பதிவிட' : 'Post', icon: '➕' },

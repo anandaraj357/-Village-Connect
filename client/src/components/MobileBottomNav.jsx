@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNotifications } from '../context/NotificationContext';
 import { useLocation } from '../context/LocationContext';
-import { Home, Briefcase, FileText, Newspaper, MapPin, Navigation, PlusCircle, Megaphone, BookOpen } from 'lucide-react';
+import { Home, Briefcase, FileText, Newspaper, MapPin, Navigation, PlusCircle, Megaphone, BookOpen, Archive } from 'lucide-react';
 
 export const MobileBottomNav = ({ currentView, setCurrentView }) => {
   const { language } = useNotifications();
@@ -17,6 +17,11 @@ export const MobileBottomNav = ({ currentView, setCurrentView }) => {
       id: 'about',
       label: language === 'ta' ? 'வரலாறு' : 'About',
       icon: BookOpen
+    },
+    {
+      id: 'heritage',
+      label: language === 'ta' ? 'பெட்டகம்' : 'Archive',
+      icon: Archive
     },
     {
       id: 'jobs',

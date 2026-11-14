@@ -19,7 +19,8 @@ import {
   PlusCircle,
   Menu,
   PhoneCall,
-  BookOpen
+  BookOpen,
+  Archive
 } from 'lucide-react';
 
 export const Navbar = ({ currentView, setCurrentView }) => {
@@ -38,7 +39,8 @@ export const Navbar = ({ currentView, setCurrentView }) => {
 
   const navLinks = [
     { id: 'home', label: language === 'ta' ? 'முகப்பு' : 'Home', icon: null },
-    { id: 'about', label: language === 'ta' ? 'நெசல் வரலாறு (About)' : 'About Us', icon: BookOpen },
+    { id: 'about', label: language === 'ta' ? 'நெசல் வரலாறு' : 'About Us', icon: BookOpen },
+    { id: 'heritage', label: language === 'ta' ? 'வரலாற்றுப் பெட்டகம்' : 'Heritage Archive', icon: Archive },
     { id: 'jobs', label: language === 'ta' ? 'வேலைவாய்ப்புகள்' : 'All-TN Jobs', icon: Briefcase },
     { id: 'recruitments', label: language === 'ta' ? 'அரசுப் பணி (TNPSC)' : 'Govt Recruitments', icon: FileText },
     { id: 'post-job', label: language === 'ta' ? '➕ வேலை பதிவிட' : '➕ Post a Job', icon: PlusCircle },

@@ -133,11 +133,23 @@ export const AboutUs = ({ setCurrentView }) => {
           <p>
             கிராமத்தின் பெயருக்குப் பின்னால் ஏதேனும் வரலாற்றுச் சம்பவம், பாரம்பரியத் தொடர்பு அல்லது பழமையான பெயர் மாற்றம் இருக்கிறதா என்பதை எதிர்காலத்தில் ஆராயலாம்.
           </p>
-          <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl flex items-start space-x-3 text-amber-900 text-sm">
-            <Scroll className="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5" />
-            <div>
-              <span className="font-bold">வரலாற்று ஆவணப்படுத்துதல் அழைப்பு:</span> நெசல் கிராமத்தின் பழமையான ஆவணங்கள், செப்பேடுகள் அல்லது முன்னோர்களின் வாய்மொழித் தகவல்கள் உள்ள பெரியவர்கள் கிராம பஞ்சாயத்து நிர்வாகத்தை தொடர்பு கொண்டு பதிவு செய்யலாம்.
+          <div className="bg-amber-50 border border-amber-200 p-5 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-amber-900 text-sm">
+            <div className="flex items-start space-x-3">
+              <Scroll className="w-5 h-5 text-amber-700 flex-shrink-0 mt-0.5" />
+              <div>
+                <span className="font-bold">வரலாற்று ஆவணப்படுத்துதல் அழைப்பு:</span> நெசல் கிராமத்தின் பழமையான ஆவணங்கள், செப்பேடுகள் அல்லது முன்னோர்களின் புகைப்படங்கள் உள்ள கிராம மக்கள் "வரலாற்றுப் பெட்டகத்தில்" நேரடியாகப் பதிவேற்றலாம்.
+              </div>
             </div>
+            <button
+              onClick={() => {
+                if (setCurrentView) setCurrentView('heritage');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="bg-amber-700 hover:bg-amber-800 text-white font-bold px-4 py-2 rounded-xl text-xs whitespace-nowrap shadow-sm transition flex items-center space-x-1.5 self-stretch sm:self-auto justify-center"
+            >
+              <span>🏛️ வரலாற்றுப் பெட்டகம்</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
       </section>
