@@ -5,6 +5,7 @@ import NewsArticle from '../models/NewsArticle.js';
 import InAppNotification from '../models/InAppNotification.js';
 import ContentApproval from '../models/ContentApproval.js';
 import HeritageArchive from '../models/HeritageArchive.js';
+import TransportSchedule from '../models/TransportSchedule.js';
 import { extractNewsForLocation } from '../crawler/core/locationNewsCrawler.js';
 
 const router = express.Router();
@@ -584,6 +585,104 @@ router.post('/heritage/:id/like', async (req, res) => {
       return res.status(404).json({ success: false, message: 'Archive item not found' });
     }
     res.json({ success: true, likesCount: item.likesCount });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ==========================================
+// NESAL & VANUR BUS & TRANSPORT SCHEDULE
+// ==========================================
+
+// GET /api/public/transport - Get bus, auto, and train schedules
+router.get('/transport', async (req, res) => {
+  try {
+    const { destination, serviceType, search } = req.query;
+    const filter = { status: 'approved' };
+
+    if (destination && destination !== 'All') {
+      filter.$or = [
+        { destination: new RegExp(escapeRegex(destination), 'i') },
+        { viaStops: new RegExp(escapeRegex(destination), 'i') }
+      ];
+    }
+
+    if (serviceType && serviceType !== 'All') {
+      filter.serviceType = serviceType;
+    }
+
+    if (search) {
+      const searchRegex = new RegExp(escapeRegex(search), 'i');
+      const searchCond = [
+        { serviceName: searchRegex },
+        { routeNumber: searchRegex },
+        { destination: searchRegex },
+        { viaStops: searchRegex },
+        { driverOrStandName: searchRegex }
+      ];
+      if (filter.$or) {
+        filter.$and = [{ $or: filter.$or }, { $or: searchCond }];
+        delete filter.$or;
+      } else {
+        filter.$or = searchCond;
+      }
+    }
+
+    const schedules = await TransportSchedule.find(filter).sort({ isImportant: -1, routeNumber: 1 });
+    res.json({ success: true, total: schedules.length, schedules });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// POST /api/public/transport/suggest - Community submission for new transport timings
+router.post('/transport/suggest', async (req, res) => {
+  try {
+    const {
+      serviceName,
+      routeNumber,
+      serviceType = 'TownBus',
+      origin = 'Nesal',
+      destination,
+      viaStops = [],
+      departures = [],
+      frequencyMinutes,
+      frequencyNote,
+      contactPhone,
+      driverOrStandName,
+      fareEstimated,
+      isWomenFree = false
+    } = req.body;
+
+    if (!serviceName || !destination) {
+      return res.status(400).json({
+        success: false,
+        message: 'பேருந்து/வாகனத்தின் பெயர் மற்றும் சேருமிடம் அவசியம் (Service name and destination are required).'
+      });
+    }
+
+    const newSchedule = await TransportSchedule.create({
+      serviceName: serviceName.trim(),
+      routeNumber: routeNumber ? routeNumber.trim() : '',
+      serviceType,
+      origin: origin.trim(),
+      destination: destination.trim(),
+      viaStops: Array.isArray(viaStops) ? viaStops : viaStops.split(',').map(s => s.trim()).filter(Boolean),
+      departures: Array.isArray(departures) ? departures : [],
+      frequencyMinutes: Number(frequencyMinutes) || 0,
+      frequencyNote: frequencyNote || '',
+      contactPhone: contactPhone ? contactPhone.trim() : '',
+      driverOrStandName: driverOrStandName ? driverOrStandName.trim() : '',
+      fareEstimated: fareEstimated || '',
+      isWomenFree: Boolean(isWomenFree),
+      status: 'approved'
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'போக்குவரத்து அட்டவணை வெற்றிகரமாக சேர்க்கப்பட்டது!',
+      schedule: newSchedule
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

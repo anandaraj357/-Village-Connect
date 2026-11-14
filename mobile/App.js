@@ -41,6 +41,7 @@ export default function App() {
   const [recruitments, setRecruitments] = useState([]);
   const [news, setNews] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
+  const [schedules, setSchedules] = useState([]);
 
   // Mobile Job Posting State
   const [postTitle, setPostTitle] = useState('');
@@ -153,6 +154,10 @@ export default function App() {
       if (currentTab === 'heritage' || currentTab === 'home') {
         const res = await apiClient.get('/public/heritage?limit=30');
         if (res.data.success) setHeritageItems(res.data.items);
+      }
+      if (currentTab === 'transport' || currentTab === 'home') {
+        const res = await apiClient.get('/public/transport');
+        if (res.data.success) setSchedules(res.data.schedules);
       }
     } catch (err) {
       console.warn('API fetch warning:', err.message);
@@ -880,6 +885,113 @@ export default function App() {
                 ))}
               </View>
             )}
+
+            {/* Transport & Bus Schedule Tab */}
+            {currentTab === 'transport' && (
+              <View>
+                {/* Header Card */}
+                <View style={[styles.heroCard, { backgroundColor: '#1e1b4b', borderWidth: 1, borderColor: '#4338ca' }]}>
+                  <Text style={[styles.heroBadge, { color: '#93c5fd' }]}>🚌 நெசல் & வானூர் வழித்தடங்கள்</Text>
+                  <Text style={[styles.heroTitle, { fontSize: 20, color: '#ffffff' }]}>
+                    பேருந்து & போக்குவரத்து நேரங்கள்
+                  </Text>
+                  <Text style={{ fontSize: 11, color: '#c7d2fe', marginTop: 2, lineHeight: 16 }}>
+                    அரசு நகரப் பேருந்துகள் (188, 12B), மகளிர் விடியல் பயணம், புதுச்சேரி & திண்டிவனம் விரைவுப் பேருந்துகள், 24x7 ஆட்டோ மற்றும் ரயில் நேரங்கள்.
+                  </Text>
+                </View>
+
+                {/* Schedules List */}
+                <Text style={styles.sectionTitle}>
+                  🚍 பேருந்து & வாகன நேர அட்டவணை ({schedules.length})
+                </Text>
+
+                {schedules.map((item) => (
+                  <View key={item._id} style={styles.card}>
+                    {/* Women Free Strip */}
+                    {item.isWomenFree && (
+                      <View style={{ backgroundColor: '#fff1f2', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 8, marginBottom: 8, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#be123c' }}>
+                          🌸 மகளிருக்கு கட்டணமில்லா விடியல் பயணம்
+                        </Text>
+                        <Text style={{ fontSize: 9, fontWeight: 'bold', color: '#9f1239', backgroundColor: '#fecdd3', paddingHorizontal: 6, paddingVertical: 1, borderRadius: 4 }}>
+                          இலவசம்
+                        </Text>
+                      </View>
+                    )}
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                      <Text style={[styles.cardTag, { backgroundColor: '#1e1b4b', color: '#ffffff' }]}>
+                        {item.routeNumber || 'தடம்'}
+                      </Text>
+                      {item.fareEstimated ? (
+                        <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#047857' }}>
+                          💰 {item.fareEstimated}
+                        </Text>
+                      ) : null}
+                    </View>
+
+                    <Text style={styles.cardTitle}>{item.serviceName}</Text>
+
+                    {/* Route Line */}
+                    <View style={{ backgroundColor: '#eff6ff', padding: 8, borderRadius: 8, marginVertical: 6 }}>
+                      <Text style={{ fontSize: 11, fontWeight: 'bold', color: '#1e3a8a' }}>
+                        📍 {item.origin} ➔ {item.destination}
+                      </Text>
+                      {item.viaStops && item.viaStops.length > 0 && (
+                        <Text style={{ fontSize: 9, color: '#64748b', marginTop: 2 }}>
+                          வழியாக: {item.viaStops.join(' • ')}
+                        </Text>
+                      )}
+                    </View>
+
+                    {/* Departures */}
+                    {item.departures && item.departures.length > 0 && (
+                      <View style={{ marginVertical: 4 }}>
+                        <Text style={{ fontSize: 10, fontWeight: 'bold', color: '#475569', marginBottom: 4 }}>
+                          ⏰ புறப்படும் நேரங்கள்:
+                        </Text>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 4 }}>
+                          {item.departures.map((dep, dIdx) => (
+                            <View key={dIdx} style={{ backgroundColor: '#f1f5f9', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, borderWidth: 1, borderColor: '#cbd5e1' }}>
+                              <Text style={{ fontSize: 11, fontWeight: 'bold', color: '#0f172a' }}>
+                                {dep.time}
+                              </Text>
+                              {dep.notes ? (
+                                <Text style={{ fontSize: 8, color: '#64748b' }}>{dep.notes}</Text>
+                              ) : null}
+                            </View>
+                          ))}
+                        </View>
+                      </View>
+                    )}
+
+                    {item.frequencyNote ? (
+                      <Text style={{ fontSize: 10, color: '#64748b', fontStyle: 'italic', marginTop: 4 }}>
+                        ℹ️ {item.frequencyNote}
+                      </Text>
+                    ) : null}
+
+                    <View style={styles.cardFooter}>
+                      <TouchableOpacity
+                        onPress={() => shareOnWhatsApp(`${item.serviceName} (${item.routeNumber})`, 'https://nesal.village/transport')}
+                        style={styles.shareBtn}
+                      >
+                        <Text style={styles.shareBtnText}>💬 WhatsApp</Text>
+                      </TouchableOpacity>
+
+                      {item.contactPhone ? (
+                        <TouchableOpacity
+                          onPress={() => Linking.openURL(`tel:${item.contactPhone}`)}
+                          style={[styles.applyBtn, { backgroundColor: '#1d4ed8' }]}
+                        >
+                          <Text style={styles.applyBtnText}>📞 அழைக்க ({item.contactPhone})</Text>
+                        </TouchableOpacity>
+                      ) : null}
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
           </ScrollView>
         )}
       </View>
@@ -888,8 +1000,9 @@ export default function App() {
       <View style={styles.bottomNav}>
         {[
           { id: 'home', label: language === 'ta' ? 'முகப்பு' : 'Home', icon: '🌾' },
-          { id: 'about', label: language === 'ta' ? 'வரலாறு' : 'About', icon: '📖' },
+          { id: 'transport', label: language === 'ta' ? 'பேருந்து' : 'Bus', icon: '🚌' },
           { id: 'heritage', label: language === 'ta' ? 'பெட்டகம்' : 'Archive', icon: '🏛️' },
+          { id: 'about', label: language === 'ta' ? 'வரலாறு' : 'About', icon: '📖' },
           { id: 'jobs', label: language === 'ta' ? 'வேலை' : 'Jobs', icon: '💼' },
           { id: 'recruitments', label: language === 'ta' ? 'அரசுப் பணி' : 'Recruit', icon: '📜' },
           { id: 'post-job', label: language === 'ta' ? 'பதிவிட' : 'Post', icon: '➕' },

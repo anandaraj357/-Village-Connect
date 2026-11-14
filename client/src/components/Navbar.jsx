@@ -20,7 +20,8 @@ import {
   Menu,
   PhoneCall,
   BookOpen,
-  Archive
+  Archive,
+  Bus
 } from 'lucide-react';
 
 export const Navbar = ({ currentView, setCurrentView }) => {
@@ -41,6 +42,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
     { id: 'home', label: language === 'ta' ? 'முகப்பு' : 'Home', icon: null },
     { id: 'about', label: language === 'ta' ? 'நெசல் வரலாறு' : 'About Us', icon: BookOpen },
     { id: 'heritage', label: language === 'ta' ? 'வரலாற்றுப் பெட்டகம்' : 'Heritage Archive', icon: Archive },
+    { id: 'transport', label: language === 'ta' ? 'பேருந்து நேரங்கள்' : 'Bus Timings', icon: Bus },
     { id: 'jobs', label: language === 'ta' ? 'வேலைவாய்ப்புகள்' : 'All-TN Jobs', icon: Briefcase },
     { id: 'recruitments', label: language === 'ta' ? 'அரசுப் பணி (TNPSC)' : 'Govt Recruitments', icon: FileText },
     { id: 'post-job', label: language === 'ta' ? '➕ வேலை பதிவிட' : '➕ Post a Job', icon: PlusCircle },

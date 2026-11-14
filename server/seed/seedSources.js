@@ -9,6 +9,7 @@ import ContentApproval from '../models/ContentApproval.js';
 import CrawledRecord from '../models/CrawledRecord.js';
 import InAppNotification from '../models/InAppNotification.js';
 import HeritageArchive from '../models/HeritageArchive.js';
+import TransportSchedule from '../models/TransportSchedule.js';
 
 dotenv.config();
 
@@ -861,6 +862,181 @@ export async function seedDatabase(forceClean = false) {
         }
       ]);
       console.log('[Seed] Nesal Heritage Archive (நெசல் வரலாற்றுப் பெட்டகம்) seeded.');
+    }
+
+    // 8. Seed Nesal & Vanur Bus & Transport Schedules
+    const transportCount = await TransportSchedule.countDocuments();
+    if (transportCount === 0 || forceClean) {
+      await TransportSchedule.create([
+        {
+          routeNumber: '188',
+          serviceName: 'நெசல் - வானூர் - புதுச்சேரி நகரப் பேருந்து',
+          serviceNameEnglish: 'Nesal to Puducherry Town Bus',
+          serviceType: 'TownBus',
+          isWomenFree: true,
+          origin: 'நெசல் (Nesal)',
+          destination: 'புதுச்சேரி (Puducherry)',
+          viaStops: ['நெசல்', 'வானூர்', 'கிளியனூர்', 'கோரிமேடு', 'ஜிப்மர் மருத்துவமனை (JIPMER)', 'புதுச்சேரி புதிய பேருந்து நிலையம்'],
+          departures: [
+            { time: '06:30 AM', time24: '06:30', notes: 'முதல் நடை / கல்லூரி மாணவர்கள் நேரம்' },
+            { time: '08:15 AM', time24: '08:15', notes: 'அலுவலக & ஜிப்மர் மருத்துவமனை நேரம்' },
+            { time: '11:30 AM', time24: '11:30', notes: 'மதிய நடை' },
+            { time: '02:45 PM', time24: '14:45', notes: 'பிற்பகல் நடை' },
+            { time: '05:30 PM', time24: '17:30', notes: 'மாலை நேரக் கல்லூரி / பணி திரும்புவோர்' },
+            { time: '08:00 PM', time24: '20:00', notes: 'கடைசி நடை' }
+          ],
+          frequencyMinutes: 120,
+          frequencyNote: 'சுமார் 2 மணி நேரத்திற்கு ஒருமுறை நேரடி சேவை',
+          contactPhone: '04146-240102',
+          driverOrStandName: 'வானூர் அரசுப் பணிமனை (TNSTC Depot)',
+          fareEstimated: 'மகளிருக்கு இலவசம் (பொது: ₹18)',
+          isImportant: true,
+          status: 'approved'
+        },
+        {
+          routeNumber: '197 / 197A',
+          serviceName: 'திண்டிவனம் - வானூர் - புதுச்சேரி விரைவுப் பேருந்து',
+          serviceNameEnglish: 'Tindivanam to Puducherry via Vanur',
+          serviceType: 'Mofussil',
+          isWomenFree: false,
+          origin: 'திண்டிவனம் (Tindivanam)',
+          destination: 'புதுச்சேரி (Puducherry)',
+          viaStops: ['திண்டிவனம்', 'மயிலம் கூட்ரோடு', 'வானூர்', 'நெசல் கூட்ரோடு', 'மொரட்டாண்டி', 'கோரிமேடு', 'புதுச்சேரி'],
+          departures: [
+            { time: '05:45 AM', time24: '05:45', notes: 'அதி காலை விரைவுப் பேருந்து' },
+            { time: '07:15 AM', time24: '07:15', notes: 'காலை நெரிசல் சேவை' },
+            { time: '09:00 AM', time24: '09:00', notes: 'வழக்கமான நடை' },
+            { time: '12:30 PM', time24: '12:30', notes: 'மதிய சேவை' },
+            { time: '04:15 PM', time24: '16:15', notes: 'மாலை நடை' },
+            { time: '07:30 PM', time24: '19:30', notes: 'இரவு விரைவுப் பேருந்து' },
+            { time: '09:45 PM', time24: '21:45', notes: 'கடைசி விரைவுப் பேருந்து' }
+          ],
+          frequencyMinutes: 20,
+          frequencyNote: 'நெசல் கூட்ரோட்டில் ஒவ்வொரு 15 - 20 நிமிடங்களுக்கும் பேருந்து உண்டு',
+          contactPhone: '04147-222345',
+          driverOrStandName: 'திண்டிவனம் அரசுப் பேருந்து நிலையம்',
+          fareEstimated: '₹25 - ₹35',
+          isImportant: true,
+          status: 'approved'
+        },
+        {
+          routeNumber: '12B',
+          serviceName: 'நெசல் - வானூர் - திண்டிவனம் நகரப் பேருந்து',
+          serviceNameEnglish: 'Nesal to Tindivanam Town Bus',
+          serviceType: 'TownBus',
+          isWomenFree: true,
+          origin: 'நெசல் (Nesal)',
+          destination: 'திண்டிவனம் (Tindivanam)',
+          viaStops: ['நெசல்', 'வானூர் வட்டாட்சியர் அலுவலகம்', 'தைலாபுரம்', 'மயிலம் சந்தை', 'திண்டிவனம் ரயில் நிலையம் / பழைய பேருந்து நிலையம்'],
+          departures: [
+            { time: '07:00 AM', time24: '07:00', notes: 'பள்ளி மற்றும் சந்தை நடை' },
+            { time: '09:30 AM', time24: '09:30', notes: 'வட்டாட்சியர் அலுவலக சேவை' },
+            { time: '01:15 PM', time24: '13:15', notes: 'மதிய நடை' },
+            { time: '04:30 PM', time24: '16:30', notes: 'மாலை நடை' },
+            { time: '07:15 PM', time24: '19:15', notes: 'இரவு கடைசி நடை' }
+          ],
+          frequencyMinutes: 150,
+          frequencyNote: 'மகளிர் கட்டணமில்லா விடியல் பயணப் பேருந்து',
+          contactPhone: '04147-222345',
+          driverOrStandName: 'திண்டிவனம் பணிமனை (TNSTC)',
+          fareEstimated: 'மகளிருக்கு இலவசம் (ஆண்களுக்கு ₹15)',
+          isImportant: true,
+          status: 'approved'
+        },
+        {
+          routeNumber: 'விழுப்புரம் - வானூர் - மரக்காணம்',
+          serviceName: 'விழுப்புரம் - வானூர் - மரக்காணம் புறநகர் பேருந்து',
+          serviceNameEnglish: 'Villupuram to Marakkanam via Vanur',
+          serviceType: 'Mofussil',
+          isWomenFree: false,
+          origin: 'விழுப்புரம் (Villupuram)',
+          destination: 'மரக்காணம் (Marakkanam)',
+          viaStops: ['விழுப்புரம் புதிய பேருந்து நிலையம்', 'விக்கிரவாண்டி', 'கிளியனூர்', 'வானூர்', 'நெசல் கூட்ரோடு', 'மரக்காணம் கடற்கரை'],
+          departures: [
+            { time: '06:00 AM', time24: '06:00', notes: 'விழுப்புரம் முதல் நடை' },
+            { time: '08:30 AM', time24: '08:30', notes: 'காலை சேவை' },
+            { time: '12:00 PM', time24: '12:00', notes: 'மதிய நடை' },
+            { time: '03:30 PM', time24: '15:30', notes: 'பிற்பகல் சேவை' },
+            { time: '06:45 PM', time24: '18:45', notes: 'மாலை நடை' }
+          ],
+          frequencyMinutes: 180,
+          frequencyNote: 'சுமார் 3 மணி நேரத்திற்கு ஒரு பேருந்து',
+          contactPhone: '04146-222450',
+          driverOrStandName: 'விழுப்புரம் மத்திய பேருந்து நிலையம்',
+          fareEstimated: '₹30 - ₹45',
+          isImportant: false,
+          status: 'approved'
+        },
+        {
+          routeNumber: 'தனியார் (A1 / ஸ்ரீ பாலாஜி)',
+          serviceName: 'நெசல் - வானூர் - திருச்சிற்றம்பலம் கூட்ரோடு - புதுச்சேரி',
+          serviceNameEnglish: 'Sri Balaji Private Stage Carrier',
+          serviceType: 'PrivateBus',
+          isWomenFree: false,
+          origin: 'நெசல் (Nesal)',
+          destination: 'புதுச்சேரி (Puducherry)',
+          viaStops: ['நெசல் கிராமம்', 'வானூர் வாரச்சந்தை', 'திருச்சிற்றம்பலம் கூட்ரோடு', 'ஜிப்மர்', 'புதுச்சேரி காந்தி வீதி'],
+          departures: [
+            { time: '07:45 AM', time24: '07:45', notes: 'காலை விரைவு தனியார் பேருந்து' },
+            { time: '10:45 AM', time24: '10:45', notes: 'வாரச்சந்தை சிறப்பு நடை' },
+            { time: '02:00 PM', time24: '14:00', notes: 'மதிய சேவை' },
+            { time: '05:00 PM', time24: '17:00', notes: 'மாலை நடை' }
+          ],
+          frequencyMinutes: 180,
+          frequencyNote: 'நேரடி தனியார் சிற்றுந்து சேவை',
+          contactPhone: '9842512399',
+          driverOrStandName: 'ஸ்ரீ பாலாஜி மோட்டார்ஸ் (வானூர்)',
+          fareEstimated: '₹20 - ₹25',
+          isImportant: false,
+          status: 'approved'
+        },
+        {
+          routeNumber: '🛺 ஆட்டோ ஸ்டாண்ட்',
+          serviceName: 'வானூர் & நெசல் கிராம அவசர ஆட்டோ சங்கம்',
+          serviceNameEnglish: 'Nesal & Vanur 24x7 Auto Stand',
+          serviceType: 'Auto',
+          isWomenFree: false,
+          origin: 'நெசல் (Nesal)',
+          destination: 'அனைத்து இடங்களுக்கும் (All Locations)',
+          viaStops: ['நெசல் கிராமம்', 'வானூர் அரசு மருத்துவமனை', 'கிளியனூர் கூட்ரோடு', 'திண்டிவனம் ரயில் நிலையம்', 'ஜிப்மர் புதுச்சேரி'],
+          departures: [
+            { time: '24 மணி நேரமும்', time24: '00:00', notes: 'அவசர மருத்துவ சேவை & இரவிலும் கிடைக்கும்' }
+          ],
+          frequencyMinutes: 0,
+          frequencyNote: 'தொலைபேசியில் அழைத்தால் நெசல் கிராமத்திற்கே வந்து அழைத்துச் செல்வர்',
+          contactPhone: '0413-2677100',
+          driverOrStandName: 'வானூர் தாலுகா ஆட்டோ ஓட்டுநர்கள் சங்கம் (9842512345 / 9787654321)',
+          fareEstimated: 'குறைந்தபட்ச கட்டணம் ₹50 (மீட்டருக்கு ஏற்ப)',
+          isImportant: true,
+          status: 'approved'
+        },
+        {
+          routeNumber: '🚆 ரயில் இணைப்பு',
+          serviceName: 'திண்டிவனம் ரயில் நிலையம் (TMV) - சென்னை & தென் மாவட்ட ரயில்கள்',
+          serviceNameEnglish: 'Tindivanam Railway Station (TMV) Key Trains',
+          serviceType: 'Train',
+          isWomenFree: false,
+          origin: 'திண்டிவனம் ரயில் நிலையம் (25 கி.மீ)',
+          destination: 'சென்னை / திருச்சி / மதுரை',
+          viaStops: ['திண்டிவனம் (TMV)', 'செங்கல்பட்டு', 'தாம்பரம்', 'சென்னை எழும்பூர் (MS) / விழுப்புரம் (VM)'],
+          departures: [
+            { time: '05:30 AM', time24: '05:30', notes: 'விழுப்புரம் - சென்னை பயணிகள் மின்சார ரயில்' },
+            { time: '07:10 AM', time24: '07:10', notes: 'சோழன் எக்ஸ்பிரஸ் (சென்னை நோக்கி)' },
+            { time: '11:15 AM', time24: '11:15', notes: 'பல்லவன் சூப்பர்பாஸ்ட் (சென்னை எழும்பூர்)' },
+            { time: '03:45 PM', time24: '15:45', notes: 'குருவாயூர் எக்ஸ்பிரஸ் (மதுரை / கன்னியாகுமரி நோக்கி)' },
+            { time: '06:20 PM', time24: '18:20', notes: 'பாண்டியன் எக்ஸ்பிரஸ் இணைப்பு' },
+            { time: '09:00 PM', time24: '21:00', notes: 'அனந்தபுரி & நெல்லை எக்ஸ்பிரஸ்' }
+          ],
+          frequencyMinutes: 0,
+          frequencyNote: 'நெசலில் இருந்து திண்டிவனம் ரயில் நிலையத்திற்கு நேரடி பேருந்து மற்றும் ஆட்டோ வசதி உள்ளது',
+          contactPhone: '139',
+          driverOrStandName: 'தெற்கு ரயில்வே (Southern Railway - TMV)',
+          fareEstimated: 'பயணிகள் ரயில் ₹15 | எக்ஸ்பிரஸ் ₹65+',
+          isImportant: true,
+          status: 'approved'
+        }
+      ]);
+      console.log('[Seed] Nesal & Vanur Bus & Transport Schedules seeded.');
     }
 
     console.log('[Seed] Database initialization complete for Tamil Nadu, Villupuram, Vanur, Nesal.');

@@ -26,7 +26,8 @@ import {
   Wheat,
   Share2,
   BookOpen,
-  Archive
+  Archive,
+  Bus
 } from 'lucide-react';
 
 export const Home = ({ setCurrentView }) => {
@@ -115,6 +116,13 @@ export const Home = ({ setCurrentView }) => {
               <span>{language === 'ta' ? 'நெசல் வரலாறு' : 'About Nesal'}</span>
             </button>
             <button
+              onClick={() => setCurrentView('transport')}
+              className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
+            >
+              <Bus className="w-4 h-4 text-blue-200" />
+              <span>{language === 'ta' ? 'பேருந்து நேரங்கள்' : 'Bus Timings'}</span>
+            </button>
+            <button
               onClick={() => setCurrentView('heritage')}
               className="bg-amber-500 hover:bg-amber-400 text-stone-950 font-black px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
             >
@@ -187,7 +195,7 @@ export const Home = ({ setCurrentView }) => {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
           {/* Card 1: Drinking Water */}
           <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 space-y-2">
             <div className="flex items-center space-x-2 text-emerald-800">
@@ -199,7 +207,7 @@ export const Home = ({ setCurrentView }) => {
             </p>
             <div className="text-[11px] font-bold text-emerald-800 bg-white/80 p-2 rounded-lg border border-emerald-100 flex items-center space-x-1.5">
               <Clock className="w-3.5 h-3.5 text-emerald-600" />
-              <span>காலை: 6:30 - 8:30 | மாலை: 5:30 - 7:00</span>
+              <span>காலை: 6:30 | மாலை: 5:30</span>
             </div>
           </div>
 
@@ -214,7 +222,7 @@ export const Home = ({ setCurrentView }) => {
             </p>
             <div className="text-[11px] font-bold text-teal-800 bg-white/80 p-2 rounded-lg border border-teal-100 flex items-center space-x-1.5">
               <Clock className="w-3.5 h-3.5 text-teal-600" />
-              <span>நேரம்: காலை 9:00 - 1:00 | மாலை 3:00 - 6:00</span>
+              <span>காலை 9:00 | மாலை 3:00</span>
             </div>
           </div>
 
@@ -222,14 +230,14 @@ export const Home = ({ setCurrentView }) => {
           <div className="p-4 rounded-2xl bg-cyan-50/70 border border-cyan-200/80 space-y-2">
             <div className="flex items-center space-x-2 text-cyan-900">
               <Users className="w-5 h-5 text-cyan-600" />
-              <h3 className="font-bold text-sm">100 நாள் வேலைத் திட்டம்</h3>
+              <h3 className="font-bold text-sm">100 நாள் திட்டம்</h3>
             </div>
             <p className="text-xs text-slate-700 leading-relaxed">
-              மகாத்மா காந்தி தேசிய ஊரக வேலை உறுதித் திட்டம் (MGNREGS) நெசல் ஏரிக்கரை தூர்வாரும் பணி.
+              மகாத்மா காந்தி தேசிய ஊரக வேலை உறுதித் திட்டம் நெசல் ஏரிக்கரை தூர்வாரும் பணி.
             </p>
             <div className="text-[11px] font-bold text-cyan-900 bg-white/80 p-2 rounded-lg border border-cyan-100 flex items-center space-x-1.5">
               <CheckCircle className="w-3.5 h-3.5 text-cyan-600" />
-              <span>நெசல் ஊராட்சி மன்றத்தில் அட்டை பெறலாம்</span>
+              <span>ஊராட்சி மன்றத்தில் அட்டை</span>
             </div>
           </div>
 
@@ -237,14 +245,32 @@ export const Home = ({ setCurrentView }) => {
           <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-2">
             <div className="flex items-center space-x-2 text-amber-900">
               <Wheat className="w-5 h-5 text-amber-600" />
-              <h3 className="font-bold text-sm">உழவர் மானியத் திட்டம்</h3>
+              <h3 className="font-bold text-sm">உழவர் மானியம்</h3>
             </div>
             <p className="text-xs text-slate-700 leading-relaxed">
-              வானூர் வட்டார வேளாண் விரிவாக்க மையம் மூலம் 50% மானியத்தில் நெல் & உளுந்து சான்று விதைகள்.
+              வானூர் வட்டார வேளாண் விரிவாக்க மையம் மூலம் 50% மானியத்தில் நெல் & உளுந்து விதைகள்.
             </p>
             <div className="text-[11px] font-bold text-amber-900 bg-white/80 p-2 rounded-lg border border-amber-100 flex items-center space-x-1.5">
               <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-              <span>வானூர் வேளாண் அலுவலகம்: 50% மானியம்</span>
+              <span>வேளாண் அலுவலகம்: 50%</span>
+            </div>
+          </div>
+
+          {/* Card 5: Bus & Transport */}
+          <div
+            onClick={() => setCurrentView('transport')}
+            className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200/80 space-y-2 cursor-pointer hover:shadow-md transition group"
+          >
+            <div className="flex items-center space-x-2 text-blue-900">
+              <Bus className="w-5 h-5 text-blue-600 group-hover:scale-110 transition" />
+              <h3 className="font-bold text-sm">பேருந்து நேரங்கள்</h3>
+            </div>
+            <p className="text-xs text-slate-700 leading-relaxed">
+              நெசல் - புதுச்சேரி (188), வானூர், திண்டிவனம் (12B) மற்றும் மகளிர் விடியல் பயணம்.
+            </p>
+            <div className="text-[11px] font-bold text-blue-950 bg-white/80 p-2 rounded-lg border border-blue-100 flex items-center justify-between">
+              <span>🌸 மகளிர் இலவசம்</span>
+              <span className="text-blue-700 underline">அட்டவணை ➔</span>
             </div>
           </div>
         </div>
