@@ -13,7 +13,7 @@ export const NESAL_VILLAGE_INFO = {
   districtTamil: 'விழுப்புரம் மாவட்டம்',
   state: 'Tamil Nadu',
   stateTamil: 'தமிழ்நாடு',
-  pincode: '604102',
+  pincode: '605014',
   centerCoordinates: {
     lat: 12.0125,
     lng: 79.7214
@@ -105,7 +105,7 @@ router.get('/states-and-districts', (req, res) => {
       district: 'Villupuram',
       mandal: 'Vanur',
       village: 'Nesal',
-      pincode: '604102',
+      pincode: '605014',
       lat: 12.0125,
       lng: 79.7214
     }
@@ -145,7 +145,7 @@ router.get('/reverse-geocode', async (req, res) => {
         district: 'Villupuram',
         mandal: 'Vanur',
         village: 'Nesal',
-        pincode: '604102',
+        pincode: '605014',
         lat,
         lng,
         distanceToNesalKm: Math.round(distanceToNesal * 10) / 10,
@@ -164,7 +164,7 @@ router.get('/reverse-geocode', async (req, res) => {
         district: 'Villupuram',
         mandal: 'Vanur',
         village: 'Nesal',
-        pincode: '604102',
+        pincode: '605014',
         lat: 12.0125,
         lng: 79.7214,
         distanceToNesalKm: 0,

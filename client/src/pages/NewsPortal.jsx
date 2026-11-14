@@ -70,7 +70,7 @@ export const NewsPortal = () => {
               <span className="text-slate-300">•</span>
               <span className="inline-flex items-center text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
                 <MapPin className="w-3 h-3 mr-1 text-emerald-600" />
-                நெசல் கிராமம் • வானூர் வட்டம் (604102)
+                நெசல் கிராமம் • வானூர் வட்டம் (605014)
               </span>
             </div>
 
@@ -246,7 +246,7 @@ export const NewsPortal = () => {
                   <div className="flex items-center space-x-2">
                     <a
                       href={`https://api.whatsapp.com/send?text=${encodeURIComponent(
-                        `🌾 *நமது நெசல் கிராமம் செய்தி*\n📰 *${item.headline}*\n📍 நெசல், வானூர், விழுப்புரம் (604102)\n\n${item.summaryTamil || item.summaryEnglish || item.shortDescription}\n\n🔗 ${item.originalArticleUrl}`
+                        `🌾 *நமது நெசல் கிராமம் செய்தி*\n📰 *${item.headline}*\n📍 நெசல், வானூர், விழுப்புரம் (605014)\n\n${item.summaryTamil || item.summaryEnglish || item.shortDescription}\n\n🔗 ${item.originalArticleUrl}`
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

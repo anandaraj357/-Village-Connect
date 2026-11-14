@@ -12,7 +12,7 @@ The system automatically crawls, extracts, cleans, verifies, summarizes, transla
 - **Taluk / Block**: Vanur (வானூர்)
 - **District**: Villupuram (விழுப்புரம்)
 - **State**: Tamil Nadu (தமிழ்நாடு)
-- **Postal Code**: 604102
+- **Postal Code**: 605014
 - **Primary Languages**: Tamil (தமிழ்) & English
 
 ---

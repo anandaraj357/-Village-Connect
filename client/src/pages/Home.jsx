@@ -80,7 +80,7 @@ export const Home = ({ setCurrentView }) => {
             <div className="inline-flex items-center space-x-2 bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-3 py-1 rounded-full border border-emerald-500/30">
               <span>🌾 நெசல் கிராம டிஜிட்டல் தளம்</span>
               <span>•</span>
-              <span className="font-mono">அஞ்சல்: 604102</span>
+              <span className="font-mono">அஞ்சல்: 605014</span>
             </div>
 
             <button
@@ -101,7 +101,7 @@ export const Home = ({ setCurrentView }) => {
           <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
             {language === 'ta'
               ? 'தமிழ்நாடு, விழுப்புரம் மாவட்டம், வானூர் வட்டம், நெசல் கிராமத்திற்கான அதிகாரப்பூர்வ கிராம சபை அறிவிப்புகள், நியாயவிலைக் கடை, குடிநீர் நேரம், TNPSC அரசுத் தேர்வுகள் மற்றும் வேளாண் மானியத் தகவல்கள்.'
-              : 'Dedicated hyper-local digital portal for Nesal Village (Vanur Taluk, Villupuram District, Pincode 604102) — verified civic notices, ration schedules, drinking water times, and TNPSC jobs.'}
+              : 'Dedicated hyper-local digital portal for Nesal Village (Vanur Taluk, Villupuram District, Pincode 605014) — verified civic notices, ration schedules, drinking water times, and TNPSC jobs.'}
           </p>
 
           <div className="pt-2 flex flex-wrap gap-3">
@@ -136,7 +136,7 @@ export const Home = ({ setCurrentView }) => {
             <div className="text-xs text-slate-400 font-medium">நிர்வாக வட்டார எல்லை</div>
           </div>
           <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">
-            <div className="text-xl font-black text-emerald-400">604102</div>
+            <div className="text-xl font-black text-emerald-400">605014</div>
             <div className="text-xs text-slate-400 font-medium">நெசல் அஞ்சல் குறியீடு</div>
           </div>
           <div className="bg-slate-800/40 p-4 rounded-2xl border border-slate-700/50">

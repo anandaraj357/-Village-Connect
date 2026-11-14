@@ -94,7 +94,7 @@ export default function App() {
         setGpsStatus(`${dist <= 4 ? 'நெசல் எல்லைக்குள்' : `நேசலிலிருந்து ${dist} கி.மீ`}`);
         Alert.alert(
           '📍 நெசல் ஜி.பி.எஸ் சரிபார்க்கப்பட்டது',
-          `நெசல் கிராம மையம்: 12.0125° N, 79.7214° E\nஉங்கள் தூரம்: ${dist} கி.மீ\nவானூர் வட்டம், விழுப்புரம் மாவட்டம் (604102)`
+          `நெசல் கிராம மையம்: 12.0125° N, 79.7214° E\nஉங்கள் தூரம்: ${dist} கி.மீ\nவானூர் வட்டம், விழுப்புரம் மாவட்டம் (605014)`
         );
         fetchTabData();
       }
@@ -107,7 +107,7 @@ export default function App() {
 
   // WhatsApp Share helper
   const shareOnWhatsApp = (text, url) => {
-    const message = `🌾 *நமது நெசல் கிராமம் (NESAL VILLAGE)*\n📍 வானூர் வட்டம், விழுப்புரம் (604102)\n\n${text}\n\n🔗 ${url}`;
+    const message = `🌾 *நமது நெசல் கிராமம் (NESAL VILLAGE)*\n📍 வானூர் வட்டம், விழுப்புரம் (605014)\n\n${text}\n\n🔗 ${url}`;
     Linking.openURL(`whatsapp://send?text=${encodeURIComponent(message)}`).catch(() => {
       Alert.alert('Notice', 'WhatsApp is not installed on this device.');
     });
@@ -124,7 +124,7 @@ export default function App() {
             <Text style={styles.logoIcon}>🌾</Text>
             <View>
               <Text style={styles.logoTitle}>நமது நெசல் கிராமம்</Text>
-              <Text style={styles.logoSubtitle}>வானூர் வட்டம் • விழுப்புரம் - 604102</Text>
+              <Text style={styles.logoSubtitle}>வானூர் வட்டம் • விழுப்புரம் - 605014</Text>
             </View>
           </View>
 
@@ -185,7 +185,7 @@ export default function App() {
               <View>
                 {/* Hero Card */}
                 <View style={styles.heroCard}>
-                  <Text style={styles.heroBadge}>🌾 நெசல் கிராம டிஜிட்டல் தளம் (604102)</Text>
+                  <Text style={styles.heroBadge}>🌾 நெசல் கிராம டிஜிட்டல் தளம் (605014)</Text>
                   <Text style={styles.heroTitle}>
                     {language === 'ta'
                       ? 'நமது நெசல் கிராமம்'
@@ -194,7 +194,7 @@ export default function App() {
                   <Text style={styles.heroDesc}>
                     {language === 'ta'
                       ? 'வானூர் வட்டம், விழுப்புரம் மாவட்டம். கிராம சபை அறிவிப்புகள், குடிநீர் நேரம், நியாயவிலைக் கடை மற்றும் TNPSC வேலைவாய்ப்புகள்.'
-                      : 'Hyper-localized portal for Nesal Village (Vanur Taluk, Villupuram District, Pincode 604102).'}
+                      : 'Hyper-localized portal for Nesal Village (Vanur Taluk, Villupuram District, Pincode 605014).'}
                   </Text>
                 </View>
 

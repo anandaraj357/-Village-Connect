@@ -135,7 +135,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
                 </span>
               </div>
               <div className="text-[11px] sm:text-xs text-slate-500 font-medium">
-                வானூர் வட்டம் • விழுப்புரம் மாவட்டம் (அஞ்சல்: 604102)
+                வானூர் வட்டம் • விழுப்புரம் மாவட்டம் (அஞ்சல்: 605014)
               </div>
             </div>
           </div>
@@ -264,7 +264,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
                   </div>
                   <div>
                     <h3 className="font-extrabold text-slate-900 text-sm">நமது நெசல் கிராமம்</h3>
-                    <p className="text-[10px] text-emerald-700 font-semibold">வானூர், விழுப்புரம் (604102)</p>
+                    <p className="text-[10px] text-emerald-700 font-semibold">வானூர், விழுப்புரம் (605014)</p>
                   </div>
                 </div>
                 <button
@@ -283,7 +283,7 @@ export const Navbar = ({ currentView, setCurrentView }) => {
                     <span>நெசல் கிராமம்</span>
                   </span>
                   <span className="bg-emerald-600 text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">
-                    604102
+                    605014
                   </span>
                 </div>
                 <p className="text-[11px] text-slate-600">

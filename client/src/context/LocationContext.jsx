@@ -76,7 +76,7 @@ const DEFAULT_LOCATION = {
   district: 'Villupuram',
   mandal: 'Vanur',
   village: 'Nesal',
-  pincode: '604102',
+  pincode: '605014',
   lat: NESAL_COORDINATES.lat,
   lng: NESAL_COORDINATES.lng,
   wardId: 'all',
@@ -193,7 +193,7 @@ export const LocationProvider = ({ children }) => {
       district: 'Villupuram',
       mandal: 'Vanur',
       village: 'Nesal',
-      pincode: '604102',
+      pincode: '605014',
       wardId: wardObj.id,
       wardName: wardObj.name
     };

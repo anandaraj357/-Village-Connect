@@ -47,7 +47,7 @@ export const DistrictAnnouncements = () => {
               <span className="text-slate-300">•</span>
               <span className="inline-flex items-center text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
                 <MapPin className="w-3 h-3 mr-1 text-emerald-600" />
-                நெசல் கிராமம், வானூர் வட்டம் (604102)
+                நெசல் கிராமம், வானூர் வட்டம் (605014)
               </span>
             </div>
             <h1 className="text-3xl font-black text-slate-900 mt-1">
@@ -124,7 +124,7 @@ export const DistrictAnnouncements = () => {
                 <div className="flex items-center space-x-4 text-xs text-slate-500 pt-2">
                   <span className="flex items-center">
                     <MapPin className="w-3.5 h-3.5 mr-1 text-slate-400" />
-                    நெசல் கிராமம் • வானூர் வட்டம், விழுப்புரம் (604102)
+                    நெசல் கிராமம் • வானூர் வட்டம், விழுப்புரம் (605014)
                   </span>
                   <span className="flex items-center">
                     <Calendar className="w-3.5 h-3.5 mr-1 text-slate-400" />

@@ -70,7 +70,7 @@ export const LocationPickerModal = () => {
             <div className="space-y-1">
               <div className="inline-flex items-center space-x-1.5 bg-white/20 text-emerald-100 text-xs font-semibold px-2.5 py-0.5 rounded-full">
                 <MapPin className="w-3.5 h-3.5" />
-                <span>நெசல் கிராமம் • வானூர் வட்டம் (604102)</span>
+                <span>நெசல் கிராமம் • வானூர் வட்டம் (605014)</span>
               </div>
               <h2 className="text-lg sm:text-2xl font-black">
                 {language === 'ta' ? 'நெசல் கிராம வார்டுகள் & பகுதிகள்' : 'Nesal Village Wards & Sectors'}
@@ -155,7 +155,7 @@ export const LocationPickerModal = () => {
                 {language === 'ta' ? 'நெசல் கிராம வார்டுகள் (தேர்வு செய்க)' : 'Select Nesal Village Ward'}
               </span>
               <span className="text-[11px] text-emerald-700 font-semibold">
-                அஞ்சல் குறியீடு: 604102
+                அஞ்சல் குறியீடு: 605014
               </span>
             </div>
 
