@@ -12,6 +12,7 @@ import { Wifi, Battery, Signal, Sparkles } from 'lucide-react';
 import { Home } from './pages/Home';
 import { JobsPortal } from './pages/JobsPortal';
 import { RecruitmentPortal } from './pages/RecruitmentPortal';
+import { PostJobPortal } from './pages/PostJobPortal';
 import { NewsPortal } from './pages/NewsPortal';
 import { DistrictAnnouncements } from './pages/DistrictAnnouncements';
 import { SubscriptionCenter } from './pages/SubscriptionCenter';
@@ -37,6 +38,14 @@ function AppContent() {
   const renderContent = () => {
     if (currentView === 'jobs') return <JobsPortal />;
     if (currentView === 'recruitments') return <RecruitmentPortal />;
+    if (currentView === 'post-job') {
+      return (
+        <PostJobPortal
+          onBack={() => setCurrentView('jobs')}
+          onComplete={() => setCurrentView('jobs')}
+        />
+      );
+    }
     if (currentView === 'news') return <NewsPortal />;
     if (currentView === 'announcements') return <DistrictAnnouncements />;
     if (currentView === 'subscriptions') return <SubscriptionCenter />;
@@ -74,7 +83,13 @@ function AppContent() {
     return <Home setCurrentView={setCurrentView} />;
   };
 
-  const appCore = (
+  const appCore = currentView === 'admin' ? (
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6">
+        {renderContent()}
+      </main>
+    </div>
+  ) : (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
       <Navbar currentView={currentView} setCurrentView={setCurrentView} />
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-8 pb-24 md:pb-12">

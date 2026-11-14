@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const ContentApprovalSchema = new mongoose.Schema(
   {
-    recordId: { type: mongoose.Schema.Types.ObjectId, ref: 'CrawledRecord', required: true, index: true },
+    recordId: { type: mongoose.Schema.Types.ObjectId, ref: 'CrawledRecord', required: false, index: true },
     recordType: {
       type: String,
       required: true,

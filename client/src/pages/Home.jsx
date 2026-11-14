@@ -124,7 +124,13 @@ export const Home = ({ setCurrentView }) => {
               className="bg-emerald-950/80 hover:bg-emerald-900/80 text-emerald-200 border border-emerald-700/60 font-semibold px-4 py-2.5 rounded-xl transition text-sm flex items-center space-x-1.5"
             >
               <Briefcase className="w-4 h-4" />
-              <span>{language === 'ta' ? 'வேலைகள்' : 'Jobs'}</span>
+              <span>{language === 'ta' ? 'தமிழ்நாடு வேலைகள்' : 'All-TN Jobs'}</span>
+            </button>
+            <button
+              onClick={() => setCurrentView('post-job')}
+              className="bg-amber-400 hover:bg-amber-500 text-slate-950 font-black px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
+            >
+              <span>{language === 'ta' ? '➕ வேலை பதிவிட' : '➕ Post a Job'}</span>
             </button>
           </div>
         </div>

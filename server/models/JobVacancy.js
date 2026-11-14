@@ -7,20 +7,24 @@ const JobVacancySchema = new mongoose.Schema(
     jobCategory: {
       type: String,
       required: true,
-      enum: ['Government', 'Private', 'IT', 'Non-IT', 'Internship', 'Work From Home', 'Local Job'],
       default: 'Government'
+    },
+    jobType: {
+      type: String,
+      default: 'Full-Time'
     },
     qualification: { type: String, default: 'Not Specified' },
     requiredExperience: { type: String, default: 'Freshers / Experienced' },
     salary: { type: String, default: 'As per norms' },
     vacanciesCount: { type: Number, default: 1 },
-    jobLocation: { type: String, default: 'Tamil Nadu (Villupuram / Chennai)' },
+    jobLocation: { type: String, default: 'Tamil Nadu' },
     district: { type: String, default: 'Villupuram' },
+    state: { type: String, default: 'Tamil Nadu' },
     applicationStartDate: { type: Date },
     applicationLastDate: { type: Date },
     officialNotificationUrl: { type: String },
     applicationUrl: { type: String },
-    sourceWebsite: { type: String, required: true },
+    sourceWebsite: { type: String, default: 'Tamil Nadu Employment Portal' },
     datePublished: { type: Date, default: Date.now },
     dateCrawled: { type: Date, default: Date.now },
     jobDescription: { type: String },
@@ -28,6 +32,21 @@ const JobVacancySchema = new mongoose.Schema(
     confidenceScore: { type: Number, default: 95 },
     isImportant: { type: Boolean, default: false },
     viewsCount: { type: Number, default: 0 },
+    contactPhone: { type: String },
+    contactEmail: { type: String },
+    contactPerson: { type: String },
+    howToApply: { type: String },
+    postedBy: {
+      userType: { type: String, enum: ['crawler', 'user', 'employer', 'admin'], default: 'crawler' },
+      name: { type: String },
+      phone: { type: String },
+      email: { type: String }
+    },
+    status: {
+      type: String,
+      enum: ['approved', 'pending', 'rejected'],
+      default: 'approved'
+    },
     approvalId: { type: mongoose.Schema.Types.ObjectId, ref: 'ContentApproval' },
     originalRecordId: { type: mongoose.Schema.Types.ObjectId, ref: 'CrawledRecord' }
   },

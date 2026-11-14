@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { ConfidenceBadge } from '../../components/Badge';
-import { FileText, Download, ExternalLink, Calendar, Layers } from 'lucide-react';
+import { ConfidenceBadge, PostedByBadge } from '../../components/Badge';
+import { FileText, Download, ExternalLink, Calendar, Layers, MapPin } from 'lucide-react';
 
 export const RecruitmentMgmt = () => {
   const [recruitments, setRecruitments] = useState([]);
@@ -31,7 +31,7 @@ export const RecruitmentMgmt = () => {
         <div>
           <span className="text-xs font-bold uppercase tracking-wider text-emerald-700">Screen 2</span>
           <h2 className="text-2xl font-black text-slate-900 mt-0.5">Recruitment Notifications Manager</h2>
-          <p className="text-xs text-slate-500">Government gazettes, notification numbers, and revision history.</p>
+          <p className="text-xs text-slate-500">Government gazettes, notification numbers, and revision history across Tamil Nadu.</p>
         </div>
         <div className="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-xl">
           Total Published: {recruitments.length} Notifications
@@ -49,9 +49,9 @@ export const RecruitmentMgmt = () => {
                   <th className="py-3.5 px-4">Notification #</th>
                   <th className="py-3.5 px-4">Recruitment Name</th>
                   <th className="py-3.5 px-4">Organization</th>
+                  <th className="py-3.5 px-4">District / Area</th>
                   <th className="py-3.5 px-4">Posts</th>
-                  <th className="py-3.5 px-4">Age Limit</th>
-                  <th className="py-3.5 px-4">Fee</th>
+                  <th className="py-3.5 px-4">Source</th>
                   <th className="py-3.5 px-4">Confidence</th>
                   <th className="py-3.5 px-4">Revision</th>
                   <th className="py-3.5 px-4">PDF / Apply</th>
@@ -65,9 +65,11 @@ export const RecruitmentMgmt = () => {
                     </td>
                     <td className="py-3 px-4 font-bold text-slate-900 max-w-xs">{rec.recruitmentName}</td>
                     <td className="py-3 px-4 text-slate-600">{rec.organization}</td>
-                    <td className="py-3 px-4 font-bold">{rec.totalVacancies || 'Gazetted'}</td>
-                    <td className="py-3 px-4 text-slate-600 truncate max-w-[120px]">{rec.ageLimit}</td>
-                    <td className="py-3 px-4 text-slate-600 truncate max-w-[100px]">{rec.applicationFee}</td>
+                    <td className="py-3 px-4 text-slate-700 font-semibold">{rec.district || 'All Tamil Nadu'}</td>
+                    <td className="py-3 px-4 font-bold">{rec.totalVacancies > 0 ? rec.totalVacancies.toLocaleString() : 'Gazetted'}</td>
+                    <td className="py-3 px-4">
+                      <PostedByBadge postedBy={rec.postedBy} />
+                    </td>
                     <td className="py-3 px-4">
                       <ConfidenceBadge score={rec.confidenceScore} />
                     </td>
@@ -88,10 +90,10 @@ export const RecruitmentMgmt = () => {
                         </a>
                       )}
                       <a
-                        href={rec.officialApplicationLink || rec.sourceUrl}
+                        href={rec.officialApplicationLink || rec.officialPdfUrl || rec.sourceUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-700 font-bold hover:underline"
+                        className="text-slate-800 font-bold hover:underline"
                       >
                         Apply
                       </a>

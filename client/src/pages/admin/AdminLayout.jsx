@@ -52,10 +52,11 @@ export const AdminLayout = ({ adminTab, setAdminTab, setCurrentView, children })
 
           <button
             onClick={() => setCurrentView('home')}
-            className="flex items-center space-x-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3 py-2 rounded-xl text-xs transition"
+            className="flex items-center space-x-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-md"
+            title="Switch back to Citizen / Public Portal view"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Public View</span>
+            <ArrowLeft className="w-4 h-4" />
+            <span>🌐 Switch to Citizen / Public View</span>
           </button>
 
           <button

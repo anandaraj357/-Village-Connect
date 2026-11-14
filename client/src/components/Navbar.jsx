@@ -16,6 +16,7 @@ import {
   X,
   Navigation,
   RefreshCw,
+  PlusCircle,
   Menu,
   PhoneCall
 } from 'lucide-react';
@@ -36,10 +37,11 @@ export const Navbar = ({ currentView, setCurrentView }) => {
 
   const navLinks = [
     { id: 'home', label: language === 'ta' ? 'முகப்பு' : 'Home', icon: null },
-    { id: 'news', label: language === 'ta' ? 'நெசல் செய்திகள்' : 'Nesal News', icon: Newspaper },
-    { id: 'announcements', label: language === 'ta' ? 'ஊராட்சி அறிவிப்புகள்' : 'Panchayat Notices', icon: Megaphone },
-    { id: 'jobs', label: language === 'ta' ? 'வேலைவாய்ப்புகள்' : 'Job Vacancies', icon: Briefcase },
+    { id: 'jobs', label: language === 'ta' ? 'வேலைவாய்ப்புகள்' : 'All-TN Jobs', icon: Briefcase },
     { id: 'recruitments', label: language === 'ta' ? 'அரசு தேர்வுகள் (TNPSC)' : 'Govt Recruitments', icon: FileText },
+    { id: 'post-job', label: language === 'ta' ? '➕ வேலை பதிவிட' : '➕ Post a Job', icon: PlusCircle },
+    { id: 'news', label: language === 'ta' ? 'செய்திகள்' : 'News', icon: Newspaper },
+    { id: 'announcements', label: language === 'ta' ? 'ஊராட்சி அறிவிப்புகள்' : 'Panchayat Notices', icon: Megaphone },
     { id: 'subscriptions', label: language === 'ta' ? 'விழிப்பூட்டல்கள்' : 'Alerts', icon: null }
   ];
 
@@ -104,14 +106,11 @@ export const Navbar = ({ currentView, setCurrentView }) => {
 
           <button
             onClick={() => setCurrentView('admin')}
-            className={`flex items-center space-x-1 px-2.5 py-0.5 rounded font-medium transition ${
-              currentView.startsWith('admin')
-                ? 'bg-emerald-600 text-white'
-                : 'bg-emerald-950 text-emerald-300 hover:bg-emerald-900 border border-emerald-700'
-            }`}
+            className="flex items-center space-x-1 px-3 py-1 rounded-full font-bold transition bg-emerald-950 text-emerald-300 hover:bg-emerald-900 border border-emerald-700 hover:border-emerald-500 shadow-sm"
+            title="Switch to Administrator Control Center"
           >
-            <Shield className="w-3.5 h-3.5" />
-            <span>நிர்வாகி (Admin)</span>
+            <Shield className="w-3.5 h-3.5 text-emerald-400" />
+            <span>{language === 'ta' ? 'நிர்வாக தளம் (Admin View)' : 'Admin Portal'}</span>
           </button>
         </div>
       </div>
