@@ -239,6 +239,12 @@ export default function App() {
                       ? 'வானூர் வட்டம், விழுப்புரம் மாவட்டம். கிராம சபை அறிவிப்புகள், குடிநீர் நேரம், நியாயவிலைக் கடை மற்றும் TNPSC வேலைவாய்ப்புகள்.'
                       : 'Hyper-localized portal for Nesal Village (Vanur Taluk, Villupuram District, Pincode 605014).'}
                   </Text>
+                  <TouchableOpacity
+                    onPress={() => setCurrentTab('about')}
+                    style={styles.heroHistoryBtn}
+                  >
+                    <Text style={styles.heroHistoryBtnText}>📖 நெசல் கிராமத்தின் வரலாறு (About Us)</Text>
+                  </TouchableOpacity>
                 </View>
 
                 {/* Civic Amenities Box */}
@@ -545,6 +551,161 @@ export default function App() {
                 </TouchableOpacity>
               </View>
             )}
+
+            {/* About Us / Village History Tab */}
+            {currentTab === 'about' && (
+              <View>
+                {/* Header Card */}
+                <View style={[styles.heroCard, { backgroundColor: '#064e3b', borderWidth: 1, borderColor: '#059669' }]}>
+                  <Text style={styles.heroBadge}>📍 வானூர் வட்டம் • விழுப்புரம் மாவட்டம் (605014)</Text>
+                  <Text style={[styles.heroTitle, { fontSize: 22, color: '#fef08a' }]}>
+                    நெசல் கிராமத்தின் வரலாறு
+                  </Text>
+                  <Text style={{ fontSize: 13, fontWeight: '700', color: '#a7f3d0', marginTop: 2, marginBottom: 8 }}>
+                    நம் மண் | நம் மக்கள் | நம் பாரம்பரியம்
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => shareOnWhatsApp('🌾 நெசல் கிராமத்தின் வரலாறு - நம் மண் | நம் மக்கள் | நம் பாரம்பரியம்', 'https://nesal.village/about')}
+                    style={[styles.shareBtn, { backgroundColor: '#047857', borderColor: '#34d399', alignSelf: 'flex-start' }]}
+                  >
+                    <Text style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 11 }}>💬 வரலாற்றைப் பகிர்க (WhatsApp)</Text>
+                  </TouchableOpacity>
+                </View>
+
+                {/* Section 1: அறிமுகம் */}
+                <View style={styles.card}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+                    <Text style={[styles.cardTag, { backgroundColor: '#ecfdf5', color: '#047857', fontSize: 12, paddingHorizontal: 10, paddingVertical: 4 }]}>
+                      1. அறிமுகம்
+                    </Text>
+                  </View>
+                  <Text style={[styles.cardDesc, { fontSize: 13, color: '#1e293b', lineHeight: 20 }]}>
+                    தமிழ்நாட்டின் விழுப்புரம் மாவட்டத்தில், வானூர் வட்டத்தில் அமைந்துள்ள அழகிய கிராமம் நெசல். இயற்கை வளம், விவசாயம், பாரம்பரிய வாழ்க்கை முறை மற்றும் கிராமிய கலாச்சாரம் ஆகியவற்றுடன் தொடர்புடைய இக்கிராமம், அதன் மக்களின் உழைப்பாலும் ஒற்றுமையாலும் தனித்துவம் பெற்றுள்ளது.
+                  </Text>
+                  <View style={[styles.cardSummary, { backgroundColor: '#ecfdf5', borderLeftWidth: 3, borderLeftColor: '#059669', marginTop: 8 }]}>
+                    <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#064e3b', fontStyle: 'italic', lineHeight: 18 }}>
+                      "நெசல் என்பது வெறும் நிலப்பரப்பின் பெயர் மட்டுமல்ல; பல தலைமுறைகளாக வாழ்ந்து வந்த மக்களின் வாழ்க்கை, உழைப்பு, உறவுகள் மற்றும் நினைவுகளின் அடையாளமாகும்."
+                    </Text>
+                  </View>
+                </View>
+
+                {/* Section 2: கிராமத்தின் பெயரின் பின்னணி */}
+                <View style={styles.card}>
+                  <Text style={[styles.cardTag, { backgroundColor: '#f0fdfa', color: '#0d9488', fontSize: 12, paddingHorizontal: 10, paddingVertical: 4 }]}>
+                    2. கிராமத்தின் பெயரின் பின்னணி
+                  </Text>
+                  <Text style={[styles.cardDesc, { fontSize: 13, color: '#1e293b', lineHeight: 20 }]}>
+                    நெசல் என்ற பெயர் எவ்வாறு உருவானது என்பது குறித்த உறுதியான வரலாற்றுத் தகவல்கள் இதுவரை கிடைக்கவில்லை. இந்தப் பெயரின் தோற்றம் குறித்து உள்ளூர் பெரியவர்கள், முன்னோர்கள் மற்றும் பழைய ஆவணங்கள் மூலம் தகவல்களைச் சேகரிப்பது அவசியமாகும்.
+                  </Text>
+                  <Text style={[styles.cardDesc, { fontSize: 13, color: '#475569', lineHeight: 20, marginTop: 4 }]}>
+                    கிராமத்தின் பெயருக்குப் பின்னால் ஏதேனும் வரலாற்றுச் சம்பவம், பாரம்பரியத் தொடர்பு அல்லது பழமையான பெயர் மாற்றம் இருக்கிறதா என்பதை எதிர்காலத்தில் ஆராயலாம்.
+                  </Text>
+                </View>
+
+                {/* Section 3: விவசாயம் – கிராமத்தின் பாரம்பரிய அடையாளம் */}
+                <View style={styles.card}>
+                  <Text style={[styles.cardTag, { backgroundColor: '#fffbeb', color: '#b45309', fontSize: 12, paddingHorizontal: 10, paddingVertical: 4 }]}>
+                    3. விவசாயம் – கிராமத்தின் பாரம்பரிய அடையாளம் 🌾
+                  </Text>
+                  <Text style={[styles.cardDesc, { fontSize: 13, color: '#1e293b', lineHeight: 20 }]}>
+                    விவசாயம் நெசல் கிராமத்தின் முக்கியமான பாரம்பரியத் தொழிலாகும். விவசாயத்தை அடிப்படையாகக் கொண்டு பல குடும்பங்கள் தங்களது வாழ்வாதாரத்தை அமைத்துக் கொண்டுள்ளன.
+                  </Text>
+                  <Text style={[styles.cardDesc, { fontSize: 13, color: '#1e293b', lineHeight: 20, marginTop: 4 }]}>
+                    மண்ணை நம்பி உழைக்கும் விவசாயிகளின் அர்ப்பணிப்பும், இயற்கையுடன் இணைந்த வாழ்க்கை முறையும் நம் கிராமத்தின் அடையாளங்களாக விளங்குகின்றன.
+                  </Text>
+                  <View style={[styles.cardSummary, { backgroundColor: '#fffbeb', borderLeftWidth: 3, borderLeftColor: '#d97706', marginTop: 8 }]}>
+                    <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#78350f', lineHeight: 18 }}>
+                      "விவசாயம் என்பது ஒரு தொழில் மட்டுமல்ல; அது நம் முன்னோர்கள் நமக்கு விட்டுச் சென்ற பாரம்பரியமும் வாழ்வியல் பண்பாடும் ஆகும்."
+                    </Text>
+                  </View>
+                </View>
+
+                {/* Section 4: கோவில் பாரம்பரியம் மற்றும் ஆன்மீகப் பண்பாடு */}
+                <View style={styles.card}>
+                  <Text style={[styles.cardTag, { backgroundColor: '#fff1f2', color: '#be123c', fontSize: 12, paddingHorizontal: 10, paddingVertical: 4 }]}>
+                    4. கோவில் பாரம்பரியம் மற்றும் ஆன்மீகப் பண்பாடு 🛕
+                  </Text>
+
+                  {/* மாரியம்மன் கோவில் தெரு */}
+                  <View style={{ backgroundColor: '#fff1f2', padding: 10, borderRadius: 10, marginTop: 8, marginBottom: 8 }}>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#9f1239', marginBottom: 4 }}>
+                      • மாரியம்மன் கோவில் தெரு
+                    </Text>
+                    <Text style={[styles.cardDesc, { fontSize: 12, color: '#334155', lineHeight: 18 }]}>
+                      மாரியம்மன் வழிபாடு தமிழக கிராமிய ஆன்மீக மரபில் முக்கியமான இடத்தைப் பெற்றுள்ளது. நெசல் கிராமத்தின் மாரியம்மன் கோவில் தெருவும் கிராமத்தின் ஆன்மீக அடையாளங்களில் ஒன்றாகும்.
+                    </Text>
+                  </View>
+
+                  {/* திரௌபதி அம்மன் கோவில் */}
+                  <View style={{ backgroundColor: '#faf5ff', padding: 10, borderRadius: 10, marginBottom: 8 }}>
+                    <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#6b21a8', marginBottom: 4 }}>
+                      • திரௌபதி அம்மன் கோவில்
+                    </Text>
+                    <Text style={[styles.cardDesc, { fontSize: 12, color: '#334155', lineHeight: 18 }]}>
+                      திரௌபதி அம்மன் வழிபாடு தமிழகத்தின் பல கிராமங்களில் பாரம்பரியமாகப் பின்பற்றப்படுகிறது. மகாபாரத மரபுடன் தொடர்புடைய இவ்வழிபாடு, கிராமியக் கலாச்சாரத்தின் ஒரு பகுதியாக விளங்குகிறது.
+                    </Text>
+                  </View>
+
+                  <Text style={[styles.cardDesc, { fontSize: 12, color: '#64748b', fontStyle: 'italic', lineHeight: 18 }]}>
+                    இந்தக் கோவில்களின் கட்டப்பட்ட காலம், திருவிழாக்கள் மற்றும் அவற்றுடன் தொடர்புடைய பழக்கவழக்கங்கள் குறித்த கூடுதல் தகவல்கள் கிடைத்தால் நெசல் கிராமத்தின் ஆன்மீக வரலாற்றை மேலும் விரிவுபடுத்த முடியும்.
+                  </Text>
+                </View>
+
+                {/* Section 5: கிராமிய வாழ்க்கையும் சமூக ஒற்றுமையும் */}
+                <View style={styles.card}>
+                  <Text style={[styles.cardTag, { backgroundColor: '#eff6ff', color: '#1d4ed8', fontSize: 12, paddingHorizontal: 10, paddingVertical: 4 }]}>
+                    5. கிராமிய வாழ்க்கையும் சமூக ஒற்றுமையும் 🤝
+                  </Text>
+                  <Text style={[styles.cardDesc, { fontSize: 13, color: '#1e293b', lineHeight: 20 }]}>
+                    நெசல் கிராமத்தின் சமூக வாழ்க்கை அதன் மக்களின் உறவுகள், பரஸ்பர உதவி மற்றும் பாரம்பரிய வாழ்க்கை முறையை அடிப்படையாகக் கொண்டது.
+                  </Text>
+                  <Text style={[styles.cardDesc, { fontSize: 13, color: '#1e293b', lineHeight: 20, marginTop: 4 }]}>
+                    கிராமத்தில் பிறந்து வளர்ந்தவர்கள் கல்வி, வேலைவாய்ப்பு மற்றும் தொழில் நிமித்தமாக பல்வேறு இடங்களுக்குச் சென்றிருந்தாலும், தங்கள் சொந்த ஊரின் மீதான பாசத்தையும் பற்றையும் தொடர்ந்து கொண்டுள்ளனர்.
+                  </Text>
+                </View>
+
+                {/* Section 6: நெசல் கிராமத்தின் எதிர்கால வளர்ச்சி */}
+                <View style={styles.card}>
+                  <Text style={[styles.cardTag, { backgroundColor: '#ecfdf5', color: '#047857', fontSize: 12, paddingHorizontal: 10, paddingVertical: 4 }]}>
+                    6. நெசல் கிராமத்தின் எதிர்கால வளர்ச்சி 🚀
+                  </Text>
+                  <Text style={[styles.cardDesc, { fontSize: 13, fontWeight: '600', color: '#064e3b', lineHeight: 20, marginBottom: 8 }]}>
+                    நம் கிராமத்தின் பாரம்பரியத்தைக் காப்பதோடு, நவீன தொழில்நுட்பத்தின் உதவியுடன் கிராமத்தை முன்னேற்றுவது அவசியமாகும்.
+                  </Text>
+                  {[
+                    'விவசாய வளர்ச்சி மற்றும் விவசாயிகளுக்கான தகவல்கள்.',
+                    'மாணவர்களுக்கான கல்வி மற்றும் வேலைவாய்ப்பு வழிகாட்டுதல்.',
+                    'அரசு நலத்திட்டங்கள் குறித்த விழிப்புணர்வு.',
+                    'உள்ளூர் வணிகங்கள் மற்றும் தொழில் முனைவோருக்கு ஆதரவு.',
+                    'கிராமத்தின் கோவில்கள் மற்றும் பாரம்பரிய இடங்களை ஆவணப்படுத்துதல்.',
+                    'கிராம மக்களின் ஒற்றுமை மற்றும் இளைஞர்களின் பங்களிப்பை அதிகரித்தல்.'
+                  ].map((point, pIdx) => (
+                    <View key={pIdx} style={{ flexDirection: 'row', alignItems: 'flex-start', marginVertical: 3 }}>
+                      <Text style={{ color: '#059669', fontWeight: 'bold', marginRight: 6 }}>✔</Text>
+                      <Text style={{ fontSize: 12, color: '#1e293b', flex: 1, lineHeight: 18 }}>{point}</Text>
+                    </View>
+                  ))}
+                </View>
+
+                {/* Section 7: நிறைவுரை */}
+                <View style={[styles.card, { backgroundColor: '#064e3b', borderColor: '#059669' }]}>
+                  <Text style={[styles.cardTag, { backgroundColor: 'rgba(255,255,255,0.2)', color: '#ffffff', fontSize: 12, paddingHorizontal: 10, paddingVertical: 4 }]}>
+                    7. நிறைவுரை
+                  </Text>
+                  <Text style={[styles.cardDesc, { fontSize: 13, color: '#d1fae5', lineHeight: 20, marginTop: 4 }]}>
+                    நெசல் கிராமத்தின் வரலாறு என்பது அதன் மண்ணில் வாழ்ந்த முன்னோர்களின் உழைப்பையும், விவசாயத்தின் முக்கியத்துவத்தையும், கோவில் பாரம்பரியத்தையும், மக்களின் வாழ்க்கை முறையையும் உள்ளடக்கியதாகும்.
+                  </Text>
+                  <Text style={[styles.cardDesc, { fontSize: 13, color: '#d1fae5', lineHeight: 20, marginTop: 4 }]}>
+                    நம் முன்னோர்கள் நமக்குத் தந்த அடையாளத்தையும் பாரம்பரியத்தையும் பாதுகாத்து, அடுத்த தலைமுறைக்கு எடுத்துச் செல்வது நம் அனைவரின் பொறுப்பாகும்.
+                  </Text>
+                  <View style={{ backgroundColor: 'rgba(0,0,0,0.3)', padding: 12, borderRadius: 10, marginTop: 10, alignItems: 'center' }}>
+                    <Text style={{ fontSize: 16, fontWeight: '900', color: '#fef08a', textAlign: 'center' }}>
+                      நெசல் – நம் ஊர்! நம் பெருமை! நம் அடையாளம்!
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            )}
           </ScrollView>
         )}
       </View>
@@ -553,6 +714,7 @@ export default function App() {
       <View style={styles.bottomNav}>
         {[
           { id: 'home', label: language === 'ta' ? 'முகப்பு' : 'Home', icon: '🌾' },
+          { id: 'about', label: language === 'ta' ? 'வரலாறு' : 'About', icon: '📖' },
           { id: 'jobs', label: language === 'ta' ? 'வேலை' : 'Jobs', icon: '💼' },
           { id: 'recruitments', label: language === 'ta' ? 'அரசுப் பணி' : 'Recruit', icon: '📜' },
           { id: 'post-job', label: language === 'ta' ? 'பதிவிட' : 'Post', icon: '➕' },
@@ -718,7 +880,20 @@ const styles = StyleSheet.create({
   heroDesc: {
     fontSize: 11,
     color: '#cbd5e1',
-    lineHeight: 16
+    lineHeight: 16,
+    marginBottom: 10
+  },
+  heroHistoryBtn: {
+    backgroundColor: '#059669',
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 8,
+    alignSelf: 'flex-start'
+  },
+  heroHistoryBtnText: {
+    color: '#ffffff',
+    fontSize: 11,
+    fontWeight: 'bold'
   },
   civicBox: {
     backgroundColor: '#ecfdf5',

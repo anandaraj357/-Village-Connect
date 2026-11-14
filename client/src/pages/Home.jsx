@@ -24,7 +24,8 @@ import {
   ShieldAlert,
   Building2,
   Wheat,
-  Share2
+  Share2,
+  BookOpen
 } from 'lucide-react';
 
 export const Home = ({ setCurrentView }) => {
@@ -105,6 +106,13 @@ export const Home = ({ setCurrentView }) => {
           </p>
 
           <div className="pt-2 flex flex-wrap gap-3">
+            <button
+              onClick={() => setCurrentView('about')}
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
+            >
+              <BookOpen className="w-4 h-4 text-emerald-200" />
+              <span>{language === 'ta' ? 'நெசல் வரலாறு (About Us)' : 'About Nesal'}</span>
+            </button>
             <button
               onClick={() => setCurrentView('news')}
               className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-5 py-2.5 rounded-xl transition shadow-lg flex items-center space-x-2 text-sm"
@@ -232,6 +240,32 @@ export const Home = ({ setCurrentView }) => {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* NESAL VILLAGE HISTORY TEASER BANNER */}
+      <section className="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-emerald-700/50 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="space-y-2 max-w-2xl">
+          <div className="inline-flex items-center space-x-2 bg-emerald-700/60 text-emerald-200 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">
+            <BookOpen className="w-3.5 h-3.5 text-emerald-300" />
+            <span>நெசல் கிராமத்தின் வரலாறு (About Us)</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-black text-white">
+            நம் மண் | நம் மக்கள் | நம் பாரம்பரியம்
+          </h2>
+          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+            விழுப்புரம் மாவட்டம், வானூர் வட்டம் நெசல் கிராமத்தின் இயற்கை வளம், விவசாயம், மாரியம்மன் & திரௌபதி அம்மன் கோவில் ஆன்மீக மரபு, சமூக ஒற்றுமை மற்றும் எதிர்கால தொலைநோக்கு.
+          </p>
+        </div>
+        <button
+          onClick={() => {
+            setCurrentView('about');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black px-6 py-3 rounded-2xl shadow-lg transition flex items-center space-x-2 text-sm whitespace-nowrap self-stretch md:self-auto justify-center"
+        >
+          <span>முழு வரலாற்றைப் படிக்க</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </section>
 
       {/* NESAL & VANUR EMERGENCY DIRECTORY WIDGET */}

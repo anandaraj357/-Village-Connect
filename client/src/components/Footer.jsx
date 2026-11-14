@@ -45,7 +45,7 @@ export const Footer = () => {
               நெசல் கிராம பஞ்சாயத்து (Nesal Gram Panchayat), வானூர் வட்டம் (Vanur Taluk), விழுப்புரம் மாவட்டம் (Villupuram District), தமிழ்நாடு - 605014.
             </p>
             <div className="mt-3 text-xs text-emerald-400 font-medium">
-              Data strictly verified through administrator approvals before public display.
+              🌾 நெசல் கிராமத்தின் வரலாறு: நம் மண் | நம் மக்கள் | நம் பாரம்பரியம்
             </div>
           </div>
         </div>
