@@ -200,6 +200,8 @@ export const BusTransportPortal = () => {
     { id: 'All', label: language === 'ta' ? 'அனைத்து வழித்தடங்கள்' : 'All Routes' },
     { id: 'Puducherry', label: 'புதுச்சேரி (Puducherry)' },
     { id: 'Tindivanam', label: 'திண்டிவனம் (Tindivanam)' },
+    { id: 'Kalapet', label: 'காலாப்பட்டு / PIMS' },
+    { id: 'Kilayanur', label: 'கிளியனூர் / ஒழுந்தியாப்பட்டு' },
     { id: 'Vanur', label: 'வானூர் (Vanur)' },
     { id: 'Villupuram', label: 'விழுப்புரம் (Villupuram)' },
     { id: 'Marakkanam', label: 'மரக்காணம் (Marakkanam)' }

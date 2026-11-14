@@ -615,7 +615,9 @@ router.get('/transport', async (req, res) => {
       const searchRegex = new RegExp(escapeRegex(search), 'i');
       const searchCond = [
         { serviceName: searchRegex },
+        { serviceNameEnglish: searchRegex },
         { routeNumber: searchRegex },
+        { origin: searchRegex },
         { destination: searchRegex },
         { viaStops: searchRegex },
         { driverOrStandName: searchRegex }

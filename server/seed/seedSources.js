@@ -869,6 +869,72 @@ export async function seedDatabase(forceClean = false) {
     if (transportCount === 0 || forceClean) {
       await TransportSchedule.create([
         {
+          routeNumber: '188B / TNSTC',
+          serviceName: 'திண்டிவனம் - கிளியனூர் - ஒழுந்தியாப்பட்டு - நெசல் - புதுப்பட்டு - காலாப்பட்டு - புதுச்சேரி',
+          serviceNameEnglish: 'Tindivanam to Puducherry via Kilayanur, Ozunthiyapattu, Nesal, Puthupattu, Kalapet',
+          serviceType: 'TownBus',
+          isWomenFree: true,
+          origin: 'திண்டிவனம் (Tindivanam)',
+          destination: 'புதுச்சேரி (Puducherry)',
+          viaStops: [
+            'திண்டிவனம் (Tindivanam)',
+            'கிளியனூர் (Kilayanur)',
+            'ஒழுந்தியாப்பட்டு (Ozunthiyapattu)',
+            'நெசல் (Nesal)',
+            'புதுப்பட்டு (Puthupattu)',
+            'காலாப்பட்டு (Kalapet - PIMS/University)',
+            'புதுச்சேரி (Puducherry)'
+          ],
+          departures: [
+            { time: '06:15 AM', time24: '06:15', notes: 'காலை முதல் நடை / பள்ளி & கல்லூரி நேரம்' },
+            { time: '08:45 AM', time24: '08:45', notes: 'கல்லூரி, பிம்ஸ் (PIMS) & அலுவலக நேரம்' },
+            { time: '11:45 AM', time24: '11:45', notes: 'மதிய நடை' },
+            { time: '02:30 PM', time24: '14:30', notes: 'பிற்பகல் நடை' },
+            { time: '05:15 PM', time24: '17:15', notes: 'மாலை கல்லூரி & பணி திரும்புவோர்' },
+            { time: '07:45 PM', time24: '19:45', notes: 'இரவு கடைசி நடை' }
+          ],
+          frequencyMinutes: 140,
+          frequencyNote: 'நெசல் கிராமத்திற்குள் நேரடியாக வந்து செல்லும் அரசு நகரப் பேருந்து சேவை',
+          contactPhone: '04147-222345',
+          driverOrStandName: 'திண்டிவனம் & வானூர் பணிமனை (TNSTC)',
+          fareEstimated: 'மகளிருக்கு இலவசம் (பொது: ₹20)',
+          isImportant: true,
+          status: 'approved'
+        },
+        {
+          routeNumber: '188B / TNSTC (மறுமார்க்கம்)',
+          serviceName: 'புதுச்சேரி - காலாப்பட்டு - புதுப்பட்டு - நெசல் - ஒழுந்தியாப்பட்டு - கிளியனூர் - திண்டிவனம் (Vice Versa)',
+          serviceNameEnglish: 'Puducherry to Tindivanam via Kalapet, Puthupattu, Nesal, Ozunthiyapattu, Kilayanur (Vice Versa)',
+          serviceType: 'TownBus',
+          isWomenFree: true,
+          origin: 'புதுச்சேரி (Puducherry)',
+          destination: 'திண்டிவனம் (Tindivanam)',
+          viaStops: [
+            'புதுச்சேரி புதிய பேருந்து நிலையம்',
+            'காலாப்பட்டு (Kalapet - University/PIMS)',
+            'புதுப்பட்டு (Puthupattu)',
+            'நெசல் கிராமம் (Nesal)',
+            'ஒழுந்தியாப்பட்டு (Ozunthiyapattu)',
+            'கிளியனூர் (Kilayanur)',
+            'திண்டிவனம் (Tindivanam)'
+          ],
+          departures: [
+            { time: '07:15 AM', time24: '07:15', notes: 'புதுச்சேரியிலிருந்து முதல் நடை' },
+            { time: '09:45 AM', time24: '09:45', notes: 'காலை சேவை (நெசல் வழி)' },
+            { time: '01:00 PM', time24: '13:00', notes: 'மதிய நடை' },
+            { time: '03:45 PM', time24: '15:45', notes: 'பிற்பகல் நடை' },
+            { time: '06:30 PM', time24: '18:30', notes: 'மாலை கல்லூரி & அலுவலக பயணிகள் நடை' },
+            { time: '08:45 PM', time24: '20:45', notes: 'இரவு கடைசி நடை' }
+          ],
+          frequencyMinutes: 140,
+          frequencyNote: 'புதுச்சேரியிலிருந்து காலாப்பட்டு, நெசல் வழியாக திண்டிவனம் செல்லும் அரசுப் பேருந்து',
+          contactPhone: '0413-2677100',
+          driverOrStandName: 'புதுச்சேரி பேருந்து நிலையம் / வானூர் பணிமனை',
+          fareEstimated: 'மகளிருக்கு இலவசம் (பொது: ₹20)',
+          isImportant: true,
+          status: 'approved'
+        },
+        {
           routeNumber: '188',
           serviceName: 'நெசல் - வானூர் - புதுச்சேரி நகரப் பேருந்து',
           serviceNameEnglish: 'Nesal to Puducherry Town Bus',
