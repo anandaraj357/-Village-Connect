@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNotifications } from '../context/NotificationContext';
 import { useLocation } from '../context/LocationContext';
-import { Home, Briefcase, FileText, Newspaper, MapPin, Navigation } from 'lucide-react';
+import { Home, Briefcase, FileText, Newspaper, MapPin, Navigation, PlusCircle, Megaphone } from 'lucide-react';
 
 export const MobileBottomNav = ({ currentView, setCurrentView }) => {
   const { language } = useNotifications();
@@ -24,9 +24,19 @@ export const MobileBottomNav = ({ currentView, setCurrentView }) => {
       icon: FileText
     },
     {
+      id: 'post-job',
+      label: language === 'ta' ? 'பதிவிட' : 'Post',
+      icon: PlusCircle
+    },
+    {
       id: 'news',
       label: language === 'ta' ? 'செய்திகள்' : 'News',
       icon: Newspaper
+    },
+    {
+      id: 'announcements',
+      label: language === 'ta' ? 'அறிவிப்பு' : 'Notices',
+      icon: Megaphone
     }
   ];
 

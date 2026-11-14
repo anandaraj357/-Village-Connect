@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNotifications } from '../context/NotificationContext';
 import { useLocation } from '../context/LocationContext';
 import { CategoryBadge } from '../components/Badge';
+import { TN_DISTRICTS } from './PostJobPortal';
 import { Newspaper, ExternalLink, Calendar, MapPin, Globe, RefreshCw, Navigation, Sparkles, Compass, Share2 } from 'lucide-react';
 
 const NEWS_CATEGORIES = [
@@ -31,6 +32,7 @@ export const NewsPortal = () => {
 
   const [news, setNews] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedDistrict, setSelectedDistrict] = useState('All Tamil Nadu');
   const [loading, setLoading] = useState(true);
 
   const fetchNews = async () => {
@@ -40,7 +42,9 @@ export const NewsPortal = () => {
       if (selectedCategory !== 'All') {
         params.append('category', selectedCategory);
       }
-      params.append('district', 'Villupuram');
+      if (selectedDistrict !== 'All Tamil Nadu' && selectedDistrict !== 'All') {
+        params.append('district', selectedDistrict);
+      }
       params.append('state', 'Tamil Nadu');
 
       const queryString = params.toString() ? `?${params.toString()}` : '';
@@ -57,7 +61,7 @@ export const NewsPortal = () => {
 
   useEffect(() => {
     fetchNews();
-  }, [selectedCategory, refreshTrigger]);
+  }, [selectedCategory, selectedDistrict, refreshTrigger]);
 
   return (
     <div className="space-y-8 pb-16">
@@ -117,6 +121,21 @@ export const NewsPortal = () => {
           </div>
 
           <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+            <div className="flex items-center space-x-1">
+              <select
+                value={selectedDistrict}
+                onChange={(e) => setSelectedDistrict(e.target.value)}
+                className="bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold px-3 py-1.5 rounded-xl text-xs transition shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                title="Select District across Tamil Nadu"
+              >
+                {TN_DISTRICTS.map((dist) => (
+                  <option key={dist.id} value={dist.id}>
+                    📍 {dist.en} ({dist.ta})
+                  </option>
+                ))}
+              </select>
+            </div>
+
             <button
               onClick={requestGpsLocation}
               disabled={isLocating || isExtracting}

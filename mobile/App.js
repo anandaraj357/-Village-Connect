@@ -10,7 +10,8 @@ import {
   FlatList,
   ActivityIndicator,
   Linking,
-  Alert
+  Alert,
+  TextInput
 } from 'react-native';
 import * as Location from 'expo-location';
 import { apiClient } from './src/services/api';
@@ -41,6 +42,48 @@ export default function App() {
   const [news, setNews] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
 
+  // Mobile Job Posting State
+  const [postTitle, setPostTitle] = useState('');
+  const [postOrg, setPostOrg] = useState('');
+  const [postCategory, setPostCategory] = useState('Private');
+  const [postDistrict, setPostDistrict] = useState('Villupuram');
+  const [postPhone, setPostPhone] = useState('');
+  const [postSalary, setPostSalary] = useState('');
+  const [isPosting, setIsPosting] = useState(false);
+
+  // Handle direct job posting from mobile
+  const handleMobileJobPost = async () => {
+    if (!postTitle.trim() || !postOrg.trim() || !postPhone.trim()) {
+      Alert.alert(language === 'ta' ? 'கட்டாய விவரம்' : 'Required Fields', language === 'ta' ? 'பணி பெயர், நிறுவனம் மற்றும் தொலைபேசி எண் தேவை.' : 'Please enter Job Title, Organization and Phone Number.');
+      return;
+    }
+    try {
+      setIsPosting(true);
+      const res = await apiClient.post('/public/jobs/post', {
+        title: postTitle,
+        organizationName: postOrg,
+        jobCategory: postCategory,
+        district: postDistrict,
+        contactPhone: postPhone,
+        salary: postSalary || 'Competitive',
+        vacanciesCount: 1
+      });
+      if (res.data.success) {
+        Alert.alert(language === 'ta' ? 'வெற்றி' : 'Success', language === 'ta' ? 'வேலைவாய்ப்பு வெற்றிகரமாக பதிவேற்றப்பட்டது!' : 'Job vacancy posted successfully across Tamil Nadu!');
+        setPostTitle('');
+        setPostOrg('');
+        setPostPhone('');
+        setPostSalary('');
+        fetchTabData();
+        setCurrentTab('jobs');
+      }
+    } catch (err) {
+      Alert.alert('Notice', err.message);
+    } finally {
+      setIsPosting(false);
+    }
+  };
+
   // Fetch data on tab change
   useEffect(() => {
     fetchTabData();
@@ -50,19 +93,19 @@ export default function App() {
     try {
       setLoading(true);
       if (currentTab === 'jobs' || currentTab === 'home') {
-        const res = await apiClient.get('/public/jobs?district=Villupuram&limit=10');
+        const res = await apiClient.get('/public/jobs?limit=50');
         if (res.data.success) setJobs(res.data.jobs);
       }
       if (currentTab === 'recruitments' || currentTab === 'home') {
-        const res = await apiClient.get('/public/recruitments?limit=10');
+        const res = await apiClient.get('/public/recruitments?limit=50');
         if (res.data.success) setRecruitments(res.data.recruitments);
       }
       if (currentTab === 'news' || currentTab === 'home') {
-        const res = await apiClient.get('/public/news?district=Villupuram&state=Tamil%20Nadu&limit=10');
+        const res = await apiClient.get('/public/news?limit=30');
         if (res.data.success) setNews(res.data.news);
       }
       if (currentTab === 'announcements' || currentTab === 'home') {
-        const res = await apiClient.get('/public/announcements?district=Villupuram&state=Tamil%20Nadu');
+        const res = await apiClient.get('/public/announcements');
         if (res.data.success) setAnnouncements(res.data.announcements);
       }
     } catch (err) {
@@ -339,25 +382,44 @@ export default function App() {
             {/* Jobs Tab */}
             {currentTab === 'jobs' && (
               <View>
-                <Text style={styles.sectionTitle}>
-                  {language === 'ta' ? 'வானூர் & விழுப்புரம் வேலைவாய்ப்புகள்' : 'Jobs in Villupuram & Vanur'}
-                </Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                  <Text style={styles.sectionTitle}>
+                    {language === 'ta' ? 'தமிழ்நாடு & உள்ளூர் வேலைவாய்ப்புகள்' : 'All Tamil Nadu & Local Jobs'}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => setCurrentTab('post-job')}
+                    style={styles.inlinePostBtn}
+                  >
+                    <Text style={styles.inlinePostBtnText}>➕ {language === 'ta' ? 'பதிவிட' : 'Post Job'}</Text>
+                  </TouchableOpacity>
+                </View>
                 {jobs.map((job) => (
                   <View key={job._id} style={styles.card}>
-                    <Text style={styles.cardTag}>{job.jobCategory}</Text>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Text style={styles.cardTag}>{job.jobCategory}</Text>
+                      {job.salary && <Text style={styles.cardSalaryBadge}>💰 {job.salary}</Text>}
+                    </View>
                     <Text style={styles.cardTitle}>{job.jobTitle}</Text>
                     <Text style={styles.cardOrg}>🏢 {job.organizationName}</Text>
-                    <Text style={styles.cardLoc}>📍 {job.jobLocation}</Text>
+                    <Text style={styles.cardLoc}>📍 {job.district || job.jobLocation || 'Tamil Nadu'}</Text>
                     <Text style={styles.cardDesc} numberOfLines={2}>{job.jobDescription}</Text>
                     <View style={styles.cardFooter}>
                       <TouchableOpacity
-                        onPress={() => shareOnWhatsApp(job.jobTitle, job.applicationUrl || job.officialNotificationUrl)}
+                        onPress={() => shareOnWhatsApp(job.jobTitle, job.applicationUrl || job.officialNotificationUrl || '')}
                         style={styles.shareBtn}
                       >
                         <Text style={styles.shareBtnText}>💬 WhatsApp</Text>
                       </TouchableOpacity>
+                      {job.contactPhone ? (
+                        <TouchableOpacity
+                          onPress={() => Linking.openURL(`tel:${job.contactPhone}`)}
+                          style={[styles.applyBtn, { backgroundColor: '#059669', marginRight: 6 }]}
+                        >
+                          <Text style={styles.applyBtnText}>📞 {job.contactPhone}</Text>
+                        </TouchableOpacity>
+                      ) : null}
                       <TouchableOpacity
-                        onPress={() => Linking.openURL(job.applicationUrl || job.officialNotificationUrl)}
+                        onPress={() => Linking.openURL(job.applicationUrl || job.officialNotificationUrl || '#')}
                         style={styles.applyBtn}
                       >
                         <Text style={styles.applyBtnText}>{language === 'ta' ? 'விண்ணப்பிக்க' : 'Apply'}</Text>
@@ -365,6 +427,122 @@ export default function App() {
                     </View>
                   </View>
                 ))}
+              </View>
+            )}
+
+            {/* Recruitments Tab */}
+            {currentTab === 'recruitments' && (
+              <View>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                  <Text style={styles.sectionTitle}>
+                    {language === 'ta' ? 'தமிழ்நாடு அரசுப் பணிகள் & தேர்வுகள்' : 'TN Govt & Public Recruitments'}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => setCurrentTab('post-job')}
+                    style={styles.inlinePostBtn}
+                  >
+                    <Text style={styles.inlinePostBtnText}>➕ {language === 'ta' ? 'பதிவிட' : 'Post Notice'}</Text>
+                  </TouchableOpacity>
+                </View>
+                {recruitments.map((rec) => (
+                  <View key={rec._id} style={styles.card}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Text style={[styles.cardTag, { backgroundColor: '#eff6ff', color: '#1d4ed8' }]}>
+                        {rec.departmentType || 'Govt Circular'}
+                      </Text>
+                      <Text style={styles.cardSalaryBadge}>👥 {rec.vacanciesCount || 1} காலியிடம்</Text>
+                    </View>
+                    <Text style={styles.cardTitle}>{rec.notificationTitle}</Text>
+                    <Text style={styles.cardOrg}>🏛️ {rec.organizationName}</Text>
+                    <Text style={styles.cardLoc}>📍 {rec.district || 'All Tamil Nadu'}</Text>
+                    {rec.eligibilityCriteria ? (
+                      <Text style={styles.cardSummary}>🎓 {rec.eligibilityCriteria}</Text>
+                    ) : null}
+                    <View style={styles.cardFooter}>
+                      <TouchableOpacity
+                        onPress={() => shareOnWhatsApp(rec.notificationTitle, rec.officialWebsiteUrl || rec.pdfUrl || '')}
+                        style={styles.shareBtn}
+                      >
+                        <Text style={styles.shareBtnText}>💬 WhatsApp</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => Linking.openURL(rec.officialWebsiteUrl || rec.pdfUrl || '#')}
+                        style={[styles.applyBtn, { backgroundColor: '#1d4ed8' }]}
+                      >
+                        <Text style={styles.applyBtnText}>{language === 'ta' ? 'விவரம் / விண்ணப்பம்' : 'Details & Apply'}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            )}
+
+            {/* Post Job / Vacancy Tab */}
+            {currentTab === 'post-job' && (
+              <View style={styles.postFormCard}>
+                <Text style={styles.sectionTitle}>
+                  {language === 'ta' ? '📢 வேலைவாய்ப்பு அல்லது அறிவிப்பு பதிவிட' : '📢 Post Job or Recruitment'}
+                </Text>
+                <Text style={{ fontSize: 11, color: '#64748b', marginBottom: 14 }}>
+                  {language === 'ta'
+                    ? 'தமிழ்நாடு முழுவதும் மற்றும் நமது கிராமத்திற்கு இலவசமாக வேலைவாய்ப்புகளைப் பதிவிடலாம்.'
+                    : 'Post your job openings or recruitment circulars across Tamil Nadu & Nesal village.'}
+                </Text>
+
+                <Text style={styles.inputLabel}>{language === 'ta' ? 'பணி பெயர் (Job Title) *' : 'Job Title *'}</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={postTitle}
+                  onChangeText={setPostTitle}
+                  placeholder={language === 'ta' ? 'எ.கா: டிரைவர், கணக்காளர், ஆசிரியர்...' : 'e.g. Driver, Accountant, Teacher...'}
+                />
+
+                <Text style={styles.inputLabel}>{language === 'ta' ? 'நிறுவனம் / கடை / துறை *' : 'Organization / Employer *'}</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={postOrg}
+                  onChangeText={setPostOrg}
+                  placeholder={language === 'ta' ? 'நிறுவனம் அல்லது கடை பெயர்' : 'Company or Business Name'}
+                />
+
+                <Text style={styles.inputLabel}>{language === 'ta' ? 'மாவட்டம் (District) *' : 'District *'}</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={postDistrict}
+                  onChangeText={setPostDistrict}
+                  placeholder="Villupuram / All Tamil Nadu"
+                />
+
+                <Text style={styles.inputLabel}>{language === 'ta' ? 'தொடர்பு தொலைபேசி / WhatsApp *' : 'Contact Phone / WhatsApp *'}</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={postPhone}
+                  onChangeText={setPostPhone}
+                  keyboardType="phone-pad"
+                  placeholder="9876543210"
+                />
+
+                <Text style={styles.inputLabel}>{language === 'ta' ? 'சம்பளம் / ஊதியம் (விருப்பத்தேர்வு)' : 'Salary (Optional)'}</Text>
+                <TextInput
+                  style={styles.textInput}
+                  value={postSalary}
+                  onChangeText={setPostSalary}
+                  placeholder="₹15,000 - ₹25,000 /pm"
+                />
+
+                <TouchableOpacity
+                  onPress={handleMobileJobPost}
+                  disabled={isPosting}
+                  style={[styles.submitJobBtn, isPosting && { opacity: 0.7 }]}
+                >
+                  {isPosting ? (
+                    <ActivityIndicator color="#ffffff" />
+                  ) : (
+                    <Text style={styles.submitJobBtnText}>
+                      🚀 {language === 'ta' ? 'இலவசமாக பதிவிடுங்கள்' : 'Submit & Publish'}
+                    </Text>
+                  )}
+                </TouchableOpacity>
               </View>
             )}
           </ScrollView>
@@ -375,9 +553,11 @@ export default function App() {
       <View style={styles.bottomNav}>
         {[
           { id: 'home', label: language === 'ta' ? 'முகப்பு' : 'Home', icon: '🌾' },
-          { id: 'news', label: language === 'ta' ? 'செய்திகள்' : 'News', icon: '📰' },
-          { id: 'announcements', label: language === 'ta' ? 'அறிவிப்பு' : 'Notices', icon: '📢' },
-          { id: 'jobs', label: language === 'ta' ? 'வேலைகள்' : 'Jobs', icon: '💼' }
+          { id: 'jobs', label: language === 'ta' ? 'வேலை' : 'Jobs', icon: '💼' },
+          { id: 'recruitments', label: language === 'ta' ? 'அரசுப் பணி' : 'Recruit', icon: '📜' },
+          { id: 'post-job', label: language === 'ta' ? 'பதிவிட' : 'Post', icon: '➕' },
+          { id: 'news', label: language === 'ta' ? 'செய்தி' : 'News', icon: '📰' },
+          { id: 'announcements', label: language === 'ta' ? 'அறிவிப்பு' : 'Notices', icon: '📢' }
         ].map((tab) => (
           <TouchableOpacity
             key={tab.id}
@@ -671,7 +851,7 @@ const styles = StyleSheet.create({
   tabButton: {
     alignItems: 'center',
     paddingVertical: 4,
-    paddingHorizontal: 10,
+    paddingHorizontal: 8,
     borderRadius: 10
   },
   activeTabButton: {
@@ -689,5 +869,65 @@ const styles = StyleSheet.create({
   activeTabLabel: {
     color: '#047857',
     fontWeight: '800'
+  },
+  inlinePostBtn: {
+    backgroundColor: '#059669',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 8
+  },
+  inlinePostBtnText: {
+    color: '#ffffff',
+    fontSize: 11,
+    fontWeight: 'bold'
+  },
+  cardSalaryBadge: {
+    fontSize: 10,
+    fontWeight: 'bold',
+    color: '#059669',
+    backgroundColor: '#ecfdf5',
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+    alignSelf: 'flex-start'
+  },
+  postFormCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: '#e2e8f0',
+    elevation: 3,
+    marginBottom: 20
+  },
+  inputLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#334155',
+    marginBottom: 4,
+    marginTop: 6
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: '#cbd5e1',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    fontSize: 13,
+    color: '#0f172a',
+    backgroundColor: '#f8fafc',
+    marginBottom: 6
+  },
+  submitJobBtn: {
+    backgroundColor: '#059669',
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+    marginTop: 14
+  },
+  submitJobBtnText: {
+    color: '#ffffff',
+    fontSize: 13,
+    fontWeight: 'bold'
   }
 });

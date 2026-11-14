@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNotifications } from '../context/NotificationContext';
 import { useLocation } from '../context/LocationContext';
 import { CategoryBadge } from '../components/Badge';
+import { TN_DISTRICTS } from './PostJobPortal';
 import { Megaphone, Calendar, MapPin, ExternalLink, ShieldCheck, RefreshCw, Navigation } from 'lucide-react';
 
 export const DistrictAnnouncements = () => {
@@ -17,13 +18,15 @@ export const DistrictAnnouncements = () => {
   } = useLocation();
 
   const [announcements, setAnnouncements] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState('All Tamil Nadu');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
         setLoading(true);
-        const res = await axios.get('/api/public/announcements?district=Villupuram&state=Tamil%20Nadu');
+        const distParam = selectedDistrict !== 'All Tamil Nadu' && selectedDistrict !== 'All' ? `district=${encodeURIComponent(selectedDistrict)}&` : '';
+        const res = await axios.get(`/api/public/announcements?${distParam}state=Tamil%20Nadu`);
         if (res.data.success) {
           setAnnouncements(res.data.announcements);
         }
@@ -35,7 +38,7 @@ export const DistrictAnnouncements = () => {
     };
 
     fetchAnnouncements();
-  }, [refreshTrigger]);
+  }, [selectedDistrict, refreshTrigger]);
 
   return (
     <div className="space-y-8 pb-16">
@@ -47,22 +50,34 @@ export const DistrictAnnouncements = () => {
               <span className="text-slate-300">•</span>
               <span className="inline-flex items-center text-xs font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
                 <MapPin className="w-3 h-3 mr-1 text-emerald-600" />
-                நெசல் கிராமம், வானூர் வட்டம் (605014)
+                {selectedDistrict === 'All Tamil Nadu' ? 'தமிழ்நாடு 38 மாவட்டங்கள்' : selectedDistrict} (605014)
               </span>
             </div>
             <h1 className="text-3xl font-black text-slate-900 mt-1">
               {language === 'ta'
-                ? 'நெசல் கிராம ஊராட்சி & வானூர் வட்டார அறிவிப்புகள்'
-                : 'Nesal Panchayat & Vanur Taluk Announcements'}
+                ? 'அரசு & கிராம ஊராட்சி அதிகாரப்பூர்வ சுற்றறிக்கைகள்'
+                : 'Government & Village Panchayat Announcements'}
             </h1>
             <p className="text-slate-600 text-xs sm:text-sm mt-1">
               {language === 'ta'
-                ? 'நெசல் கிராம ஊராட்சி மன்றம், வானூர் வட்டாட்சியர் அலுவலகம் மற்றும் விழுப்புரம் மாவட்ட ஆட்சியரக சுற்றறிக்கைகள்.'
-                : 'Official press releases, Grama Sabha notices, water schedule, and civic circulars for Nesal Village.'}
+                ? 'நெசல் கிராம ஊராட்சி மன்றம், வானூர் வட்டாட்சியர் அலுவலகம், மாவட்ட ஆட்சியரகம் மற்றும் தமிழ்நாடு அரசு சுற்றறிக்கைகள்.'
+                : 'Official press releases, Grama Sabha notices, water schedule, and civic circulars for Nesal Village & Tamil Nadu.'}
             </p>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 flex-wrap gap-y-2">
+            <select
+              value={selectedDistrict}
+              onChange={(e) => setSelectedDistrict(e.target.value)}
+              className="bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold px-3 py-2 rounded-xl text-xs transition shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              title="Filter Announcements by District"
+            >
+              {TN_DISTRICTS.map((dist) => (
+                <option key={dist.id} value={dist.id}>
+                  📍 {dist.en} ({dist.ta})
+                </option>
+              ))}
+            </select>
             <button
               onClick={requestGpsLocation}
               disabled={isLocating || isExtracting}
