@@ -99,13 +99,13 @@ function AppContent() {
     </div>
   ) : (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-800">
-      <Navbar currentView={currentView} setCurrentView={setCurrentView} />
+      <Navbar currentView={currentView} setCurrentView={setCurrentView} isMobileFrame={isMobileFrame} />
       <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-8 pb-24 md:pb-12">
         {renderContent()}
       </main>
       <Footer />
       {/* Mobile Bottom Navigation Bar (Active on Mobile / Touch screens) */}
-      <MobileBottomNav currentView={currentView} setCurrentView={setCurrentView} />
+      <MobileBottomNav currentView={currentView} setCurrentView={setCurrentView} isMobileFrame={isMobileFrame} />
       {/* PWA Add to Home Screen Banner */}
       <PwaInstallPrompt />
     </div>

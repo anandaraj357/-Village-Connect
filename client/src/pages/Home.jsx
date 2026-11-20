@@ -109,61 +109,61 @@ export const Home = ({ setCurrentView }) => {
               : 'Dedicated hyper-local digital portal for Nesal Village (Vanur Taluk, Villupuram District, Pincode 605014) — verified civic notices, ration schedules, drinking water times, and TNPSC jobs.'}
           </p>
 
-          <div className="pt-2 flex flex-wrap gap-3">
+          <div className="pt-2 grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
             <button
               onClick={() => setCurrentView('about')}
-              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
+              className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 px-3 rounded-xl transition shadow-md text-xs sm:text-sm flex items-center justify-center space-x-2 whitespace-nowrap"
             >
-              <BookOpen className="w-4 h-4 text-emerald-200" />
-              <span>{language === 'ta' ? 'நெசல் வரலாறு' : 'About Nesal'}</span>
+              <BookOpen className="w-4 h-4 text-emerald-200 shrink-0" />
+              <span className="truncate">{language === 'ta' ? 'நெசல் வரலாறு' : 'About Nesal'}</span>
             </button>
             <button
               onClick={() => setCurrentView('transport')}
-              className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
+              className="bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 px-3 rounded-xl transition shadow-md text-xs sm:text-sm flex items-center justify-center space-x-2 whitespace-nowrap"
             >
-              <Bus className="w-4 h-4 text-blue-200" />
-              <span>{language === 'ta' ? 'பேருந்து நேரங்கள்' : 'Bus Timings'}</span>
+              <Bus className="w-4 h-4 text-blue-200 shrink-0" />
+              <span className="truncate">{language === 'ta' ? 'பேருந்து நேரங்கள்' : 'Bus Timings'}</span>
             </button>
             <button
               onClick={() => setCurrentView('education-health')}
-              className="bg-rose-600 hover:bg-rose-500 text-white font-bold px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
+              className="bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 px-3 rounded-xl transition shadow-md text-xs sm:text-sm flex items-center justify-center space-x-2 whitespace-nowrap"
             >
-              <HeartPulse className="w-4 h-4 text-rose-200" />
-              <span>{language === 'ta' ? 'கல்வி & மருத்துவம்' : 'Edu & Healthcare'}</span>
+              <HeartPulse className="w-4 h-4 text-rose-200 shrink-0" />
+              <span className="truncate">{language === 'ta' ? 'கல்வி & நலம்' : 'Edu & Health'}</span>
             </button>
             <button
               onClick={() => setCurrentView('heritage')}
-              className="bg-amber-500 hover:bg-amber-400 text-stone-950 font-black px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
+              className="bg-amber-500 hover:bg-amber-400 text-stone-950 font-black py-2.5 px-3 rounded-xl transition shadow-md text-xs sm:text-sm flex items-center justify-center space-x-2 whitespace-nowrap"
             >
-              <Archive className="w-4 h-4 text-stone-950" />
-              <span>{language === 'ta' ? 'வரலாற்றுப் பெட்டகம்' : 'Heritage Archive'}</span>
+              <Archive className="w-4 h-4 text-stone-950 shrink-0" />
+              <span className="truncate">{language === 'ta' ? 'வரலாற்றுப் பெட்டகம்' : 'Heritage Archive'}</span>
             </button>
             <button
               onClick={() => setCurrentView('news')}
-              className="bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-5 py-2.5 rounded-xl transition shadow-lg flex items-center space-x-2 text-sm"
+              className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 px-3 rounded-xl transition shadow-md flex items-center justify-center space-x-2 text-xs sm:text-sm whitespace-nowrap"
             >
-              <Newspaper className="w-4 h-4" />
-              <span>{language === 'ta' ? 'நெசல் செய்திகள்' : 'Nesal News'}</span>
+              <Newspaper className="w-4 h-4 shrink-0" />
+              <span className="truncate">{language === 'ta' ? 'நெசல் செய்திகள்' : 'Nesal News'}</span>
             </button>
             <button
               onClick={() => setCurrentView('announcements')}
-              className="bg-slate-800/80 hover:bg-slate-700/80 text-white border border-slate-700 font-semibold px-5 py-2.5 rounded-xl transition text-sm flex items-center space-x-2"
+              className="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-semibold py-2.5 px-3 rounded-xl transition text-xs sm:text-sm flex items-center justify-center space-x-2 whitespace-nowrap"
             >
-              <Megaphone className="w-4 h-4" />
-              <span>{language === 'ta' ? 'ஊராட்சி அறிவிப்புகள்' : 'Panchayat Notices'}</span>
+              <Megaphone className="w-4 h-4 text-amber-400 shrink-0" />
+              <span className="truncate">{language === 'ta' ? 'ஊராட்சி அறிவிப்பு' : 'Panchayat Notices'}</span>
             </button>
             <button
               onClick={() => setCurrentView('jobs')}
-              className="bg-emerald-950/80 hover:bg-emerald-900/80 text-emerald-200 border border-emerald-700/60 font-semibold px-4 py-2.5 rounded-xl transition text-sm flex items-center space-x-1.5"
+              className="bg-emerald-950 hover:bg-emerald-900 text-emerald-200 border border-emerald-700 font-semibold py-2.5 px-3 rounded-xl transition text-xs sm:text-sm flex items-center justify-center space-x-2 whitespace-nowrap"
             >
-              <Briefcase className="w-4 h-4" />
-              <span>{language === 'ta' ? 'தமிழ்நாடு வேலைகள்' : 'All-TN Jobs'}</span>
+              <Briefcase className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span className="truncate">{language === 'ta' ? 'வேலைவாய்ப்புகள்' : 'All-TN Jobs'}</span>
             </button>
             <button
               onClick={() => setCurrentView('post-job')}
-              className="bg-amber-400 hover:bg-amber-500 text-slate-950 font-black px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
+              className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-black py-2.5 px-3 rounded-xl transition shadow-md text-xs sm:text-sm flex items-center justify-center space-x-2 whitespace-nowrap"
             >
-              <span>{language === 'ta' ? '➕ வேலை பதிவிட' : '➕ Post a Job'}</span>
+              <span className="truncate">{language === 'ta' ? '➕ வேலை பதிவிட' : '➕ Post a Job'}</span>
             </button>
           </div>
         </div>
