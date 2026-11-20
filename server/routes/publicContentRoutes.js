@@ -6,6 +6,10 @@ import InAppNotification from '../models/InAppNotification.js';
 import ContentApproval from '../models/ContentApproval.js';
 import HeritageArchive from '../models/HeritageArchive.js';
 import TransportSchedule from '../models/TransportSchedule.js';
+import EducationQuiz from '../models/EducationQuiz.js';
+import ScholarshipScheme from '../models/ScholarshipScheme.js';
+import MedicalCamp from '../models/MedicalCamp.js';
+import BloodDonor from '../models/BloodDonor.js';
 import { extractNewsForLocation } from '../crawler/core/locationNewsCrawler.js';
 
 const router = express.Router();
@@ -684,6 +688,250 @@ router.post('/transport/suggest', async (req, res) => {
       success: true,
       message: 'போக்குவரத்து அட்டவணை வெற்றிகரமாக சேர்க்கப்பட்டது!',
       schedule: newSchedule
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ==========================================
+// EDUCATION & YOUTH PORTAL (கல்வி & இளைஞர் வழிகாட்டி)
+// ==========================================
+
+// GET /api/public/education/quizzes - Daily Practice Quizzes
+router.get('/education/quizzes', async (req, res) => {
+  try {
+    const { subject, examCategory, limit = 10 } = req.query;
+    const filter = { isActive: true };
+
+    if (subject && subject !== 'All') {
+      filter.subject = subject;
+    }
+    if (examCategory && examCategory !== 'All') {
+      filter.examCategory = examCategory;
+    }
+
+    const quizzes = await EducationQuiz.find(filter)
+      .sort({ createdAt: -1 })
+      .limit(Number(limit));
+
+    res.json({
+      success: true,
+      total: quizzes.length,
+      quizzes
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/public/education/scholarships - Tamil Nadu Govt & Higher Education Scholarships
+router.get('/education/scholarships', async (req, res) => {
+  try {
+    const { category, search } = req.query;
+    const filter = { status: 'active' };
+
+    if (category && category !== 'All') {
+      filter.category = category;
+    }
+    if (search) {
+      const searchRegex = new RegExp(escapeRegex(search), 'i');
+      filter.$or = [
+        { titleTamil: searchRegex },
+        { titleEnglish: searchRegex },
+        { eligibilityTamil: searchRegex },
+        { beneficiaryTarget: searchRegex }
+      ];
+    }
+
+    const scholarships = await ScholarshipScheme.find(filter)
+      .sort({ isFeatured: -1, createdAt: -1 });
+
+    res.json({
+      success: true,
+      total: scholarships.length,
+      scholarships
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ==========================================
+// VILLAGE HEALTHCARE & EMERGENCY SERVICES (கிராம நல்வாழ்வு & மருத்துவம்)
+// ==========================================
+
+// GET /api/public/health/camps - Upcoming health and veterinary camps
+router.get('/health/camps', async (req, res) => {
+  try {
+    const { campType, status = 'upcoming' } = req.query;
+    const filter = {};
+
+    if (status && status !== 'All') {
+      filter.status = status;
+    }
+    if (campType && campType !== 'All') {
+      filter.campType = campType;
+    }
+
+    const camps = await MedicalCamp.find(filter)
+      .sort({ campDate: 1 });
+
+    res.json({
+      success: true,
+      total: camps.length,
+      camps
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/public/health/phc-schedule - Vanur Block PHC & Hospital Schedule
+router.get('/health/phc-schedule', (req, res) => {
+  res.json({
+    success: true,
+    hospitalNameTamil: 'வானூர் வட்டார அரசு தலைமை மருத்துவமனை & ஆரம்ப சுகாதார நிலையம்',
+    hospitalNameEnglish: 'Vanur Taluk Government Hospital & Block Primary Health Centre',
+    location: 'வானூர் - புதுச்சேரி மெயின் ரோடு, வானூர் (நெசலில் இருந்து 5 கி.மீ)',
+    phone: '0413-2677222',
+    ambulancePhone: '108',
+    weeklySchedule: [
+      {
+        day: 'திங்கள் (Monday)',
+        serviceTamil: 'பொது புறநோயாளிகள் பிரிவு (General OP) & தொற்றா நோய் சிகிச்சை',
+        timing: 'காலை 8:00 - மதியம் 12:00 | மாலை 4:00 - 6:00',
+        doctorRole: 'பொது மருத்துவர் (Civil Assistant Surgeon)'
+      },
+      {
+        day: 'செவ்வாய் (Tuesday)',
+        serviceTamil: 'மகளிர் & தாய்-சேய் நலம் (Maternal & Antenatal ANC Clinic)',
+        timing: 'காலை 9:00 - மதியம் 1:00',
+        doctorRole: 'மகப்பேறு மருத்துவர் (Gynecologist / DGO)'
+      },
+      {
+        day: 'புதன் (Wednesday)',
+        serviceTamil: 'குழந்தைகள் தடுப்பூசி நாள் (National Immunization Day - போலியோ, DPT, MMR)',
+        timing: 'காலை 9:00 - மதியம் 1:30',
+        doctorRole: 'குழந்தைகள் நல மருத்துவர் & கிராம சுகாதார செவிலியர் (VHN)'
+      },
+      {
+        day: 'வியாழன் (Thursday)',
+        serviceTamil: 'கண் பரிசோதனை & கண் புரை அறுவை சிகிச்சை ஆலோசனை',
+        timing: 'காலை 9:30 - மதியம் 1:00',
+        doctorRole: 'கண் மருத்துவர் (Ophthalmologist)'
+      },
+      {
+        day: 'வெள்ளி (Friday)',
+        serviceTamil: 'நீரிழிவு (Sugar) & ரத்த அழுத்த (BP) சிறப்பு பரிசோதனை முகாம்',
+        timing: 'காலை 8:30 - மதியம் 1:00',
+        doctorRole: 'தொற்றா நோய் சிறப்பு மருத்துவர்'
+      },
+      {
+        day: 'சனி (Saturday)',
+        serviceTamil: 'பொது மருத்துவம் & அவசர காயம் முதலுதவி',
+        timing: 'காலை 8:00 - மதியம் 12:00',
+        doctorRole: 'பணி மருத்துவர்'
+      },
+      {
+        day: 'ஞாயிறு & அனைத்து நாட்களும்',
+        serviceTamil: '🚨 24 மணி நேர அவசர சிகிச்சை பிரிவு (Casualty & Delivery Care)',
+        timing: '24 மணி நேரமும் தொடர்ச்சியாக செயல்படும்',
+        doctorRole: 'அவசர சிகிச்சை மருத்துவர் & 108 ஆம்புலன்ஸ் தயார் நிலை'
+      }
+    ],
+    villageHealthNurse: {
+      ward: 'நெசல் கிராம சுகாதார துணை நிலையம் (HWC Nesal)',
+      nurseName: 'திருமதி. சி. சாந்தி (கிராம சுகாதார செவிலியர் - VHN)',
+      contactPhone: '94421 87654',
+      duties: 'கர்ப்பிணிப் பெண்கள் பதிவு (PICME), தாய்-சேய் ஊட்டச்சத்து பெட்டகம், குழந்தைகள் எடை பதிவு'
+    }
+  });
+});
+
+// GET /api/public/health/blood-donors - Filter blood donors
+router.get('/health/blood-donors', async (req, res) => {
+  try {
+    const { bloodGroup, ward, isAvailable } = req.query;
+    const filter = { verifiedStatus: 'verified' };
+
+    if (bloodGroup && bloodGroup !== 'All') {
+      filter.bloodGroup = bloodGroup;
+    }
+    if (ward && ward !== 'All') {
+      filter.ward = new RegExp(escapeRegex(ward), 'i');
+    }
+    if (isAvailable !== undefined && isAvailable !== 'All') {
+      filter.isAvailable = isAvailable === 'true';
+    }
+
+    const donors = await BloodDonor.find(filter)
+      .sort({ isAvailable: -1, bloodGroup: 1, createdAt: -1 });
+
+    res.json({
+      success: true,
+      total: donors.length,
+      donors
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// POST /api/public/health/blood-donors/register - Citizen volunteer donor self-registration
+router.post('/health/blood-donors/register', async (req, res) => {
+  try {
+    const {
+      fullName,
+      bloodGroup,
+      ward,
+      phone,
+      altPhone,
+      age,
+      gender,
+      willingToTravelTo,
+      lastDonationDate
+    } = req.body;
+
+    if (!fullName || !fullName.trim()) {
+      return res.status(400).json({ success: false, message: 'பெயர் அவசியம் (Full Name is required)' });
+    }
+    if (!bloodGroup) {
+      return res.status(400).json({ success: false, message: 'இரத்த வகை அவசியம் (Blood Group is required)' });
+    }
+    if (!phone || !phone.trim()) {
+      return res.status(400).json({ success: false, message: 'தொலைபேசி எண் அவசியம் (Phone number is required)' });
+    }
+
+    const newDonor = await BloodDonor.create({
+      fullName: fullName.trim(),
+      bloodGroup,
+      ward: ward || 'Ward 1 - நெசல் கிராம நத்தம்',
+      village: 'Nesal',
+      taluk: 'Vanur',
+      phone: phone.trim(),
+      altPhone: altPhone ? altPhone.trim() : '',
+      age: Number(age) || 25,
+      gender: gender || 'Male',
+      isAvailable: true,
+      willingToTravelTo: willingToTravelTo || 'வானூர், புதுச்சேரி ஜிப்மர், திண்டிவனம்',
+      lastDonationDate: lastDonationDate ? new Date(lastDonationDate) : null,
+      verifiedStatus: 'verified'
+    });
+
+    // In-App Notification
+    await InAppNotification.create({
+      title: `புதிய இரத்ததான தன்னார்வலர்: ${fullName.trim()} (${bloodGroup})`,
+      body: `நெசல் அவசர இரத்ததான வங்கியில் இணைந்துள்ளார் (${ward || 'நெசல்'}). தொடர்புக்கு: ${phone}`,
+      category: 'Announcements',
+      type: 'news',
+      isImportant: false
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'நெசல் அவசர இரத்ததான தன்னார்வலர் பட்டியலில் உங்கள் பெயர் வெற்றிகரமாக பதிவு செய்யப்பட்டது! நன்றி.',
+      donor: newDonor
     });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

@@ -18,6 +18,7 @@ import { DistrictAnnouncements } from './pages/DistrictAnnouncements';
 import { AboutUs } from './pages/AboutUs';
 import { HeritageArchivePortal } from './pages/HeritageArchivePortal';
 import { BusTransportPortal } from './pages/BusTransportPortal';
+import { EducationHealthPortal } from './pages/EducationHealthPortal';
 import { SubscriptionCenter } from './pages/SubscriptionCenter';
 
 import { AdminLayout } from './pages/admin/AdminLayout';
@@ -54,6 +55,7 @@ function AppContent() {
     if (currentView === 'about') return <AboutUs setCurrentView={setCurrentView} />;
     if (currentView === 'heritage') return <HeritageArchivePortal />;
     if (currentView === 'transport') return <BusTransportPortal />;
+    if (currentView === 'education-health') return <EducationHealthPortal />;
     if (currentView === 'subscriptions') return <SubscriptionCenter />;
 
     if (currentView === 'admin') {

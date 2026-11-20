@@ -10,6 +10,10 @@ import CrawledRecord from '../models/CrawledRecord.js';
 import InAppNotification from '../models/InAppNotification.js';
 import HeritageArchive from '../models/HeritageArchive.js';
 import TransportSchedule from '../models/TransportSchedule.js';
+import EducationQuiz from '../models/EducationQuiz.js';
+import ScholarshipScheme from '../models/ScholarshipScheme.js';
+import MedicalCamp from '../models/MedicalCamp.js';
+import BloodDonor from '../models/BloodDonor.js';
 
 dotenv.config();
 
@@ -1103,6 +1107,331 @@ export async function seedDatabase(forceClean = false) {
         }
       ]);
       console.log('[Seed] Nesal & Vanur Bus & Transport Schedules seeded.');
+    }
+
+    // Seed Education Quizzes
+    const quizCount = await EducationQuiz.countDocuments();
+    if (quizCount === 0 || forceClean) {
+      if (forceClean) await EducationQuiz.deleteMany({});
+      await EducationQuiz.create([
+        {
+          questionTamil: 'தமிழ்நாட்டின் மிக நீளமான ஆறு எது?',
+          questionEnglish: 'Which is the longest river in Tamil Nadu?',
+          subject: 'General Studies',
+          examCategory: 'TNPSC Group 4 / VAO',
+          difficulty: 'Easy',
+          options: [
+            { textTamil: 'வைகை ஆறு', textEnglish: 'Vaigai River', isCorrect: false },
+            { textTamil: 'காவிரி ஆறு', textEnglish: 'Cauvery River', isCorrect: true },
+            { textTamil: 'தென்பெண்ணை ஆறு', textEnglish: 'Thenpennai River', isCorrect: false },
+            { textTamil: 'பவானி ஆறு', textEnglish: 'Bhavani River', isCorrect: false }
+          ],
+          explanationTamil: 'காவிரி ஆறு தமிழ்நாட்டின் மிக நீளமான ஆறாகும் (சுமார் 805 கி.மீ மொத்த நீளம், தமிழ்நாட்டில் சுமார் 416 கி.மீ பாய்கிறது).',
+          explanationEnglish: 'The Cauvery is the longest river flowing through Tamil Nadu.',
+          isActive: true
+        },
+        {
+          questionTamil: '"யாதும் ஊரே யாவரும் கேளிர்" என்ற புறநானூற்றுப் பாடலை இயற்றிய புலவர் யார்?',
+          questionEnglish: 'Who composed the famous Sangam line "Yathum Oore Yaavarum Kaelir"?',
+          subject: 'General Tamil',
+          examCategory: 'TNPSC Group 4 / VAO',
+          difficulty: 'Easy',
+          options: [
+            { textTamil: 'கபிலர்', textEnglish: 'Kapilar', isCorrect: false },
+            { textTamil: 'கணியன் பூங்குன்றனார்', textEnglish: 'Kaniyan Poongundranar', isCorrect: true },
+            { textTamil: 'ஒளவையார்', textEnglish: 'Avvaiyar', isCorrect: false },
+            { textTamil: 'பரணர்', textEnglish: 'Paranar', isCorrect: false }
+          ],
+          explanationTamil: '"யாதும் ஊரே யாவரும் கேளிர்; தீதும் நன்றும் பிறர்தர வாரா" என்பது கணியன் பூங்குன்றனாரின் புறநானூற்றுப் பாடலாகும் (பாடல் எண் 192).',
+          explanationEnglish: 'Kaniyan Poongundranar wrote this famous egalitarian poem in Purananuru.',
+          isActive: true
+        },
+        {
+          questionTamil: 'விழுப்புரம் மாவட்டத்தில் அமைந்துள்ள புகழ்பெற்ற உலக பாரம்பரிய யுனெஸ்கோ தளம் அல்லது வரலாற்றுச் சிறப்புமிக்க பாறை நகரம் எது?',
+          questionEnglish: 'Which historic fort and rock architectural landmark is situated in the bifurcated composite Villupuram region?',
+          subject: 'General Studies',
+          examCategory: 'TNPSC Group 4 / VAO',
+          difficulty: 'Medium',
+          options: [
+            { textTamil: 'செஞ்சிக் கோட்டை (Gingee Fort)', textEnglish: 'Gingee Fort', isCorrect: true },
+            { textTamil: 'திருமயம் கோட்டை', textEnglish: 'Thirumayam Fort', isCorrect: false },
+            { textTamil: 'திண்டுக்கல் பாறை கோட்டை', textEnglish: 'Dindigul Rock Fort', isCorrect: false },
+            { textTamil: 'சதுரங்கப்பட்டினம் கோட்டை', textEnglish: 'Sadras Fort', isCorrect: false }
+          ],
+          explanationTamil: 'செஞ்சிக் கோட்டை "கிழக்கின் ட்ராய்" என அழைக்கப்படுகிறது. இது விழுப்புரம் மாவட்டத்தில் செஞ்சியில் மூன்று குன்றுகளை இணைத்து கம்பீரமாக அமைந்துள்ளது.',
+          explanationEnglish: 'Gingee Fort, often known as the Troy of the East, is located in Villupuram district.',
+          isActive: true
+        },
+        {
+          questionTamil: 'ஒரு தொடர்வண்டி 72 கி.மீ/மணி வேகத்தில் செல்கிறது. அதன் வேகம் வினாடிக்கு எத்தனை மீட்டர்கள் (m/s)?',
+          questionEnglish: 'A train travels at 72 km/hr. What is its speed in meters per second (m/s)?',
+          subject: 'Aptitude & Mental Ability',
+          examCategory: 'TNPSC Group 4 / VAO',
+          difficulty: 'Medium',
+          options: [
+            { textTamil: '15 m/s', textEnglish: '15 m/s', isCorrect: false },
+            { textTamil: '20 m/s', textEnglish: '20 m/s', isCorrect: true },
+            { textTamil: '25 m/s', textEnglish: '25 m/s', isCorrect: false },
+            { textTamil: '30 m/s', textEnglish: '30 m/s', isCorrect: false }
+          ],
+          explanationTamil: 'கி.மீ/மணியை m/s ஆக மாற்ற 5/18 ஆல் பெருக்க வேண்டும்: 72 × (5/18) = 4 × 5 = 20 m/s.',
+          explanationEnglish: 'Multiply by 5/18: 72 * (5/18) = 20 m/s.',
+          isActive: true
+        },
+        {
+          questionTamil: 'தமிழ்நாடு அரசால் தொடங்கப்பட்ட "நான் முதல்வன்" திட்டத்தின் முதன்மை நோக்கம் என்ன?',
+          questionEnglish: 'What is the primary objective of Tamil Nadu governments "Naan Mudhalvan" scheme?',
+          subject: 'Current Affairs',
+          examCategory: 'TNPSC Group 4 / VAO',
+          difficulty: 'Easy',
+          options: [
+            { textTamil: 'இளைஞர்களுக்கு தொழில் நுட்ப மற்றும் திறன் மேம்பாட்டு பயிற்சி வழங்குதல்', textEnglish: 'Skill development and tech training for youth', isCorrect: true },
+            { textTamil: 'விவசாயிகளுக்கு இலவச மின்சாரம்', textEnglish: 'Free power for farmers', isCorrect: false },
+            { textTamil: 'கிராமப்புற சாலை வசதி அமைத்தல்', textEnglish: 'Rural road development', isCorrect: false },
+            { textTamil: 'இலவச பேருந்து பாஸ் வழங்குதல் மட்டும்', textEnglish: 'Free bus passes only', isCorrect: false }
+          ],
+          explanationTamil: '"நான் முதல்வன்" திட்டம் தமிழ்நாட்டின் பள்ளி மற்றும் கல்லூரி மாணவர்களின் தொழில் திறன், வேலைவாய்ப்புத் திறன் மற்றும் கணினி அறிவை உயர்த்த தொடங்கப்பட்டது.',
+          explanationEnglish: 'Naan Mudhalvan aims to equip youth and college students with modern technical and employment skills.',
+          isActive: true
+        }
+      ]);
+      console.log('[Seed] Education Quizzes seeded successfully.');
+    }
+
+    // Seed Scholarship Schemes
+    const scholarshipCount = await ScholarshipScheme.countDocuments();
+    if (scholarshipCount === 0 || forceClean) {
+      if (forceClean) await ScholarshipScheme.deleteMany({});
+      await ScholarshipScheme.create([
+        {
+          titleTamil: 'புதுமைப் பெண் திட்டம் (மூவலூர் ராமாமிர்தம் அம்மையார் நினைவு திட்டம்)',
+          titleEnglish: 'Pudhumai Penn Scheme (Higher Education Financial Aid for Girls)',
+          category: 'College / Higher Education',
+          beneficiaryTarget: 'அரசுப் பள்ளிகளில் 6 முதல் 12-ஆம் வகுப்பு வரை பயின்று கல்லூரி செல்லும் மாணவிகள்',
+          financialAssistance: '₹1,000 / மாதம் (பட்டம் அல்லது பட்டயப்படிப்பு முடியும் வரை நேரடி வங்கி பரிமாற்றம்)',
+          eligibilityTamil: 'தமிழ்நாடு அரசுப் பள்ளிகளில் (6-ஆம் வகுப்பு முதல் 12-ஆம் வகுப்பு வரை) படித்து இளங்கலை, பொறியியல், பாலிடெக்னிக், மருத்துவம் போன்றவற்றில் சேர்ந்த அனைத்து மாணவிகளுக்கும் இத்தொகை வழங்கப்படுகிறது.',
+          eligibilityEnglish: 'Female students who studied from classes 6 to 12 in Tamil Nadu government schools and enrolled in undergraduate degree/diploma programs.',
+          documentsRequired: ['ஆதார் அட்டை (Aadhaar)', 'பள்ளி மாற்றுச் சான்றிதழ் (TC / 6-12 Govt School Certificate)', 'கல்லூரி அடையாள அட்டை & சேர்க்கை ஆவணம்', 'வங்கி கணக்குப் புத்தகம் (Bank Passbook with Aadhaar link)'],
+          howToApply: 'கல்லூரி வாயிலாகவே https://pudhumaipenn.tn.gov.in இணையதளத்தில் பதிவு செய்யப்படும்.',
+          officialPortalUrl: 'https://pudhumaipenn.tn.gov.in',
+          deadlineOrSchedule: 'ஒவ்வொரு ஆண்டும் கல்லூரி சேர்க்கையின் போது விண்ணப்பிக்கலாம்',
+          contactDepartment: 'தமிழ்நாடு சமூக நலன் & மகளிர் உரிமைத்துறை',
+          isFeatured: true
+        },
+        {
+          titleTamil: 'தமிழ்ப் புதல்வன் திட்டம் (மாணவர்களுக்கான மாத உதவித்தொகை)',
+          titleEnglish: 'Tamil Pudhalvan Scheme (Monthly Support for Govt School Boys in College)',
+          category: 'College / Higher Education',
+          beneficiaryTarget: 'அரசுப் பள்ளிகளில் பயின்று உயர்கல்வி பயிலும் மாணவர்கள்',
+          financialAssistance: '₹1,000 / மாதம் (புத்தகங்கள், கற்றல் உபகரணங்கள் வாங்க வங்கிக் கணக்கில் நேரடியாக)',
+          eligibilityTamil: '6 முதல் 12-ஆம் வகுப்பு வரை அரசுப் பள்ளிகளில் தமிழ் வழியிலோ அல்லது ஆங்கில வழியிலோ பயின்று கலை, அறிவியல், பொறியியல், தொழிற்கல்வி பயிலும் மாணவர்கள்.',
+          eligibilityEnglish: 'Male students from Tamil Nadu government schools (grades 6 to 12) pursuing higher education degrees.',
+          documentsRequired: ['ஆதார் அட்டை', 'பள்ளி படிப்பு சான்றிதழ் (EMIS Number)', 'கல்லூரி சேர்க்கை ரசீது', 'வங்கி பாஸ்புக்'],
+          howToApply: 'கல்லூரி முதல்வர் மற்றும் நோடல் அலுவலர் மூலம் போர்ட்டலில் சரிபார்க்கப்பட்டு செயல்படுத்தப்படும்.',
+          officialPortalUrl: 'https://tamilpudhalvan.tn.gov.in',
+          deadlineOrSchedule: 'கல்வியாண்டு தொடக்கத்தில் கல்லூரி வாயிலாக விண்ணப்பம் பெறப்படும்',
+          contactDepartment: 'உயர் கல்வித்துறை & சமூக நலத்துறை',
+          isFeatured: true
+        },
+        {
+          titleTamil: 'அரசுப் பள்ளி மாணவர்களுக்கான 7.5% முன்னுரிமை இடஒதுக்கீடு',
+          titleEnglish: '7.5% Preferential Quota in Professional Courses for Govt School Students',
+          category: 'Special Quota',
+          beneficiaryTarget: 'அரசுப் பள்ளி மாணவர்கள் (பொறியியல், மருத்துவம், சட்டம், வேளாண்மை சேர்க்கை)',
+          financialAssistance: 'முழு கல்விக் கட்டணம், விடுதிக் கட்டணம் மற்றும் கலந்தாய்வுக் கட்டணத்தை அரசே ஏற்கும்',
+          eligibilityTamil: '6 முதல் 12-ஆம் வகுப்பு வரை அரசுப் பள்ளிகளில் படித்த மாணவர்கள் TNEA, NEET, TNAU, TNDALU சேர்க்கையில் 7.5% தனி ஒதுக்கீட்டின் கீழ் இடம் பெறலாம்.',
+          eligibilityEnglish: 'Eligible government school students get 7.5% seats reserved across MBBS, BDS, Engineering, Agriculture and Veterinary courses with full tuition fee waiver.',
+          documentsRequired: ['10 & 12-ஆம் வகுப்பு மதிப்பெண் சான்றிதழ்', '6 முதல் 12 வரை அரசுப் பள்ளியில் படித்ததற்கான தலைமை ஆசிரியர் சான்றிதழ் (BEO/DEO கையொப்பம்)', 'சாதிச் சான்றிதழ்', 'வருமானச் சான்றிதழ்'],
+          howToApply: 'பொது கலந்தாய்வு ஆன்லைன் விண்ணப்பத்தில் (TNEA/NEET) "Govt School Student (7.5%)" என்பதை தேர்வு செய்ய வேண்டும்.',
+          officialPortalUrl: 'https://www.tneaonline.org',
+          deadlineOrSchedule: '12-ஆம் வகுப்பு பொதுத்தேர்வு முடிவுகள் வெளியானவுடன் கலந்தாய்வு விண்ணப்பம் தொடங்கும்',
+          contactDepartment: 'தமிழ்நாடு தொழில்நுட்பக் கல்வி இயக்ககம் & மருத்துவக் கல்வி இயக்ககம்',
+          isFeatured: true
+        },
+        {
+          titleTamil: 'முதலமைச்சரின் உழவர் பாதுகாப்புத் திட்டம் - கல்வி உதவித்தொகை',
+          titleEnglish: 'Chief Ministers Uzhavar Pathukappu Thittam (Farmers Children Scholarship)',
+          category: 'Welfare Assistance',
+          beneficiaryTarget: 'விவசாயிகள் மற்றும் விவசாயத் தொழிலாளர்களின் குழந்தைகள் (நெசல் கிராம உழவர்கள்)',
+          financialAssistance: 'ஐ.டி.ஐ / பாலிடெக்னிக்: ₹1,250 - ₹1,750 | பட்டப்படிப்பு: ₹2,000 - ₹3,000 | தொழிற்கல்வி: ₹4,000 - ₹6,750 / ஆண்டு',
+          eligibilityTamil: 'தமிழ்நாடு உழவர் பாதுகாப்பு அட்டை (Uzhavar Card) வைத்துள்ள விவசாயக் குடும்பங்களின் பிள்ளைகள் 10-ஆம் வகுப்பு முடித்த பின் உயர்கல்வி பயில இத்தொகை வழங்கப்படும்.',
+          eligibilityEnglish: 'Children of registered farmers and agricultural laborers holding Uzhavar Welfare Cards.',
+          documentsRequired: ['உழவர் பாதுகாப்பு அட்டை நகல் (Uzhavar Card)', 'கிராம நிர்வாக அலுவலர் (VAO) சான்றிதழ்', 'மதிப்பெண் பட்டியல் & கல்லூரி பயிலும் சான்று', 'ஆதார் & ரேஷன் அட்டை'],
+          howToApply: 'வானூர் வட்டாட்சியர் (Tahsildar) அலுவலகத்தில் சமூக பாதுகாப்பு திட்ட தனி வட்டாட்சியரிடம் சமர்ப்பிக்க வேண்டும்.',
+          officialPortalUrl: 'https://villupuram.nic.in',
+          deadlineOrSchedule: 'ஒவ்வொரு ஆண்டும் நவம்பர் - பிப்ரவரிக்குள் வானூர் தாலுகா அலுவலகத்தில் விண்ணப்பிக்கலாம்',
+          contactDepartment: 'வருவாய்த்துறை & சமூகப் பாதுகாப்புத் திட்டம், வானூர்',
+          isFeatured: false
+        }
+      ]);
+      console.log('[Seed] Scholarship Schemes seeded successfully.');
+    }
+
+    // Seed Medical Camps
+    const campCount = await MedicalCamp.countDocuments();
+    if (campCount === 0 || forceClean) {
+      if (forceClean) await MedicalCamp.deleteMany({});
+      const nextWeek = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000);
+      const nextTwoWeeks = new Date(Date.now() + 12 * 24 * 60 * 60 * 1000);
+      const nextMonth = new Date(Date.now() + 20 * 24 * 60 * 60 * 1000);
+
+      await MedicalCamp.create([
+        {
+          titleTamil: 'நெசல் கிராம இலவச கண் பரிசோதனை & கண் புரை அறுவை சிகிச்சை முகாம்',
+          titleEnglish: 'Nesal Free Eye Screening & Cataract Surgery Consultation Camp',
+          campType: 'Eye Camp',
+          organizer: 'அரவிந்த் கண் மருத்துவமனை (புதுச்சேரி) & நெசல் கிராம ஊராட்சி மன்றம்',
+          locationVenue: 'நெசல் ஊராட்சி ஒன்றிய தொடக்கப்பள்ளி வளாகம், வானூர் ரோடு',
+          village: 'Nesal',
+          taluk: 'Vanur',
+          district: 'Villupuram',
+          campDate: nextWeek,
+          timing: 'காலை 8:30 மணி முதல் பிற்பகல் 1:30 மணி வரை',
+          doctorInCharge: 'டாக்டர். எஸ். கார்த்திகேயன் (கண் அறுவை சிகிச்சை நிபுணர்)',
+          contactPhone: '0413-2677222',
+          servicesOffered: [
+            'இலவச கண்பார்வை பரிசோதனை & கண் அழுத்தம் (Glaucoma) கண்டறிதல்',
+            'தேவைப்படுவோருக்கு முற்றிலும் இலவச கண்புரை அறுவை சிகிச்சை (அரவிந்த் கண் மருத்துவமனைக்கு வாகன வசதியுடன் அழைத்துச் செல்லப்படுவர்)',
+            'மானிய விலையில் மற்றும் முதியோருக்கு இலவச மூக்குக் கண்ணாடி பரிந்துரை'
+          ],
+          fee: 'முற்றிலும் இலவசம் (Free for all villagers)',
+          isImportant: true,
+          status: 'upcoming'
+        },
+        {
+          titleTamil: 'தேசிய தீவிர போலியோ சொட்டு மருந்து & தாய்-சேய் ஊட்டச்சத்து முகாம்',
+          titleEnglish: 'Pulse Polio Immunization & Maternal Nutrition Camp',
+          campType: 'Vaccination / Polio',
+          organizer: 'வானூர் வட்டார ஆரம்ப சுகாதார நிலையம் & நெசல் துணை சுகாதார மையம்',
+          locationVenue: 'நெசல் அங்கன்வாடி மையம் (நியாயவிலைக் கடை அருகில்)',
+          village: 'Nesal',
+          taluk: 'Vanur',
+          district: 'Villupuram',
+          campDate: nextTwoWeeks,
+          timing: 'காலை 7:00 மணி முதல் மாலை 5:00 மணி வரை',
+          doctorInCharge: 'திருமதி. சி. சாந்தி (VHN செவிலியர் - 94421 87654)',
+          contactPhone: '9442187654',
+          servicesOffered: [
+            '5 வயதுக்குட்பட்ட அனைத்து குழந்தைகளுக்கும் போலியோ சொட்டு மருந்து',
+            'கர்ப்பிணிப் பெண்களுக்கு ஊட்டச்சத்து மாத்திரைகள் & இரும்புச்சத்து திரவம்',
+            'தாய்-சேய் நல அட்டை (RCH ID) புதுப்பித்தல்'
+          ],
+          fee: 'முற்றிலும் இலவசம்',
+          isImportant: true,
+          status: 'upcoming'
+        },
+        {
+          titleTamil: 'கால்நடை சிறப்பு மருத்துவ முகாம் & கோமாரி நோய் தடுப்பூசி முகாம்',
+          titleEnglish: 'Livestock Health Care & FMD Vaccination Camp',
+          campType: 'Veterinary / Livestock',
+          organizer: 'வானூர் கால்நடை மருந்தகம் (கால்நடை பராமரிப்புத்துறை)',
+          locationVenue: 'நெசல் ஏரிக்கரை மாட்டுத்தாவணி & சமுதாயக் கூடம்',
+          village: 'Nesal',
+          taluk: 'Vanur',
+          district: 'Villupuram',
+          campDate: nextMonth,
+          timing: 'காலை 8:00 மணி முதல் மதியம் 12:30 மணி வரை',
+          doctorInCharge: 'கால்நடை உதவி மருத்துவர், வானூர்',
+          contactPhone: '0413-2677255',
+          servicesOffered: [
+            'மாடுகளுக்கு கோமாரி மற்றும் துள்ளுமாரி நோய் தடுப்பூசி போடுதல்',
+            'ஆடுகள் மற்றும் கன்றுகளுக்கு குடற்புழு நீக்க மருந்து வழங்குதல்',
+            'கறவை மாடுகளுக்கு மலட்டுத்தன்மை நீக்க சிகிச்சை மற்றும் சினைப்பரிசோதனை',
+            'தாது உப்பு கலவை (Mineral Mixture) இலவச விநியோகம்'
+          ],
+          fee: 'முற்றிலும் இலவசம்',
+          isImportant: true,
+          status: 'upcoming'
+        }
+      ]);
+      console.log('[Seed] Medical Camps seeded successfully.');
+    }
+
+    // Seed Blood Donors
+    const donorCount = await BloodDonor.countDocuments();
+    if (donorCount === 0 || forceClean) {
+      if (forceClean) await BloodDonor.deleteMany({});
+      await BloodDonor.create([
+        {
+          fullName: 'வி. செந்தில்குமார் (Senthilkumar V)',
+          bloodGroup: 'O+',
+          ward: 'Ward 1 - நெசல் கிராம நத்தம் & பிள்ளையார் கோவில் தெரு',
+          village: 'Nesal',
+          taluk: 'Vanur',
+          phone: '9842511201',
+          age: 28,
+          gender: 'Male',
+          isAvailable: true,
+          willingToTravelTo: 'வானூர் GH, புதுச்சேரி ஜிப்மர், திண்டிவனம் GH',
+          verifiedStatus: 'verified'
+        },
+        {
+          fullName: 'கே. ஆனந்தன் (Anandhan K)',
+          bloodGroup: 'B+',
+          ward: 'Ward 2 - நெசல் காலனி & மேட்டுத் தெரு',
+          village: 'Nesal',
+          taluk: 'Vanur',
+          phone: '9443219876',
+          age: 26,
+          gender: 'Male',
+          isAvailable: true,
+          willingToTravelTo: 'புதுச்சேரி ஜிப்மர் & வானூர்',
+          verifiedStatus: 'verified'
+        },
+        {
+          fullName: 'எம். பிரவீன் ராஜ் (Praveen Raj M)',
+          bloodGroup: 'A+',
+          ward: 'Ward 4 - நெசல் - வானூர் பிரதான சாலை',
+          village: 'Nesal',
+          taluk: 'Vanur',
+          phone: '9789123456',
+          age: 24,
+          gender: 'Male',
+          isAvailable: true,
+          willingToTravelTo: 'விழுப்புரம் அரசு மருத்துவக் கல்லூரி, வானூர்',
+          verifiedStatus: 'verified'
+        },
+        {
+          fullName: 'ஆர். கார்த்திக் (Karthik R)',
+          bloodGroup: 'AB+',
+          ward: 'Ward 3 - நெசல் ஏரிக்கரை',
+          village: 'Nesal',
+          taluk: 'Vanur',
+          phone: '9655432109',
+          age: 31,
+          gender: 'Male',
+          isAvailable: true,
+          willingToTravelTo: 'திண்டிவனம் & புதுச்சேரி அரசு பொது மருத்துவமனை',
+          verifiedStatus: 'verified'
+        },
+        {
+          fullName: 'எஸ். விஜய் (Vijay S)',
+          bloodGroup: 'O-',
+          ward: 'Ward 1 - பிள்ளையார் கோவில் தெரு',
+          village: 'Nesal',
+          taluk: 'Vanur',
+          phone: '9843076543',
+          age: 29,
+          gender: 'Male',
+          isAvailable: true,
+          willingToTravelTo: 'அவசர தேவைகளுக்கு எந்த இடத்திற்கும் (Emergency Universal)',
+          verifiedStatus: 'verified'
+        },
+        {
+          fullName: 'டி. சரவணன் (Saravanan T)',
+          bloodGroup: 'A-',
+          ward: 'Ward 5 - வானூர் வட்டார மையம்',
+          village: 'Vanur',
+          taluk: 'Vanur',
+          phone: '9944112233',
+          age: 27,
+          gender: 'Male',
+          isAvailable: true,
+          willingToTravelTo: 'புதுச்சேரி & வானூர்',
+          verifiedStatus: 'verified'
+        }
+      ]);
+      console.log('[Seed] Blood Donors seeded successfully.');
     }
 
     console.log('[Seed] Database initialization complete for Tamil Nadu, Villupuram, Vanur, Nesal.');

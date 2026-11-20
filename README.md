@@ -80,9 +80,9 @@ The system automatically crawls, extracts, cleans, verifies, summarizes, transla
 
 ---
 
-## 📂 10 MongoDB Collections
+## 📂 MongoDB Collections & Domain Services
 
-The system maintains 10 specialized Mongoose collections:
+The system maintains specialized Mongoose collections powering rural services:
 
 1. **`CrawlerSources`**: Registry of configured websites, extraction adapters, scraping frequencies, geographic scopes (Nesal/Vanur/Villupuram/Tamil Nadu), and live health metrics.
 2. **`CrawlerJobs`**: Execution history and audit records for each scheduled or manual crawl run with duration, duplicate count, and error tracking.
@@ -94,6 +94,12 @@ The system maintains 10 specialized Mongoose collections:
 8. **`RecruitmentNotifications`**: Public gazetted recruitment notifications (TNPSC Group-IV, Group-II, VAO, SSC) with official numbers, age limits, fees, and PDF links.
 9. **`NewsArticles`**: Public news articles with bilingual (English & Tamil) summaries, categorized by Village, Taluk, District, Agriculture, Schemes, etc.
 10. **`NotificationSubscriptions`**: Citizen subscription preferences for category-specific notifications (SMS, Web Push, In-App).
+11. **`EducationQuiz`**: Daily Tamil Nadu competitive exam question bank (TNPSC Group-IV, VAO, General Tamil, General Studies, Aptitude) with Tamil explanations.
+12. **`ScholarshipScheme`**: Higher education financial schemes (Pudhumai Penn, Tamil Pudhalvan, 7.5% Govt School Quota, Uzhavar Welfare Scholarship).
+13. **`MedicalCamp`**: Free specialized medical camps (Eye screening, Pulse Polio, Maternal health, Livestock vaccination) and Vanur Hospital timetable.
+14. **`BloodDonor`**: Nesal village emergency blood donor registry categorized by blood group with 1-tap call dialing.
+15. **`HeritageArchive`**: Historical photos, temple documents, and cultural records preserved for Nesal Village.
+16. **`TransportSchedule`**: Local bus schedules (Route 188, 12B, Puducherry, Tindivanam) with Magalir Vidiyal free bus indicators.
 
 ---
 

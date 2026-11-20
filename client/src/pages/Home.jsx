@@ -27,7 +27,9 @@ import {
   Share2,
   BookOpen,
   Archive,
-  Bus
+  Bus,
+  GraduationCap,
+  HeartPulse
 } from 'lucide-react';
 
 export const Home = ({ setCurrentView }) => {
@@ -121,6 +123,13 @@ export const Home = ({ setCurrentView }) => {
             >
               <Bus className="w-4 h-4 text-blue-200" />
               <span>{language === 'ta' ? 'பேருந்து நேரங்கள்' : 'Bus Timings'}</span>
+            </button>
+            <button
+              onClick={() => setCurrentView('education-health')}
+              className="bg-rose-600 hover:bg-rose-500 text-white font-bold px-4 py-2.5 rounded-xl transition shadow-md text-sm flex items-center space-x-1.5"
+            >
+              <HeartPulse className="w-4 h-4 text-rose-200" />
+              <span>{language === 'ta' ? 'கல்வி & மருத்துவம்' : 'Edu & Healthcare'}</span>
             </button>
             <button
               onClick={() => setCurrentView('heritage')}
@@ -311,6 +320,75 @@ export const Home = ({ setCurrentView }) => {
             <Archive className="w-4 h-4 text-stone-950" />
             <span>வரலாற்றுப் பெட்டகம் (புகைப்படங்கள் & ஆவணங்கள்)</span>
           </button>
+        </div>
+      </section>
+
+      {/* EDUCATION, YOUTH & HEALTHCARE SPOTLIGHT SECTION */}
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Card 1: Education & TNPSC Quiz */}
+        <div
+          onClick={() => {
+            setCurrentView('education-health');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="bg-gradient-to-br from-emerald-950 via-teal-950 to-slate-900 text-white rounded-3xl p-6 sm:p-7 border border-emerald-700/60 shadow-lg cursor-pointer hover:border-emerald-400 transition group flex flex-col justify-between"
+        >
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="bg-emerald-500/20 text-emerald-300 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30 flex items-center space-x-1.5">
+                <GraduationCap className="w-3.5 h-3.5" />
+                <span>{language === 'ta' ? 'இளைஞர் & கல்வி வழிகாட்டி' : 'Youth & Education'}</span>
+              </span>
+              <span className="text-emerald-400 text-xs font-semibold group-hover:translate-x-1 transition flex items-center">
+                {language === 'ta' ? 'தொடங்குக' : 'Open'} ➔
+              </span>
+            </div>
+            <h3 className="text-xl font-black text-white group-hover:text-emerald-300 transition">
+              {language === 'ta' ? 'TNPSC மாதிரித் தேர்வு & அரசு உதவித்தொகைகள்' : 'TNPSC Practice Quiz & Govt Scholarships'}
+            </h3>
+            <p className="text-slate-300 text-xs leading-relaxed">
+              {language === 'ta'
+                ? 'நெசல் கிராம இளைஞர்களுக்கான தினசரி மாதிரி வினாடி வினா, புதுமைப் பெண், தமிழ்ப் புதல்வன் மற்றும் 7.5% அரசுப் பள்ளி முன்னுரிமை வழிகாட்டி.'
+                : 'Daily TNPSC/Group-4 question bank, Tamil Nadu Pudhumai Penn, Tamil Pudhalvan and 7.5% college quota guides.'}
+            </p>
+          </div>
+          <div className="pt-4 mt-4 border-t border-emerald-800/60 flex items-center justify-between text-xs text-emerald-200">
+            <span>📝 தினசரி வினாடி வினா</span>
+            <span>🎓 100% அரசுத் திட்டங்கள்</span>
+          </div>
+        </div>
+
+        {/* Card 2: Healthcare & Blood Donors */}
+        <div
+          onClick={() => {
+            setCurrentView('education-health');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+          className="bg-gradient-to-br from-rose-950 via-slate-950 to-slate-900 text-white rounded-3xl p-6 sm:p-7 border border-rose-800/60 shadow-lg cursor-pointer hover:border-rose-400 transition group flex flex-col justify-between"
+        >
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="bg-rose-500/20 text-rose-300 text-xs font-bold px-3 py-1 rounded-full border border-rose-500/30 flex items-center space-x-1.5">
+                <HeartPulse className="w-3.5 h-3.5" />
+                <span>{language === 'ta' ? 'கிராம நல்வாழ்வு & மருத்துவம்' : 'Healthcare & Blood Lifeline'}</span>
+              </span>
+              <span className="text-rose-400 text-xs font-semibold group-hover:translate-x-1 transition flex items-center">
+                {language === 'ta' ? 'பார்க்க' : 'View'} ➔
+              </span>
+            </div>
+            <h3 className="text-xl font-black text-white group-hover:text-rose-300 transition">
+              {language === 'ta' ? 'வானூர் அரசு மருத்துவமனை & இரத்ததான வங்கி' : 'Vanur PHC Timetable & Blood Donors'}
+            </h3>
+            <p className="text-slate-300 text-xs leading-relaxed">
+              {language === 'ta'
+                ? 'வானூர் வட்டார மருத்துவமனை மருத்துவர்கள் வருகை அட்டவணை, இலவச கண் பரிசோதனை & கால்நடை முகாம்கள் மற்றும் நெசல் அவசர இரத்ததான தன்னார்வலர் பதிவேடு.'
+                : 'Vanur Taluk Hospital doctor timetable, free specialized eye & veterinary camps, and verified village blood donor directory.'}
+            </p>
+          </div>
+          <div className="pt-4 mt-4 border-t border-rose-900/60 flex items-center justify-between text-xs text-rose-200">
+            <span>🏥 ஆரம்ப சுகாதார அட்டவணை</span>
+            <span>🩸 1-கிளிக் அவசர இரத்த உதவி</span>
+          </div>
         </div>
       </section>
 

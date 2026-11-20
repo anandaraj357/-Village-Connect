@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNotifications } from '../context/NotificationContext';
 import { useLocation } from '../context/LocationContext';
-import { Home, Briefcase, FileText, Newspaper, MapPin, Navigation, PlusCircle, Megaphone, BookOpen, Archive, Bus } from 'lucide-react';
+import { Home, Briefcase, FileText, Newspaper, MapPin, Navigation, PlusCircle, Megaphone, BookOpen, Archive, Bus, GraduationCap } from 'lucide-react';
 
 export const MobileBottomNav = ({ currentView, setCurrentView }) => {
   const { language } = useNotifications();
@@ -17,6 +17,11 @@ export const MobileBottomNav = ({ currentView, setCurrentView }) => {
       id: 'transport',
       label: language === 'ta' ? 'பேருந்து' : 'Bus',
       icon: Bus
+    },
+    {
+      id: 'education-health',
+      label: language === 'ta' ? 'கல்வி/மருத்துவம்' : 'Edu/Health',
+      icon: GraduationCap
     },
     {
       id: 'heritage',
