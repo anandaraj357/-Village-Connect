@@ -1,0 +1,17 @@
+{
+  "name": "our-village-connect",
+  "version": "1.0.0",
+  "description": "Our Village (நமது கிராமம்) - Automated Web Crawling and AI-Powered Information Aggregation System",
+  "private": true,
+  "scripts": {
+    "build:client": "npm run --prefix client build",
+    "cap:add": "npx cap add android",
+    "cap:sync": "npx cap sync",
+    "cap:open": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
+    "@capacitor/core": "^8.6.2"
+  }
+}
